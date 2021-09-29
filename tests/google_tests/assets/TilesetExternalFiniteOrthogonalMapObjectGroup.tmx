@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#3f97a7ff" nextlayerid="6" nextobjectid="8">
+ <properties>
+  <property name="BoolProp" type="bool" value="true"/>
+  <property name="ColorProp" type="color" value="#ed00008b"/>
+  <property name="FileProp" type="file" value=""/>
+  <property name="FloatProp" type="float" value="2.3"/>
+  <property name="IntProp" type="int" value="658"/>
+  <property name="ObjectProp" type="object" value="0"/>
+  <property name="StringProp">Some String
+</property>
+ </properties>
+ <tileset firstgid="1" source="GrassExternalTileset.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="20" height="15">
+  <data encoding="csv">
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup color="#00aa00" id="2" name="Object Layer 1" opacity="0.9" tintcolor="#ff7eff" offsetx="1.05" offsety="-1.04">
+  <properties>
+   <property name="BoolProp" type="bool" value="true"/>
+  </properties>
+  <object id="2" name="RectangularObject" type="ArbitraryTypeString" x="107.978" y="28.0483" width="171.9" height="134.05" rotation="4.11278">
+   <properties>
+    <property name="FloatProp" type="float" value="5.63"/>
+   </properties>
+  </object>
+  <object id="3" name="PointObject" x="355.95" y="64.04">
+   <properties>
+    <property name="BoolProp" type="bool" value="true"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="4" name="EllipseObject" x="84.0096" y="204.758" width="117" height="90" rotation="32.2682">
+   <properties>
+    <property name="BoolProp" type="bool" value="true"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="5" name="PolygonObject" x="439.023" y="104.893" rotation="5.97908">
+   <properties>
+    <property name="BoolProp" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -67,103 -107,48"/>
+  </object>
+  <object id="6" name="PolylineObject" x="379.507" y="332.56" rotation="29.7942">
+   <properties>
+    <property name="BoolProp" type="bool" value="true"/>
+   </properties>
+   <polyline points="0,0 -104,98 -133,10"/>
+  </object>
+  <object id="7" name="TextObject" x="458.45" y="243.54" width="117" height="32">
+   <properties>
+    <property name="BoolProp" type="bool" value="true"/>
+   </properties>
+   <text pixelsize="19" wrap="1" bold="1" italic="1">Hello World</text>
+  </object>
+ </objectgroup>
+</map>

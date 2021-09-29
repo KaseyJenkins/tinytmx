@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="TilesetCollectionImages" tilewidth="155" tileheight="102" tilecount="3" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="99" height="102" source="images/firstImage.png"/>
+  </tile>
+  <tile id="1">
+   <image width="104" height="68" source="images/secondImage.png"/>
+  </tile>
+  <tile id="2">
+   <image width="155" height="94" source="images/thirdImage.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="4" name="grass" tilewidth="32" tileheight="32" tilecount="70" columns="10">
+  <image source="images/grass.png" width="320" height="224"/>
+  <wangsets>
+   <wangset name="Unnamed Set" type="corner" tile="-1">
+    <wangcolor name="SomeThing" color="#ff0000" tile="-1" probability="1"/>
+    <wangcolor name="" color="#00ff00" tile="-1" probability="1"/>
+    <wangtile tileid="18" wangid="0,1,0,0,0,1,0,1"/>
+    <wangtile tileid="19" wangid="0,1,0,1,0,0,0,1"/>
+    <wangtile tileid="28" wangid="0,0,0,1,0,1,0,1"/>
+    <wangtile tileid="29" wangid="0,1,0,1,0,1,0,0"/>
+   </wangset>
+  </wangsets>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="20" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,22,23,22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,32,33,32,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,22,23,22,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,32,33,32,33,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

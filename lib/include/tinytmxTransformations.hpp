@@ -1,0 +1,42 @@
+#ifndef TINYTMX_TINYTMXTRANSFORMATIONS_HPP
+#define TINYTMX_TINYTMXTRANSFORMATIONS_HPP
+
+
+namespace tinyxml2 {
+    class XMLNode;
+}
+
+namespace tinytmx {
+
+/// This element is used to describe which transformations can be applied to the tiles
+/// (e.g. to extend a Wang set by transforming existing tiles).
+
+    class Transformations {
+    public:
+
+        Transformations();
+
+        /// Parse a transformations element.
+        void Parse(const tinyxml2::XMLNode *transformationsNode);
+
+        /// Get the value of the 'hflip' attribute of the Transformations element. (Defaults to 0).
+        bool GetHflip() const { return hflip; }
+
+        /// Get the value of the 'vflip' attribute of the Transformations element. (Defaults to 0).
+        bool GetVflip() const { return vflip; }
+
+        /// Get the value of the 'rotate' attribute of the Transformations element. (Defaults to 0).
+        bool GetRotate() const { return rotate; }
+
+        /// Get the value of the 'preferuntransformed' attribute of the Transformations element. (Defaults to 0).
+        bool GetPreferUntransformed() const { return preferuntransformed; }
+
+    private:
+        bool hflip;
+        bool vflip;
+        bool rotate;
+        bool preferuntransformed;
+    };
+}
+
+#endif //TINYTMX_TINYTMXTRANSFORMATIONS_HPP

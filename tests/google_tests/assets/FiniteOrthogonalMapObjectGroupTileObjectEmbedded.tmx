@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="32" tileheight="32" infinite="0" backgroundcolor="#3f97a7ff" nextlayerid="3" nextobjectid="8">
+ <properties>
+  <property name="BoolProp" type="bool" value="true"/>
+  <property name="ColorProp" type="color" value="#ed00008b"/>
+  <property name="FileProp" type="file" value=""/>
+  <property name="FloatProp" type="float" value="2.3"/>
+  <property name="IntProp" type="int" value="658"/>
+  <property name="ObjectProp" type="object" value="0"/>
+  <property name="StringProp">Some String
+</property>
+ </properties>
+ <tileset firstgid="1" name="blocks2Embedded" tilewidth="32" tileheight="32" spacing="2" margin="2" tilecount="198" columns="18">
+  <image source="images/blocks2.png" width="614" height="376"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="20" height="15">
+  <data encoding="csv">
+32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup color="#00aa00" id="2" name="Object Layer 1" opacity="0.9" tintcolor="#ff7eff" offsetx="1.05" offsety="-1.04">
+  <properties>
+   <property name="BoolProp" type="bool" value="true"/>
+  </properties>
+  <object id="7" gid="1073741856" x="432.95" y="110.04" width="32" height="32"/>
+ </objectgroup>
+</map>
