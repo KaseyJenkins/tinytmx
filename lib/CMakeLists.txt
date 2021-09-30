@@ -1,20 +1,13 @@
 cmake_minimum_required(VERSION 3.20)
-project(tinytmxLib)
+project(tinytmx)
+include(GNUInstallDirs)
 
 
 set(TINYTMX_VERSION_MAJOR 1)
 set(TINYTMX_VERSION_MINOR 0)
 set(TINYTMX_VERSION_PATCH 0)
-
 set(TINYTMX_VERSION "${TINYTMX_VERSION_MAJOR}.${TINYTMX_VERSION_MINOR}.${TINYTMX_VERSION_PATCH}")
-
 message(STATUS "TINYTMX VERSION ${TINYTMX_VERSION}")
-
-#message(STATUS "Configuring tinytmx version ${TINYTMX_VERSION}")
-
-#configure_file(
-#        "tinytmx.h.in"
-#        "${CMAKE_CURRENT_BINARY_DIR}/include/tinytmx.hpp")
 
 include(cmake/tinytmxProjectSettings.cmake)
 
@@ -112,9 +105,7 @@ target_include_directories(tinytmx PRIVATE
 
 target_include_directories(tinytmx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>)
-
+        )
 
 target_link_libraries(tinytmx PRIVATE
         project_options
@@ -122,17 +113,22 @@ target_link_libraries(tinytmx PRIVATE
         #        project_warnings
         )
 
-include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-#install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/
-#        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-#        #FILES_MATCHING PATTERN tinytmx.h
-#        )
+configure_file(cmake/tinytmx.pc.in tinytmx.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tinytmx.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
-install(DIRECTORY include/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfigVersion.cmake
+        VERSION ${TINYTMX_VERSION}
+        COMPATIBILITY SameMajorVersion)
+
+configure_package_config_file(cmake/tinytmxConfig.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfig.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
 install(TARGETS tinytmx
         project_options
@@ -155,23 +151,14 @@ if (NOT TINYTMX_USE_MINIZ)
             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 endif ()
 
-install(EXPORT tinytmxTargets
-        FILE tinytmxTargets.cmake
-        NAMESPACE tinytmx::
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx)
-
-configure_package_config_file(cmake/tinytmxConfig.cmake.in
-        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfig.cmake
-        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx
-        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
-write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfigVersion.cmake
-        VERSION ${TINYTMX_VERSION}
-        COMPATIBILITY SameMajorVersion)
+install(DIRECTORY include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        FILES_MATCHING PATTERN "*.hpp")
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx)
 
-
+install(EXPORT tinytmxTargets
+        NAMESPACE tinytmx::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx)

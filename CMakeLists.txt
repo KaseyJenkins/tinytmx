@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(tinytmx)
+project(tinytmxS)
 
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
@@ -17,6 +17,7 @@ if(TINYTMX_ENABLE_GOOGLE_TESTING)
     add_subdirectory(tests/google_tests)
 endif()
 
+# Build the targets
 add_subdirectory(lib)
 
 

@@ -7,10 +7,7 @@ target_sources(base64
 
 target_include_directories(base64 PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-        $<INSTALL_INTERFACE:include>
-        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
         )
-
 
 install(TARGETS base64 EXPORT tinytmxTargets
         INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
