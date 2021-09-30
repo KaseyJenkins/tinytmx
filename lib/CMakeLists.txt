@@ -21,7 +21,7 @@ include(cmake/tinytmxProjectSettings.cmake)
 add_subdirectory(externals)
 
 add_library(tinytmx "")
-
+add_library(tinytmx::tinytmx ALIAS tinytmx)
 #set_target_properties(tinytmx PROPERTIES CXX_STANDARD 17)
 
 if (BUILD_SHARED_LIBS)

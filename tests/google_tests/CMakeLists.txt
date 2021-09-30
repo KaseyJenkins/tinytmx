@@ -22,7 +22,7 @@ target_include_directories(google_test_run PRIVATE
 target_link_libraries(google_test_run PRIVATE
         gtest
         gtest_main
-        tinytmx
+        tinytmx::tinytmx
         )
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
