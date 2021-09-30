@@ -21,5 +21,6 @@
 #include "tinytmxPolyObject.hpp"
 #include "tinytmxTile.hpp"
 #include "tinytmxText.hpp"
+#include "tinytmxDataTileLayerHolder.hpp"
 
 #endif //TINYTMX_TINYTMX_HPP

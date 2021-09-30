@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev
   pull_request:
     branches:
       - master
@@ -12,8 +13,8 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
-# Use a bash shell so we can use the same syntax for environment variable
-# access regardless of the host operating system
+  # Use a bash shell so we can use the same syntax for environment variable
+  # access regardless of the host operating system
 defaults:
   run:
     shell: bash
@@ -31,8 +32,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-        - { name: Linux GCC,      os: ubuntu-latest  }
-        - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
+          - { name: Linux GCC,      os: ubuntu-latest }
+          - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
 
     steps:
       - uses: actions/checkout@v2
