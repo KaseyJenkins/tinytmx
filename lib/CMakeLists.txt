@@ -133,18 +133,45 @@ include(CMakePackageConfigHelpers)
 install(DIRECTORY include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-install(TARGETS tinytmx #EXPORT tinytmxTargets
+
+install(TARGETS tinytmx
+        project_options
+        libzstd_static
+
+        EXPORT tinytmxTargets
+
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
+if (NOT TINYTMX_USE_MINIZ)
+    install(TARGETS zlibstatic
+            EXPORT tinytmxTargets
 
-#install(EXPORT tinytmxTargets
-#        FILE tinytmxTargets.cmake
-#        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx)
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+endif ()
 
+install(EXPORT tinytmxTargets
+        FILE tinytmxTargets.cmake
+        NAMESPACE tinytmx::
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx)
 
+configure_package_config_file(cmake/tinytmxConfig.cmake.in
+        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfig.cmake
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
+write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfigVersion.cmake
+        VERSION ${TINYTMX_VERSION}
+        COMPATIBILITY SameMajorVersion)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tinytmx)
 
 

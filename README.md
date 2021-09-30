@@ -55,26 +55,21 @@ int main(int argc, char * argv[]) {
 If using CMake, it is recommended to link against the project-provided
 `tinytmx::tinytmx` target using `target_link_libraries`.
 
-[comment]: <> (It is possible to use ```find_package``` to import an installed version of the)
+It is possible to use ```find_package``` to import an installed version of the library.
 
-[comment]: <> (library.)
-
-[comment]: <> (```cmake)
-
-[comment]: <> (find_package&#40;tinytmx REQUIRED&#41;)
-
-[comment]: <> (```)
+```cmake
+find_package(tinytmx REQUIRED)
+```
 
 
-[comment]: <> (Alternatively, )
+Alternatively, 
 ```add_subdirectory``` will incorporate the library directly 
 into one's CMake project.
 ```cmake
 add_subdirectory(tinytmx)
 ```
 
-[comment]: <> (Either way, )
-Link to the library as follows.
+Either way, link to the library as follows.
 ```cmake
 target_link_libraries(MyTarget tinytmx::tinytmx)
 ```

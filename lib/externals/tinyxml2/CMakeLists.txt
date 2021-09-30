@@ -4,10 +4,14 @@ add_library(tinyxml2 "")
 target_sources(tinyxml2
         PRIVATE tinyxml2.cpp
         )
-target_include_directories(tinyxml2
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(tinyxml2 PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:include>
+        PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+        )
 
-install(TARGETS tinyxml2
+
+install(TARGETS tinyxml2 EXPORT tinytmxTargets
         INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
         ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
         LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
