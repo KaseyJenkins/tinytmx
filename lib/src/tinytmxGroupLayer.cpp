@@ -16,8 +16,10 @@ namespace tinytmx {
     }
 
     GroupLayer::~GroupLayer() {
-        for (auto c: children)
+        for (auto c : children) {
             delete c;
+            c = nullptr;
+        }
     }
 
     void GroupLayer::Parse(const tinyxml2::XMLNode *groupLayerNode) {
@@ -45,19 +47,19 @@ namespace tinytmx {
         assert(child); //RJCB
 
         while (child != nullptr) {
-            if (strncmp(child->Value(), "group", 5) == 0) {
+            if (strcmp(child->Value(), "group") == 0) {
                 auto groupLayer = new GroupLayer(map);
                 groupLayer->Parse(child);
                 AddChild(groupLayer);
-            } else if (strncmp(child->Value(), "layer", 5) == 0) {
+            } else if (strcmp(child->Value(), "layer") == 0) {
                 auto tileLayer = new TileLayer(map);
                 tileLayer->Parse(child);
                 AddChild(tileLayer);
-            } else if (strncmp(child->Value(), "objectgroup", 11) == 0) {
+            } else if (strcmp(child->Value(), "objectgroup") == 0) {
                 auto objectGroup = new ObjectGroup(map);
                 objectGroup->Parse(child);
                 AddChild(objectGroup);
-            } else if (strncmp(child->Value(), "imagelayer", 10) == 0) {
+            } else if (strcmp(child->Value(), "imagelayer") == 0) {
                 auto imageLayer = new ImageLayer(map);
                 imageLayer->Parse(child);
                 AddChild(imageLayer);

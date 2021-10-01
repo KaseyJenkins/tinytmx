@@ -13,34 +13,32 @@ namespace tinytmx
     class Map;
 
     //-------------------------------------------------------------------------
-    /// A class used for holding groups of layers to create a layer heirarchy.
-    /// This class has a property set.
+    /// A class for holding groups of layers to create a layer hierarchy.
     //-------------------------------------------------------------------------
     class GroupLayer : public tinytmx::Layer
     {
     public:
-        /// Construct an GroupLayer on the given map.
+        /// Construct a GroupLayer on the given map.
         explicit GroupLayer(const tinytmx::Map *_map);
         ~GroupLayer() override;
 
         /// Parse a GroupLayer element.
         void Parse(const tinyxml2::XMLNode *groupLayerNode) override;
 
-        /// Adds a child Layer to the group.
+        /// Adds a Child Layer to the group.
         void AddChild(tinytmx::Layer* childLayer);
 
         /// Get a Child Layer.
         tinytmx::Layer* GetChild(int index) const;
 
-        /// Get all child layers.
+        /// Get all Child layers.
         std::vector<tinytmx::Layer*> GetChildren() const noexcept;
 
-        /// Get the number of child layers.
+        /// Get the number of Child Layers.
         auto GetNumChildren() const noexcept;
 
     private:
         std::vector<tinytmx::Layer*> children;
-
     };
 }
 
