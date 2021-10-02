@@ -2,7 +2,6 @@
 #define TINYTMX_TINYTMXTERRAIN_HPP
 
 #include <vector>
-
 #include "tinytmxPropertySet.hpp"
 
 namespace tinyxml2 {
@@ -13,6 +12,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     /// A class to contain the information about every terrain in the
     /// tileset/terraintypes element.
+    /// DEPRECATED since 1.5.
     //-------------------------------------------------------------------------
     class Terrain {
     public:

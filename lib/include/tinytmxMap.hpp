@@ -103,130 +103,130 @@ namespace tinytmx {
         void ParseText(const std::string &text);
 
         /// Get the filename used to read the map.
-        const std::string &GetFilename() const { return file_name; }
+        [[nodiscard]] const std::string &GetFilename() const { return file_name; }
 
         /// Get the path to the directory of the map file if any.
-        const std::string &GetFilepath() const { return file_path; }
+        [[nodiscard]] const std::string &GetFilepath() const { return file_path; }
 
         /// Get the background color of the map file. If unset, return a fully transparent color.
-        const tinytmx::Color& GetBackgroundColor() const { return background_color; }
+        [[nodiscard]] const tinytmx::Color& GetBackgroundColor() const { return background_color; }
 
         /// Get the version of the map.
-        float GetVersion() const { return version; }
+        [[nodiscard]] float GetVersion() const { return version; }
 
         /// Get the Tiled version.
-        const std::string& GetTiledVersion() const { return tiled_version; }
+        [[nodiscard]] const std::string& GetTiledVersion() const { return tiled_version; }
 
         /// Get the orientation of the map.
-        tinytmx::MapOrientation GetOrientation() const { return orientation; }
+        [[nodiscard]] tinytmx::MapOrientation GetOrientation() const { return orientation; }
 
         /// Get the render order of the map.
-        tinytmx::MapRenderOrder GetRenderOrder() const { return render_order; }
+        [[nodiscard]] tinytmx::MapRenderOrder GetRenderOrder() const { return render_order; }
 
         /// Get the compression level.
-        int GetCompressionLevel() const { return compression_level; }
+        [[nodiscard]] int GetCompressionLevel() const { return compression_level; }
 
         /// Is the map infinite? - get the bool value.
-        bool IsInfinite() const { return is_infinite; }
+        [[nodiscard]] bool IsInfinite() const { return is_infinite; }
 
         /// Get the stagger axis of the map.
-        tinytmx::MapStaggerAxis GetStaggerAxis() const { return stagger_axis; }
+        [[nodiscard]] tinytmx::MapStaggerAxis GetStaggerAxis() const { return stagger_axis; }
 
         /// Get the stagger index of the map.
-        tinytmx::MapStaggerIndex GetStaggerIndex() const { return stagger_index; }
+        [[nodiscard]] tinytmx::MapStaggerIndex GetStaggerIndex() const { return stagger_index; }
 
         /// Get the map width, in tiles.
-        uint32_t GetWidth() const { return width; }
+        [[nodiscard]] uint32_t GetWidth() const { return width; }
 
         /// Get the map height, in tiles.
-        uint32_t GetHeight() const { return height; }
+        [[nodiscard]] uint32_t GetHeight() const { return height; }
 
         /// Get the width of a tile, in pixels.
-        uint32_t GetTileWidth() const { return tile_width; }
+        [[nodiscard]] uint32_t GetTileWidth() const { return tile_width; }
 
         /// Get the height of a tile, in pixels.
-        uint32_t GetTileHeight() const { return tile_height; }
+        [[nodiscard]] uint32_t GetTileHeight() const { return tile_height; }
 
         /// Get the next available ID for new layers.
-        int GetNextLayerID() const { return next_layer_id; }
+        [[nodiscard]] int GetNextLayerID() const { return next_layer_id; }
 
         /// Get the next available ID for new objects.
-        int GetNextObjectID() const { return next_object_id; }
+        [[nodiscard]] int GetNextObjectID() const { return next_object_id; }
 
         /// Get the hexside length. (Only for hexagonal maps.)
-        uint32_t GetHexsideLength() const { return hexside_length; }
+        [[nodiscard]] uint32_t GetHexsideLength() const { return hexside_length; }
 
         /// Get the layer at a certain index.
-        const tinytmx::Layer *GetLayer(int index) const { return layers.at(index); }
+        [[nodiscard]] const tinytmx::Layer *GetLayer(int index) const { return layers.at(index); }
 
         /// Get the number of layers.
-        auto GetNumLayers() const { return layers.size(); }
+        [[nodiscard]] auto GetNumLayers() const { return layers.size(); }
 
         /// Get the whole layers collection.
-        const std::vector<tinytmx::Layer *> &GetLayers() const { return layers; }
+        [[nodiscard]] const std::vector<tinytmx::Layer *> &GetLayers() const { return layers; }
 
         /// Get the tile layer at a certain index.
-        const tinytmx::TileLayer *GetTileLayer(int index) const { return tile_layers.at(index); }
+        [[nodiscard]] const tinytmx::TileLayer *GetTileLayer(int index) const { return tile_layers.at(index); }
 
         /// Get the number of tile layers.
-        auto GetNumTileLayers() const { return tile_layers.size(); }
+        [[nodiscard]] auto GetNumTileLayers() const { return tile_layers.size(); }
 
         /// Get the whole collection of tile layers.
-        const std::vector<tinytmx::TileLayer *> &GetTileLayers() const { return tile_layers; }
+        [[nodiscard]] const std::vector<tinytmx::TileLayer *> &GetTileLayers() const { return tile_layers; }
 
         /// Get the object group at a certain index.
-        const tinytmx::ObjectGroup *GetObjectGroup(int index) const { return object_groups.at(index); }
+        [[nodiscard]] const tinytmx::ObjectGroup *GetObjectGroup(int index) const { return object_groups.at(index); }
 
         /// Get the number of object groups.
-        auto GetNumObjectGroups() const { return object_groups.size(); }
+        [[nodiscard]] auto GetNumObjectGroups() const { return object_groups.size(); }
 
         /// Get the whole collection of object groups.
-        const std::vector<tinytmx::ObjectGroup *> &GetObjectGroups() const { return object_groups; }
+        [[nodiscard]] const std::vector<tinytmx::ObjectGroup *> &GetObjectGroups() const { return object_groups; }
 
         /// Get the image layer at a certain index.
-        const tinytmx::ImageLayer *GetImageLayer(int index) const { return image_layers.at(index); }
+        [[nodiscard]] const tinytmx::ImageLayer *GetImageLayer(int index) const { return image_layers.at(index); }
 
         /// Get the number of image layers.
-        auto GetNumImageLayers() const { return image_layers.size(); }
+        [[nodiscard]] auto GetNumImageLayers() const { return image_layers.size(); }
 
         /// Get the whole collection of image layers.
-        const std::vector<tinytmx::ImageLayer *> &GetImageLayers() const { return image_layers; }
+        [[nodiscard]] const std::vector<tinytmx::ImageLayer *> &GetImageLayers() const { return image_layers; }
 
         /// Get the group layer at a certain index.
-        const tinytmx::GroupLayer *GetGroupLayer(int index) const { return group_layers.at(index); }
+        [[nodiscard]] const tinytmx::GroupLayer *GetGroupLayer(int index) const { return group_layers.at(index); }
 
         /// Get the number of group layers.
-        auto GetNumGroupLayers() const { return group_layers.size(); }
+        [[nodiscard]] auto GetNumGroupLayers() const { return group_layers.size(); }
 
         /// Get the whole collection of group layers
-        const std::vector<tinytmx::GroupLayer *> &GetGroupLayers() const { return group_layers; }
+        [[nodiscard]] const std::vector<tinytmx::GroupLayer *> &GetGroupLayers() const { return group_layers; }
 
         /// Find the tileset index for a tileset using a tile gid.
-        int FindTilesetIndex(unsigned gid) const;
+        [[nodiscard]] int FindTilesetIndex(unsigned gid) const;
 
         /// Find the tileset for a specific gid.
-        const tinytmx::Tileset *FindTileset(unsigned gid) const;
+        [[nodiscard]] const tinytmx::Tileset *FindTileset(unsigned gid) const;
 
         /// Get a tileset by an index.
-        const tinytmx::Tileset *GetTileset(int index) const { return tilesets.at(index); }
+        [[nodiscard]] const tinytmx::Tileset *GetTileset(int index) const { return tilesets.at(index); }
 
         /// Get the number of tilesets.
-        auto GetNumTilesets() const { return tilesets.size(); }
+        [[nodiscard]] auto GetNumTilesets() const { return tilesets.size(); }
 
         /// Get the whole collection of tilesets.
-        const std::vector<tinytmx::Tileset *> &GetTilesets() const { return tilesets; }
+        [[nodiscard]] const std::vector<tinytmx::Tileset *> &GetTilesets() const { return tilesets; }
 
         /// Was there an error? - get the bool value.
-        bool HasError() const { return has_error; }
+        [[nodiscard]] bool HasError() const { return has_error; }
 
         /// Get an error string containing the error in text format.
-        const std::string &GetErrorText() const { return error_text; }
+        [[nodiscard]] const std::string &GetErrorText() const { return error_text; }
 
         /// Get a number that identifies the error. (TMX_ preceded constants)
-        uint8_t GetErrorCode() const { return error_code; }
+        [[nodiscard]] uint8_t GetErrorCode() const { return error_code; }
 
         /// Get the property set.
-        const tinytmx::PropertySet &GetProperties() const { return properties; }
+        [[nodiscard]] const tinytmx::PropertySet &GetProperties() const { return properties; }
 
     private:
 
