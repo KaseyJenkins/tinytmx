@@ -24,9 +24,9 @@ protected:
 TEST_F(MainTestTiles, TileObjectEmbedded) {
     auto tilesetTileObject = tmxmap->GetTileset(0)->GetTile(0)->GetObjectGroup()[0].GetObject(1);
 
-    EXPECT_EQ(tilesetTileObject->GetId(), 5); // id
+    EXPECT_EQ(tilesetTileObject->GetID(), 5); // id
     auto tilesetTemplatedObject = tmxmap->GetTileset(0)->GetTile(0)->GetObjectGroup()[0].GetObject(2);
-    EXPECT_EQ(tilesetTemplatedObject->GetId(), 7);
+    EXPECT_EQ(tilesetTemplatedObject->GetID(), 7);
     EXPECT_EQ(tilesetTemplatedObject->GetName(), "PolygonTemplated");
 
 }

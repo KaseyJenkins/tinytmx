@@ -12,7 +12,7 @@ namespace tinytmx::Util
         std::string DecodeBase64(const std::string &str);
 
         /// Decompress a gzip encoded byte array.
-        char* DecompressGZIP(const char *data, int dataSize, int expectedSize);
+        char* DecompressGZIP(const char *data, uint32_t dataSize, uint32_t expectedSize);
 }
 
 #endif //TINYTMX_TINYTMXUTIL_HPP

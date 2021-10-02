@@ -1,5 +1,4 @@
 #include "tinyxml2.h"
-
 #include "tinytmxTerrain.hpp"
 
 namespace tinytmx {

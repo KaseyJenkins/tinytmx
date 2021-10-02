@@ -6,12 +6,12 @@
 namespace tinytmx {
     Tile::Tile() :
             id(0), probability(0.0f), properties(), isAnimated(false), hasObjects(false), hasObjectGroup(false), objectGroup(nullptr),
-            totalDuration(0), image(nullptr), type() {
+            totalDuration(0), image(nullptr) {
     }
 
     Tile::Tile(int id) :
             id(id), probability(0.0f), properties(), isAnimated(false), hasObjects(false), hasObjectGroup(false), objectGroup(nullptr),
-            totalDuration(0), image(nullptr), type() {
+            totalDuration(0), image(nullptr) {
     }
 
     Tile::~Tile() {
@@ -36,7 +36,6 @@ namespace tinytmx {
             char *terrainString = strdup(tileElem->Attribute("terrain"));
             char *token = strtok(terrainString, ",");
             while (token) {
-                //int val = strtol(token, nullptr, 10);
                 terrain.emplace_back(strtol(token, nullptr, 10));
                 token = strtok(nullptr, ",");
             }
@@ -65,8 +64,6 @@ namespace tinytmx {
             const tinyxml2::XMLNode *frameNode = animationNode->FirstChildElement("frame");
             unsigned int durationSum = 0;
             while (frameNode != nullptr) {
-//            for (const tinyxml2::XMLNode *frameNode = animationNode->FirstChildElement("frame");
-//                 frameNode != nullptr; frameNode = frameNode->NextSiblingElement("frame")) {
 
                 const tinyxml2::XMLElement *frameElement = frameNode->ToElement();
 

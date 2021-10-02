@@ -14,7 +14,6 @@ namespace tinyxml2 {
 namespace tinytmx
 {
     class Ellipse;
-    class Point;
     class PolyObject;
     class Text;
     class Map;
@@ -35,7 +34,7 @@ namespace tinytmx
 
 
     //-------------------------------------------------------------------------
-    /// Class used for representing a single object from the objectgroup.
+    /// A class for representing a single object from the objectgroup.
     //-------------------------------------------------------------------------
     class Object
     {
@@ -71,7 +70,7 @@ namespace tinytmx
         unsigned GetGid() const { return gid; }
 
         /// Get the ID of this object.
-        int GetId() const { return id; }
+        int GetID() const { return id; }
 
         /// Get the visibility of the object.
         bool IsVisible() const { return visible; }
@@ -100,12 +99,13 @@ namespace tinytmx
         /// Get the property set.
         const tinytmx::PropertySet &GetProperties() const { return properties; }
 
-        /// Get the tile for tile object.
+        /// Get the tile for a tile object.
         const tinytmx::MapTile *GetTile() const { return mapTile; }
 
         /// Get the templated tileset.
         const tinytmx::Tileset *GetTileset() const { return tileset; }
 
+        /// Is it a template? -- get the bool value.
         bool IsTemplate() const { return isTemplate; }
 
     private:

@@ -3,7 +3,6 @@
 
 
 #include <string>
-
 #include "tinytmxPropertySet.hpp"
 
 namespace tinyxml2 {
@@ -38,14 +37,14 @@ namespace tinytmx {
 
         /// Construct a new Layer used by a map's objectgroup
         Layer(const tinytmx::Map *_map, std::string _name, int _x, int _y,
-              int _width, int _height, float _opacity, bool _visible,
+              uint32_t _width, uint32_t _height, float _opacity, bool _visible,
               LayerType _layerType);
 
         /// Construct a new layer used by a tile's objectgroup
         Layer(const tinytmx::Tile *_tile,
               const tinytmx::Map *_map,
               std::string _name, int _x, int _y,
-              int _width, int _height, float _opacity, bool _visible,
+              uint32_t _width, uint32_t _height, float _opacity, bool _visible,
               LayerType _layerType);
 
         virtual ~Layer() = default;
@@ -69,10 +68,10 @@ namespace tinytmx {
         int GetY() const { return y; }
 
         /// Get the width of the layer, in tiles. Only used in tile layers.
-        int GetWidth() const { return width; }
+        uint32_t GetWidth() const { return width; }
 
         /// Get the height of the layer, in tiles. Only used in tile layers.
-        int GetHeight() const { return height; }
+        uint32_t GetHeight() const { return height; }
 
         /// Get the opacity of the layer.
         float GetOpacity() const { return opacity; }
@@ -81,13 +80,14 @@ namespace tinytmx {
         bool IsVisible() const { return visible; }
 
         /// Get the tint color.
-        tinytmx::Color GetTintColor() const { return tint_color; }
+        const tinytmx::Color& GetTintColor() const { return tint_color; }
 
-        /// Sets the offset for this GroupLayer
-        void SetOffset(float offsetXv, float offsetYv) {
-            offsetX = offsetXv;
-            offsetY = offsetYv;
-        }
+        // FIXME should probably be deprecated.
+//        /// Sets the offset for this GroupLayer
+//        void SetOffset(float offsetXv, float offsetYv) {
+//            offsetX = offsetXv;
+//            offsetY = offsetYv;
+//        }
 
         /// Returns the x offset.
         float GetOffsetX() const noexcept { return offsetX; }
@@ -102,7 +102,8 @@ namespace tinytmx {
         int GetZOrder() const { return zOrder; }
 
         /// Set the zorder of the layer.
-        void SetZOrder(int z) { zOrder = z; }
+        //void SetZOrder(int z) { zOrder = z; }
+        int& SetZOrder() { return zOrder; }
 
         /// Get the parse order of the layer.
         int GetParseOrder() const { return parseOrder; }
@@ -121,8 +122,8 @@ namespace tinytmx {
 
         int x;
         int y;
-        int width;
-        int height;
+        uint32_t width;
+        uint32_t height;
 
         float opacity;
         bool visible;

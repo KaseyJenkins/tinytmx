@@ -1,6 +1,4 @@
 #include "tinyxml2.h"
-#include <cstdlib>
-#include <cassert> //RJCB
 
 #include "tinytmxLayer.hpp"
 #include "tinytmxImageLayer.hpp"
@@ -17,6 +15,7 @@ namespace tinytmx {
 
     ImageLayer::~ImageLayer() {
         delete image;
+        image = nullptr;
     }
 
     void ImageLayer::Parse(const tinyxml2::XMLNode *imageLayerNode) {

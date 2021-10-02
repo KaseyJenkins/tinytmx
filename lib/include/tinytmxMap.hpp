@@ -9,16 +9,12 @@
 #include "tinytmxPropertySet.hpp"
 
 namespace tinytmx {
+
     class Layer;
-
     class TileLayer;
-
     class ImageLayer;
-
     class ObjectGroup;
-
     class GroupLayer;
-
     class Tileset;
 
     //-------------------------------------------------------------------------
@@ -49,7 +45,7 @@ namespace tinytmx {
         /// This map is an isometric staggered map.
         TMX_MO_STAGGERED = 0x03,
 
-        /// This map is an hexagonal staggered map.
+        /// This map is a hexagonal staggered map.
         TMX_MO_HEXAGONAL = 0x04
     };
 
@@ -65,7 +61,7 @@ namespace tinytmx {
     };
 
     //-------------------------------------------------------------------------
-    /// The stagger axis for the map. (only applies to hexagonal and staggered maps)
+    /// For staggered and hexagonal maps, determines which axis ("x" or "y") is staggered.
     //-------------------------------------------------------------------------
     enum class MapStaggerAxis {
         TMX_SA_NONE = 0x00,  // if the map is not hexagonal or staggered
@@ -74,7 +70,8 @@ namespace tinytmx {
     };
 
     //-------------------------------------------------------------------------
-    /// The stagger index for the map. (applies to hexagonal AND isometric staggered maps)
+    /// For staggered and hexagonal maps, determines whether
+    /// the “even” or “odd” indexes along the staggered axis are shifted.
     //-------------------------------------------------------------------------
     enum class MapStaggerIndex {
         TMX_SI_NONE = 0x00,  // if the map is not hexagonal
@@ -83,9 +80,8 @@ namespace tinytmx {
     };
 
     //-------------------------------------------------------------------------
-    /// This class is the root class of the parser.
-    /// It has all of the information in regard to the TMX file.
-    /// This class has a property set.
+    /// This class is the root class of the tinytmx.
+    /// It contains all of the information regarding the TMX file.
     //-------------------------------------------------------------------------
     class Map {
 
@@ -97,24 +93,23 @@ namespace tinytmx {
         Map &operator=(const Map &) = delete;
 
         Map();
-
         ~Map();
 
-        /// Read a file and parse it.
+        /// Read the file and parse it.
         /// Note: use '/' instead of '\\' as it is using '/' to find the path.
         void ParseFile(const std::string &fileName);
 
-        /// Parse text containing TMX formatted XML.
+        /// Parse the text containing TMX formatted XML.
         void ParseText(const std::string &text);
 
         /// Get the filename used to read the map.
         const std::string &GetFilename() const { return file_name; }
 
-        /// Get a path to the directory of the map file if any.
+        /// Get the path to the directory of the map file if any.
         const std::string &GetFilepath() const { return file_path; }
 
         /// Get the background color of the map file. If unset, return a fully transparent color.
-        tinytmx::Color GetBackgroundColor() const { return background_color; }
+        const tinytmx::Color& GetBackgroundColor() const { return background_color; }
 
         /// Get the version of the map.
         float GetVersion() const { return version; }
@@ -131,7 +126,7 @@ namespace tinytmx {
         /// Get the compression level.
         int GetCompressionLevel() const { return compression_level; }
 
-        /// Get the infinite bool value.
+        /// Is the map infinite? - get the bool value.
         bool IsInfinite() const { return is_infinite; }
 
         /// Get the stagger axis of the map.
@@ -140,10 +135,10 @@ namespace tinytmx {
         /// Get the stagger index of the map.
         tinytmx::MapStaggerIndex GetStaggerIndex() const { return stagger_index; }
 
-        /// Get the width of the map, in tiles.
+        /// Get the map width, in tiles.
         uint32_t GetWidth() const { return width; }
 
-        /// Get the height of the map, in tiles.
+        /// Get the map height, in tiles.
         uint32_t GetHeight() const { return height; }
 
         /// Get the width of a tile, in pixels.
@@ -152,19 +147,19 @@ namespace tinytmx {
         /// Get the height of a tile, in pixels.
         uint32_t GetTileHeight() const { return tile_height; }
 
-        /// Get the next layer id.
-        int GetNextLayerId() const { return next_layer_id; }
+        /// Get the next available ID for new layers.
+        int GetNextLayerID() const { return next_layer_id; }
 
-        /// Get the next object id.
-        int GetNextObjectId() const { return next_object_id; }
+        /// Get the next available ID for new objects.
+        int GetNextObjectID() const { return next_object_id; }
 
-        /// Get the hexside length.
+        /// Get the hexside length. (Only for hexagonal maps.)
         uint32_t GetHexsideLength() const { return hexside_length; }
 
         /// Get the layer at a certain index.
         const tinytmx::Layer *GetLayer(int index) const { return layers.at(index); }
 
-        /// Get the amount of layers.
+        /// Get the number of layers.
         auto GetNumLayers() const { return layers.size(); }
 
         /// Get the whole layers collection.
@@ -173,7 +168,7 @@ namespace tinytmx {
         /// Get the tile layer at a certain index.
         const tinytmx::TileLayer *GetTileLayer(int index) const { return tile_layers.at(index); }
 
-        /// Get the amount of tile layers.
+        /// Get the number of tile layers.
         auto GetNumTileLayers() const { return tile_layers.size(); }
 
         /// Get the whole collection of tile layers.
@@ -182,7 +177,7 @@ namespace tinytmx {
         /// Get the object group at a certain index.
         const tinytmx::ObjectGroup *GetObjectGroup(int index) const { return object_groups.at(index); }
 
-        /// Get the amount of object groups.
+        /// Get the number of object groups.
         auto GetNumObjectGroups() const { return object_groups.size(); }
 
         /// Get the whole collection of object groups.
@@ -191,47 +186,49 @@ namespace tinytmx {
         /// Get the image layer at a certain index.
         const tinytmx::ImageLayer *GetImageLayer(int index) const { return image_layers.at(index); }
 
-        /// Get the amount of image layers.
+        /// Get the number of image layers.
         auto GetNumImageLayers() const { return image_layers.size(); }
 
         /// Get the whole collection of image layers.
         const std::vector<tinytmx::ImageLayer *> &GetImageLayers() const { return image_layers; }
 
+        /// Get the group layer at a certain index.
         const tinytmx::GroupLayer *GetGroupLayer(int index) const { return group_layers.at(index); }
 
+        /// Get the number of group layers.
         auto GetNumGroupLayers() const { return group_layers.size(); }
 
+        /// Get the whole collection of group layers
         const std::vector<tinytmx::GroupLayer *> &GetGroupLayers() const { return group_layers; }
 
         /// Find the tileset index for a tileset using a tile gid.
         int FindTilesetIndex(unsigned gid) const;
 
-        /// Find a tileset for a specific gid.
+        /// Find the tileset for a specific gid.
         const tinytmx::Tileset *FindTileset(unsigned gid) const;
 
         /// Get a tileset by an index.
         const tinytmx::Tileset *GetTileset(int index) const { return tilesets.at(index); }
 
-        /// Get the amount of tilesets.
+        /// Get the number of tilesets.
         auto GetNumTilesets() const { return tilesets.size(); }
 
-        /// Get the collection of tilesets.
+        /// Get the whole collection of tilesets.
         const std::vector<tinytmx::Tileset *> &GetTilesets() const { return tilesets; }
 
-        /// Get whether there was an error or not.
+        /// Was there an error? - get the bool value.
         bool HasError() const { return has_error; }
 
         /// Get an error string containing the error in text format.
         const std::string &GetErrorText() const { return error_text; }
 
         /// Get a number that identifies the error. (TMX_ preceded constants)
-        unsigned char GetErrorCode() const { return error_code; }
+        uint8_t GetErrorCode() const { return error_code; }
 
         /// Get the property set.
         const tinytmx::PropertySet &GetProperties() const { return properties; }
 
     private:
-
 
         std::string tiled_version;
 
@@ -250,14 +247,10 @@ namespace tinytmx {
         uint32_t height;
         uint32_t tile_width;
         uint32_t tile_height;
-        int next_layer_id; /*! 'nextlayerid': Auto-increments for each layer */ // FIXME: can be unsigned?
+        int next_layer_id;  // FIXME: can be unsigned?
         int next_object_id; // FIXME: can be unsigned?
         uint32_t hexside_length;
-        int compression_level; /*!
-                               * 'compressionlevel': The compression level to use for tile layer
-							   *     data (defaults to -1, which means to use the algorithm default)
-							   *     Introduced in Tiled 1.3
-							   *     */
+        int compression_level;
         bool is_infinite;
 
         std::vector<tinytmx::Layer *> layers;

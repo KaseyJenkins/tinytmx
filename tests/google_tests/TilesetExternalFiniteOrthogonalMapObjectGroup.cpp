@@ -51,7 +51,7 @@ TEST_F(MainTestTilesetExternalObjectGroup, ObjectGroupObjectsRectangle) {
 
     EXPECT_EQ(rectangularObject->GetObjectType(), tinytmx::ObjectType::TMX_OT_RECTANGLE);
 
-    EXPECT_EQ(rectangularObject->GetId(), 2);                                   // id
+    EXPECT_EQ(rectangularObject->GetID(), 2);                                   // id
     EXPECT_EQ(rectangularObject->GetName(), "RectangularObject");               // name
     EXPECT_EQ(rectangularObject->GetType(), "ArbitraryTypeString");             // type
     EXPECT_EQ(rectangularObject->GetX(), 107.978f);                             // x
@@ -69,7 +69,7 @@ TEST_F(MainTestTilesetExternalObjectGroup, ObjectGroupObjectsPoint) {
     auto pointObject = tmxmap->GetObjectGroup(0)->GetObject(1);
     if (pointObject->GetObjectType() == tinytmx::ObjectType::TMX_OT_POINT) {
         puts("It's a Point Object");
-        EXPECT_EQ(pointObject->GetId(), 3);                                     // id
+        EXPECT_EQ(pointObject->GetID(), 3);                                     // id
         EXPECT_EQ(pointObject->GetName(), "PointObject");                       // name
         EXPECT_EQ(pointObject->GetX(), 355.95f);                                // x
         EXPECT_EQ(pointObject->GetY(), 64.04f);                                 // y
@@ -86,7 +86,7 @@ TEST_F(MainTestTilesetExternalObjectGroup, ObjectGroupObjectsEllipse) {
     auto ellipseObject = tmxmap->GetObjectGroup(0)->GetObject(2);
     if (ellipseObject->GetObjectType() == tinytmx::ObjectType::TMX_OT_ELLIPSE) {
         puts("It's an Ellipse Object");
-        EXPECT_EQ(ellipseObject->GetId(), 4);                                   // id
+        EXPECT_EQ(ellipseObject->GetID(), 4);                                   // id
         EXPECT_EQ(ellipseObject->GetName(), "EllipseObject");                   // name
         EXPECT_EQ(ellipseObject->GetX(), 84.0096f);                             // x
         EXPECT_EQ(ellipseObject->GetY(), 204.758f);                             // y
@@ -100,7 +100,7 @@ TEST_F(MainTestTilesetExternalObjectGroup, ObjectGroupObjectsPolygon) {
     auto polygonObject = tmxmap->GetObjectGroup(0)->GetObject(3);
     if (polygonObject->GetObjectType() == tinytmx::ObjectType::TMX_OT_POLYGON) {
         puts("It's a Polygon Object");
-        EXPECT_EQ(polygonObject->GetId(), 5);                                   // id
+        EXPECT_EQ(polygonObject->GetID(), 5);                                   // id
         EXPECT_EQ(polygonObject->GetName(), "PolygonObject");                   // name
 
         EXPECT_EQ(polygonObject->GetPolygon()->GetNumPoints(), 3);
@@ -112,7 +112,7 @@ TEST_F(MainTestTilesetExternalObjectGroup, ObjectGroupObjectsPolyline) {
     auto polylineObject = tmxmap->GetObjectGroup(0)->GetObject(4);
     if (polylineObject->GetObjectType() == tinytmx::ObjectType::TMX_OT_POLYLINE) {
         puts("It's a Polyline Object");
-        EXPECT_EQ(polylineObject->GetId(), 6);                                  // id
+        EXPECT_EQ(polylineObject->GetID(), 6);                                  // id
         EXPECT_EQ(polylineObject->GetName(), "PolylineObject");                 // name
 
         EXPECT_EQ(polylineObject->GetProperties().GetBoolProperty("BoolProp"), true);

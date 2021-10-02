@@ -1310,7 +1310,7 @@ namespace {
 // Helper class to convert string into ids with deduplication.
 class InternalStrings {
  public:
-  size_t GetId(const std::string& str) {
+  size_t GetID(const std::string& str) {
     IdMap::iterator it = ids_.find(str);
     if (it != ids_.end()) return it->second;
     size_t id = ids_.size();
@@ -1331,10 +1331,10 @@ std::vector<EditType> CalculateOptimalEdits(
   {
     InternalStrings intern_table;
     for (size_t i = 0; i < left.size(); ++i) {
-      left_ids.push_back(intern_table.GetId(left[i]));
+      left_ids.push_back(intern_table.GetID(left[i]));
     }
     for (size_t i = 0; i < right.size(); ++i) {
-      right_ids.push_back(intern_table.GetId(right[i]));
+      right_ids.push_back(intern_table.GetID(right[i]));
     }
   }
   return CalculateOptimalEdits(left_ids, right_ids);

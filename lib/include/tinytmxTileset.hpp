@@ -40,9 +40,8 @@ namespace tinytmx
 
 
     //-------------------------------------------------------------------------
-    /// A class used for storing information about each of the tilesets.
+    /// A class to store the information about each of the tilesets.
     /// A tileset is a collection of tiles, of whom each may contain properties.
-    /// This class has a property set.
     //-------------------------------------------------------------------------
     class Tileset 
     {

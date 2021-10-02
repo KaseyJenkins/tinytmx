@@ -15,16 +15,16 @@ namespace tinytmx
         Ellipse( float x, float y, float width, float height );
 
         /// Get the center of the object, in pixels.
-        float GetCenterX() const { return x; }
+        [[nodiscard]] float GetCenterX() const { return x; }
 
         /// Get the center of the object, in pixels.
-        float GetCenterY() const { return y; }
+        [[nodiscard]] float GetCenterY() const { return y; }
         
         /// Get the RadiusX of the object, in pixels.
-        float GetRadiusX() const { return radiusX; }
+        [[nodiscard]] float GetRadiusX() const { return radiusX; }
         
         /// Get the RadiusY of the object, in pixels.
-        float GetRadiusY() const { return radiusY; }
+        [[nodiscard]] float GetRadiusY() const { return radiusY; }
 
     private:
         float x;

@@ -1,5 +1,5 @@
-#include "tinytmxTransformations.hpp"
 #include "tinyxml2.h"
+#include "tinytmxTransformations.hpp"
 
 namespace tinytmx {
     Transformations::Transformations() :

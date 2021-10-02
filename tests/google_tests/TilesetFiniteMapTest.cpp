@@ -32,8 +32,8 @@ TEST_F(MainTestTrialTileset, Map) {
     EXPECT_EQ(tmxmap->GetTileWidth(), 32);                                           // tilewidth
     EXPECT_EQ(tmxmap->GetTileHeight(), 32);                                          // tileheight
     EXPECT_EQ(tmxmap->GetBackgroundColor().ToString(), "#3f97a7ff");                 // backgroundcolor
-    EXPECT_EQ(tmxmap->GetNextLayerId(), 2);                                          // nextlayerid
-    EXPECT_EQ(tmxmap->GetNextObjectId(), 1);                                         // nextobjectid
+    EXPECT_EQ(tmxmap->GetNextLayerID(), 2);                                          // nextlayerid
+    EXPECT_EQ(tmxmap->GetNextObjectID(), 1);                                         // nextobjectid
     EXPECT_EQ(tmxmap->IsInfinite(), false);                                          // infinite
 }
 

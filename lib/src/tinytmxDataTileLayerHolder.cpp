@@ -7,7 +7,7 @@ namespace tinytmx {
 
     }
 
-    DataTileLayerHolder::DataTileLayerHolder(int _width, int _height) : width(_width), height(_height),
+    DataTileLayerHolder::DataTileLayerHolder(uint32_t _width, uint32_t _height) : width(_width), height(_height),
                                                                         tile_map(new MapTile[_width * _height]) {
 
     }

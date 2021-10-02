@@ -14,8 +14,7 @@ namespace tinytmx
     class Image;
 
     //-------------------------------------------------------------------------
-    /// A class used for holding information about a background image.
-    /// This class has a property set.
+    /// A class to store the information about a background image.
     //-------------------------------------------------------------------------
     class ImageLayer : public tinytmx::Layer
     {
@@ -24,13 +23,12 @@ namespace tinytmx
         explicit ImageLayer(const tinytmx::Map *_map);
         ~ImageLayer() override;
 
-        /// Parse a ImageLayer element.
+        /// Parse an ImageLayer element.
         void Parse(const tinyxml2::XMLNode *imageLayerNode) override;
 
-        /// Returns a variable containing information
+        /// Returns a variable containing the information
         /// about the image of the ImageLayer.
         const tinytmx::Image* GetImage() const { return image; }
-
 
     private:
         tinytmx::Image* image;

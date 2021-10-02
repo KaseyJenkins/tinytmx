@@ -6,8 +6,8 @@ namespace tinytmx {
     template<typename T>
     class Vector2 {
     public:
-    Vector2() : x(0), y(0) {}
-    Vector2(T _x, T _y) : x(_x), y(_y) {}
+        Vector2() : x(0), y(0) {}
+        Vector2(T xvalue, T yvalue) : x(xvalue), y(yvalue) {}
 
         T x;
         T y;

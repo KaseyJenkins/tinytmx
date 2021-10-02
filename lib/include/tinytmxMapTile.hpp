@@ -11,15 +11,14 @@ namespace tinytmx {
     const unsigned FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 
     //-------------------------------------------------------------------------
-    /// Struct to store information about a specific tile in the map layer.
+    /// A struct to store the information about a specific tile in the map layer.
     //-------------------------------------------------------------------------
     struct MapTile {
         /// Default constructor.
         MapTile()
-                : tilesetId(0), id(0), flippedHorizontally(false), flippedVertically(false), flippedDiagonally(false) {}
+                : tilesetId(0), id(0), gid(0), flippedHorizontally(false), flippedVertically(false), flippedDiagonally(false) {}
 
-        /// Will take a gid and read the attributes from the first
-        /// three bits of it.
+        /// Take a gid and read the attributes from its first three bits.
         MapTile(unsigned _gid, int _tilesetFirstGid, int _tilesetId)
                 : tilesetId(_tilesetId),
                   id(_gid & ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG)),

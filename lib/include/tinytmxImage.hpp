@@ -11,7 +11,7 @@ namespace tinyxml2 {
 
 namespace tinytmx {
     //-------------------------------------------------------------------------
-    /// A class used for storing information about an image within a tileset.
+    /// A class to store the information about an image within a tileset.
     /// Note that it is not currently possible to use Tiled to create maps
     /// with embedded image data <data>, even though the TMX format supports this.
     //-------------------------------------------------------------------------
@@ -23,16 +23,16 @@ namespace tinytmx {
         void Parse(const tinyxml2::XMLNode *imageNode);
 
         /// Get the path to the file of the image (relative to the map)
-        const std::string &GetSource() const { return source; }
+        [[nodiscard]] const std::string &GetSource() const { return source; }
 
         /// Get the width of the image.
-        uint32_t GetWidth() const { return width; }
+        [[nodiscard]] uint32_t GetWidth() const { return width; }
 
         /// Get the height of the image.
-        uint32_t GetHeight() const { return height; }
+        [[nodiscard]] uint32_t GetHeight() const { return height; }
 
-        /// Get the transparent color used in the image. If none is set return a fully transparent color
-        tinytmx::Color GetTransparentColor() const { return transparent_color; }
+        /// Get the transparent color used in the image. If none is set return a fully transparent color.
+        [[nodiscard]] tinytmx::Color GetTransparentColor() const { return transparent_color; }
 
     private:
         // std::string format - for when it's possible to use Tiled to create maps with embedded image data

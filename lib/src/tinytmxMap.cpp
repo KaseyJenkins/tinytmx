@@ -1,6 +1,6 @@
 #include "tinyxml2.h"
-#include <stdio.h>
-#include <iostream>
+//#include <stdio.h>
+//#include <iostream>
 
 #include "tinytmxMap.hpp"
 #include "tinytmxTileset.hpp"
@@ -10,25 +10,40 @@
 #include "tinytmxImageLayer.hpp"
 #include "tinytmxGroupLayer.hpp"
 
-using std::vector;
-using std::string;
 
 namespace tinytmx {
     Map::Map()
-            : //file_name(),
-            file_path(), background_color(), version(0.0),
+            : background_color(), version(0.0f),
               orientation(MapOrientation::TMX_MO_ORTHOGONAL),
               render_order(MapRenderOrder::TMX_RIGHT_DOWN), stagger_axis(MapStaggerAxis::TMX_SA_NONE),
               stagger_index(MapStaggerIndex::TMX_SI_NONE), width(0), height(0),
-              tile_width(0), tile_height(0), next_layer_id(0), next_object_id(0), hexside_length(0), compression_level(-1),
-              is_infinite(false), layers(), tile_layers(), object_groups(), group_layers(), tilesets(), has_error(false), error_code(0),
-              error_text() {}
+              tile_width(0), tile_height(0), next_layer_id(0), next_object_id(0), hexside_length(0),
+              compression_level(-1), is_infinite(false), has_error(false), error_code(0) {}
 
     Map::~Map() {
+
+        // Iterate through all of the tilesets and delete each of them.
+        for (auto tileset: tilesets) {
+            delete tileset;
+            tileset = nullptr;
+        }
+
+        // Iterate through all of the group layers and delete each of them.
+        for (auto grouplayer: group_layers) {
+            delete grouplayer;
+            grouplayer = nullptr;
+        }
+
         // Iterate through all of the object groups and delete each of them.
         for (auto objectGroup: object_groups) {
             delete objectGroup;
             objectGroup = nullptr;
+        }
+
+        // Iterate through all of the image layers and delete each of them.
+        for (auto layer: image_layers) {
+            delete layer;
+            layer = nullptr;
         }
 
         // Iterate through all of the tile layers and delete each of them.
@@ -38,27 +53,9 @@ namespace tinytmx {
                 layer = nullptr;
             }
         }
-
-        // Iterate through all of the image layers and delete each of them.
-        for (auto layer: image_layers) {
-            delete layer;
-            layer = nullptr;
-        }
-
-        // Iterate through all of the tilesets and delete each of them.
-        for (auto tileset: tilesets) {
-            delete tileset;
-            tileset = nullptr;
-        }
-
-        for (auto grouplayer: group_layers) {
-            delete grouplayer;
-            grouplayer = nullptr;
-        }
-
     }
 
-    void Map::ParseFile(const string &fileName) {
+    void Map::ParseFile(const std::string &fileName) {
         file_name = fileName;
 
         auto lastSlash = fileName.find_last_of('/');
@@ -86,8 +83,8 @@ namespace tinytmx {
         Parse(mapNode);
     }
 
-    void Map::ParseText(const string &text) {
-        // Create a tiny xml document and use it to parse the text.
+    void Map::ParseText(const std::string &text) {
+        // Create a tinyxml2 document and use it to parse the text.
         tinyxml2::XMLDocument doc;
         doc.Parse(text.c_str());
 
@@ -107,7 +104,7 @@ namespace tinytmx {
         gid &= ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG);
 
         for (int i = tilesets.size() - 1; i > -1; --i) {
-            // If the gid beyond the tileset gid return its index.
+            // If the gid is beyond the tileset gid return its index.
             if (gid >= tilesets[i]->GetFirstGid()) {
                 return i;
             }
@@ -117,12 +114,11 @@ namespace tinytmx {
 
     const Tileset *Map::FindTileset(unsigned gid) const {
         for (int i = tilesets.size() - 1; i > -1; --i) {
-            // If the gid beyond the tileset gid return it.
+            // If the gid is beyond the tileset gid return the tileset.
             if (gid >= tilesets[i]->GetFirstGid()) {
                 return tilesets[i];
             }
         }
-
         return nullptr;
     }
 
@@ -141,11 +137,9 @@ namespace tinytmx {
         next_layer_id = mapElem->IntAttribute("nextlayerid");
         next_object_id = mapElem->IntAttribute("nextobjectid");
         is_infinite = mapElem->BoolAttribute("infinite");
-        // tiled_version
 
-        if (mapElem->IntAttribute("compressionlevel")) {
-            compression_level = mapElem->IntAttribute("compressionlevel");
-        }
+        mapElem->QueryIntAttribute("compressionlevel", &compression_level);
+
 
         if (mapElem->Attribute("backgroundcolor")) {
             background_color = tinytmx::Color(mapElem->Attribute("backgroundcolor"));
@@ -204,12 +198,12 @@ namespace tinytmx {
         // read all other attributes
         for (tinyxml2::XMLNode *node = mapElem->FirstChild(); node != nullptr; node = node->NextSibling()) {
             // Read the map properties.
-            if (strcmp(node->Value(), "properties") == 0) {
+            if (std::strcmp(node->Value(), "properties") == 0) {
                 properties.Parse(node);
             }
 
             // Iterate through all of the tileset elements.
-            if (strcmp(node->Value(), "tileset") == 0) {
+            if (std::strcmp(node->Value(), "tileset") == 0) {
                 // Allocate a new tileset and parse it.
                 auto tileset = new Tileset();
                 tileset->Parse(node, file_path, this);
@@ -219,7 +213,7 @@ namespace tinytmx {
             }
 
             // Iterate through all of the "layer" (tile layer) elements.
-            if (strcmp(node->Value(), "layer") == 0) {
+            if (std::strcmp(node->Value(), "layer") == 0) {
                 // Allocate a new tile layer and parse it.
                 auto tileLayer = new TileLayer(this);
                 tileLayer->Parse(node);
@@ -230,7 +224,7 @@ namespace tinytmx {
             }
 
             // Iterate through all of the "imagelayer" (image layer) elements.
-            if (strcmp(node->Value(), "imagelayer") == 0) {
+            if (std::strcmp(node->Value(), "imagelayer") == 0) {
                 // Allocate a new image layer and parse it.
                 auto imageLayer = new ImageLayer(this);
                 imageLayer->Parse(node);
@@ -241,7 +235,7 @@ namespace tinytmx {
             }
 
             // Iterate through all of the "objectgroup" (object layer) elements.
-            if (strcmp(node->Value(), "objectgroup") == 0) {
+            if (std::strcmp(node->Value(), "objectgroup") == 0) {
                 // Allocate a new object group and parse it.
                 auto objectGroup = new ObjectGroup(this);
                 objectGroup->Parse(node);
@@ -251,7 +245,7 @@ namespace tinytmx {
                 layers.push_back(objectGroup);
             }
 
-            if (strcmp(node->Value(), "group") == 0) {
+            if (std::strcmp(node->Value(), "group") == 0) {
                 auto groupLayer = new GroupLayer(this);
                 groupLayer->Parse(node);
 

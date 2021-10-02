@@ -11,9 +11,8 @@ namespace tinyxml2 {
 
 namespace tinytmx {
     //-------------------------------------------------------------------------
-    /// Class to contain information about every terrain in the
+    /// A class to contain the information about every terrain in the
     /// tileset/terraintypes element.
-    /// This class also contains a property set.
     //-------------------------------------------------------------------------
     class Terrain {
     public:
@@ -26,9 +25,9 @@ namespace tinytmx {
         const std::string &GetName() const { return name; }
 
         /// Get the local tile-id of the tile that represents the terrain type visually.
-        int GetTileId() const { return tileID; }
+        int GetTileID() const { return tileID; }
 
-        /// Get a set of properties regarding the terrain type.
+        /// Get a set of properties re the terrain type.
         const tinytmx::PropertySet &GetProperties() const { return properties; }
 
     private:

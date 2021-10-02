@@ -1,8 +1,6 @@
 #ifndef TINYTMX_TINYTMXGRID_HPP
 #define TINYTMX_TINYTMXGRID_HPP
 
-#include <cstdint>
-
 namespace tinyxml2 {
     class XMLNode;
 }
@@ -27,13 +25,13 @@ namespace tinytmx {
         void Parse(const tinyxml2::XMLNode *gridNode);
 
         /// Get the grid's orientation.
-        tinytmx::GridOrientation GetOrientation() const { return grid_orientation; }
+        [[nodiscard]] tinytmx::GridOrientation GetOrientation() const { return grid_orientation; }
 
         /// Get the value of the width attribute of the grid element.
-        uint32_t GetWidth() const { return width; }
+        [[nodiscard]] uint32_t GetWidth() const { return width; }
 
         /// Get the value of the height attribute of the grid element.
-        uint32_t GetHeight() const { return height; }
+        [[nodiscard]] uint32_t GetHeight() const { return height; }
 
     private:
         tinytmx::GridOrientation grid_orientation;

@@ -32,8 +32,8 @@ TEST_F(MainTestTrial, Map) {
     EXPECT_EQ(tmxmap->GetTileWidth(), 32);                                           // tilewidth
     EXPECT_EQ(tmxmap->GetTileHeight(), 32);                                          // tileheight
     EXPECT_EQ(tmxmap->GetBackgroundColor().ToString(), "#00000000");                 // backgroundcolor
-    EXPECT_EQ(tmxmap->GetNextLayerId(), 2);                                          // nextlayerid
-    EXPECT_EQ(tmxmap->GetNextObjectId(), 1);                                         // nextobjectid
+    EXPECT_EQ(tmxmap->GetNextLayerID(), 2);                                          // nextlayerid
+    EXPECT_EQ(tmxmap->GetNextObjectID(), 1);                                         // nextobjectid
     EXPECT_EQ(tmxmap->IsInfinite(), false);                                          // infinite
 }
 
@@ -70,8 +70,8 @@ TEST_F(MainTestTrial, Layer) {
 //    EXPECT_EQ(tmxmap->GetTileWidth(), 32); // <map> tilewidth
 //    EXPECT_EQ(tmxmap->GetTileHeight(), 32); // <map> tileheight
 //    EXPECT_EQ(tmxmap->GetBackgroundColor().ToString(), "#00000000"); // backgroundcolor
-//    EXPECT_EQ(tmxmap->GetNextLayerId(), 2); // nextlayerid
-//    EXPECT_EQ(tmxmap->GetNextObjectId(), 1); // nextobjectid
+//    EXPECT_EQ(tmxmap->GetNextLayerID(), 2); // nextlayerid
+//    EXPECT_EQ(tmxmap->GetNextObjectID(), 1); // nextobjectid
 //    EXPECT_EQ(tmxmap->IsInfinite(), false); // infinite
 //    // hexsidelength
 //    // staggeraxis
@@ -130,7 +130,7 @@ TEST_F(MainTestTrial, Layer) {
 //TEST_F(MainTestTrial, TileSetWangSet) {
 //    EXPECT_EQ(tmxmap->GetTilesets()[1]->GetName(), "grass");
 //    EXPECT_EQ(tmxmap->GetTilesets()[1]->GetWangSets()[0]->GetName(), "Corner Set");
-//    EXPECT_EQ(tmxmap->GetTilesets()[1]->GetWangSets()[0]->GetTileId(), -1);
+//    EXPECT_EQ(tmxmap->GetTilesets()[1]->GetWangSets()[0]->GetTileID(), -1);
 //
 //    EXPECT_EQ(tmxmap->GetTilesets()[1]->GetWangSets()[0]->GetProperties().GetBoolProperty("boolProperty"), false);
 //    EXPECT_EQ(tmxmap->GetTilesets()[1]->GetWangSets()[0]->GetWangTiles()[0]->GetWangID()[0], 0);

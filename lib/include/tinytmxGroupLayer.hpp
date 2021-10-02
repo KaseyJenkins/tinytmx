@@ -13,7 +13,7 @@ namespace tinytmx
     class Map;
 
     //-------------------------------------------------------------------------
-    /// A class for holding groups of layers to create a layer hierarchy.
+    /// A class to hold groups of layers to create a layer hierarchy.
     //-------------------------------------------------------------------------
     class GroupLayer : public tinytmx::Layer
     {

@@ -18,6 +18,7 @@ namespace tinytmx {
     ObjectGroup::~ObjectGroup() {
         for (auto obj: objects) {
             delete obj;
+            obj = nullptr;
         }
     }
 
@@ -27,7 +28,6 @@ namespace tinytmx {
         // Read the object group attributes, set to unknown if not defined in XML
         //objectGroupElem->Attribute("name") != nullptr ? name = objectGroupElem->Attribute("name") : name = "unknown";
         ID = objectGroupElem->UnsignedAttribute("id");
-        //name = objectGroupElem->Attribute("name");
 
         if (objectGroupElem->Attribute("name")) {
             name = objectGroupElem->Attribute("name");
@@ -48,10 +48,11 @@ namespace tinytmx {
         }
 
         if (objectGroupElem->Attribute("draworder")) {
-            std::string draworderStr = objectGroupElem->Attribute("draworder");
-            if (draworderStr == "index") {
+            const char* draworderAsCString = objectGroupElem->Attribute("draworder");
+
+            if (std::strcmp(draworderAsCString, "index") == 0) {
                 draw_order = tinytmx::DrawOrder::TMX_DRAWORDER_INDEX;
-            } else if (draworderStr == "topdown") { // FIXME most likely redundant
+            } else if (std::strcmp(draworderAsCString, "topdown") == 0) {
                 draw_order = tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN;
             }
         }

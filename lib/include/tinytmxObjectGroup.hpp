@@ -23,7 +23,6 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     /// The object group is in fact a map layer, and is hence called “object layer” in Tiled.
     /// A class used for holding a list of objects.
-    /// This class has a property set.
     //-------------------------------------------------------------------------
     class ObjectGroup : public tinytmx::Layer {
     public:
@@ -45,7 +44,7 @@ namespace tinytmx {
         auto GetNumObjects() const { return objects.size(); }
 
         /// Get the color used to display the objects in this group.
-        tinytmx::Color GetColor() const { return color; }
+        const tinytmx::Color& GetColor() const { return color; }
 
         /// Get the whole list of objects.
         const std::vector<tinytmx::Object *> &GetObjects() const { return objects; }

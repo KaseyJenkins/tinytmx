@@ -8,7 +8,7 @@
 namespace tinytmx
 {
     //-------------------------------------------------------------------------
-    /// A class used for storing information about color.
+    /// A class for storing the information about color.
     //-------------------------------------------------------------------------
     class Color
     {
@@ -16,13 +16,13 @@ namespace tinytmx
         /// Default constructor for a fully transparent black color.
         Color();
 
-        /// Initialize the color with a 32 bit ARGB representation.
+        /// Initialize the Color with a 32 bit ARGB representation.
         explicit Color(uint32_t color);
 
-        /// Initialize the color with a red, green, blue and optionally alpha values.
+        /// Initialize the Color with red, green, blue and optionally alpha values.
         Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
-        /// Initialize the color from a string hexadecimal representation in the format "#AARRGGBB" or "#RRGGBB".
+        /// Initialize the Color from a string hexadecimal representation in the format "#AARRGGBB" or "#RRGGBB".
         explicit Color(const std::string& str);
 
         /// Default copy constructor.
@@ -38,25 +38,25 @@ namespace tinytmx
         bool operator!=(const Color& o) const { return color != o.color; }
 
         /// Get the alpha component of the color.
-        uint8_t GetAlpha() const;
+        [[nodiscard]] uint8_t GetAlpha() const;
 
         /// Get the red component of the color.
-        uint8_t GetRed() const;
+        [[nodiscard]] uint8_t GetRed() const;
 
         /// Get the green component of the color.
-        uint8_t GetGreen() const;
+        [[nodiscard]] uint8_t GetGreen() const;
 
         /// Get the blue component of the color.
-        uint8_t GetBlue() const;
+        [[nodiscard]] uint8_t GetBlue() const;
 
         /// Return true if the color is fully transparent (ie alpha value is 0).
-        bool IsTransparent() const;
+        [[nodiscard]] bool IsTransparent() const;
       
         /// Get the 32 bits integer representing the color. The 8 highest bits are for the alpha channel, then the red, the green and the blue.
-        uint32_t ToInt() const { return color; }
+        [[nodiscard]] uint32_t ToInt() const { return color; }
 
         /// Get a string representation of the color in the format "#AARRGGBB".
-        std::string ToString() const;
+        [[nodiscard]] std::string ToString() const;
 
     private:
         uint32_t color;

@@ -2,7 +2,6 @@
 #define TINYTMX_TINYTMXPROPERTYSET_HPP
 
 #include <unordered_map>
-#include <map>
 #include <string>
 
 #include "tinytmxProperty.hpp"
@@ -26,38 +25,34 @@ namespace tinytmx {
         /// Parse a node containing all the property nodes.
         void Parse(const tinyxml2::XMLNode *propertiesNode);
 
-        /// Get a int property.
+        /// Get an int Property by its name.
         int GetIntProperty(const std::string &name, int defaultValue = 0) const;
 
-        /// Get a float property.
+        /// Get a float Property by its name.
         float GetFloatProperty(const std::string &name, float defaultValue = 0.0f) const;
 
-        /// Get a string property.
+        /// Get a string Property by its name.
         std::string GetStringProperty(const std::string &name, std::string defaultValue = "") const;
 
-        /// Get a bool property.
+        /// Get a bool Property by its name.
         bool GetBoolProperty(const std::string &name, bool defaultValue = false) const;
 
-        /// Get a color property.
+        /// Get a color Property by its name.
         tinytmx::Color GetColorProperty(const std::string &name, tinytmx::Color defaultValue = tinytmx::Color()) const;
 
-        /// Get an object property.
+        /// Get an object Property by its name.
         int GetObjectProperty(const std::string &name, int defaultValue = 0) const;
 
-        /// Returns the amount of properties.
+        /// Returns the number of properties.
         auto GetSize() const { return properties.size(); }
 
-        /// Checks if a property exists in the set.
+        /// Checks if a Property with a certain name exists in the set.
         bool HasProperty(const std::string &name) const;
 
         /// Returns the unordered map of properties.
         const std::unordered_map<std::string, Property> &GetPropertyMap() const { return properties; }
 
-        /// Returns the STL map of the properties.
-        /// Deprecated, please use GetPropertyMap() instead.
-        //std::map<std::string, std::string> GetList() const;
-
-        /// Returns whether there are no properties.
+        /// Are there no properties? -- get the bool value.
         bool Empty() const { return properties.empty(); }
 
     private:

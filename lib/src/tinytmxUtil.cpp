@@ -1,9 +1,8 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cctype>
 
 #ifdef USE_MINIZ
-//#define MINIZ_HEADER_FILE_ONLY
 #include "miniz.h"
 #else
 
@@ -23,14 +22,14 @@ namespace tinytmx {
         }));
     }
 
-// trim from end (in place)
+    // trim from end (in place)
     static inline void rtrim(std::string &s) {
         s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
             return !std::isspace(ch);
         }).base(), s.end());
     }
 
-// trim from both ends (in place)
+    // trim from both ends (in place)
     static inline void trim(std::string &s) {
         ltrim(s);
         rtrim(s);
@@ -67,8 +66,8 @@ namespace tinytmx {
         return base64_decode(str);
     }
 
-    char *Util::DecompressGZIP(const char *data, int dataSize, int expectedSize) {
-        int bufferSize = expectedSize;
+    char *Util::DecompressGZIP(const char *data, uint32_t dataSize, uint32_t expectedSize) {
+        uint32_t bufferSize = expectedSize;
         int ret;
         z_stream strm;
         char *out = (char *) malloc(bufferSize);

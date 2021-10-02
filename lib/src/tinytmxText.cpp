@@ -34,18 +34,29 @@ namespace tinytmx {
         textElement->QueryBoolAttribute("kerning", &kerning);
 
         if (textElement->FindAttribute("halign")) {
-            auto ha_str = std::string(textElement->Attribute("halign"));
-            if (ha_str == "left") { horizontal_alignment = HorizontalAlignment::LEFT; }
-            else if (ha_str == "center") { horizontal_alignment = HorizontalAlignment::HCENTER; }
-            else if (ha_str == "right") { horizontal_alignment = HorizontalAlignment::RIGHT; }
-            else if (ha_str == "justify") { horizontal_alignment = HorizontalAlignment::JUSTIFY; }
+            const char* halignAsCString = textElement->Attribute("halign");
+
+            if (std::strcmp(halignAsCString, "left") == 0) {
+                horizontal_alignment = HorizontalAlignment::LEFT;
+            } else if (std::strcmp(halignAsCString, "center") == 0) {
+                horizontal_alignment = HorizontalAlignment::HCENTER;
+            } else if (std::strcmp(halignAsCString, "right") == 0) {
+                horizontal_alignment = HorizontalAlignment::RIGHT;
+            } else if (std::strcmp(halignAsCString, "justify") == 0) {
+                horizontal_alignment = HorizontalAlignment::JUSTIFY;
+            }
         }
 
         if (textElement->FindAttribute("valign")) {
-            auto va_str = std::string(textElement->Attribute("valign"));
-            if (va_str == "top") { vertical_alignment = VerticalAlignment::TOP; }
-            else if (va_str == "center") { vertical_alignment = VerticalAlignment::VCENTER; }
-            else if (va_str == "bottom") { vertical_alignment = VerticalAlignment::BOTTOM; }
+            const char* valignAsCString = textElement->Attribute("valign");
+
+            if (std::strcmp(valignAsCString, "top") == 0) {
+                vertical_alignment = VerticalAlignment::TOP;
+            } else if (std::strcmp(valignAsCString, "center") == 0) {
+                vertical_alignment = VerticalAlignment::VCENTER;
+            } else if (std::strcmp(valignAsCString, "bottom") == 0) {
+                vertical_alignment = VerticalAlignment::BOTTOM;
+            }
         }
 
         if (textElement->FindAttribute("color"))

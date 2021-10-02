@@ -1,5 +1,4 @@
 #include "tinyxml2.h"
-#include <cstdlib>
 #include <cassert> //RJCB
 #include <cstring>
 
@@ -47,19 +46,19 @@ namespace tinytmx {
         assert(child); //RJCB
 
         while (child != nullptr) {
-            if (strcmp(child->Value(), "group") == 0) {
+            if (std::strcmp(child->Value(), "group") == 0) {
                 auto groupLayer = new GroupLayer(map);
                 groupLayer->Parse(child);
                 AddChild(groupLayer);
-            } else if (strcmp(child->Value(), "layer") == 0) {
+            } else if (std::strcmp(child->Value(), "layer") == 0) {
                 auto tileLayer = new TileLayer(map);
                 tileLayer->Parse(child);
                 AddChild(tileLayer);
-            } else if (strcmp(child->Value(), "objectgroup") == 0) {
+            } else if (std::strcmp(child->Value(), "objectgroup") == 0) {
                 auto objectGroup = new ObjectGroup(map);
                 objectGroup->Parse(child);
                 AddChild(objectGroup);
-            } else if (strcmp(child->Value(), "imagelayer") == 0) {
+            } else if (std::strcmp(child->Value(), "imagelayer") == 0) {
                 auto imageLayer = new ImageLayer(map);
                 imageLayer->Parse(child);
                 AddChild(imageLayer);

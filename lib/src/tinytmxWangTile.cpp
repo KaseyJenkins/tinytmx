@@ -4,7 +4,7 @@
 
 namespace tinytmx {
 
-    WangTile::WangTile() : tileID() {
+    WangTile::WangTile() : tileID(0) {
 
     }
 
@@ -12,12 +12,11 @@ namespace tinytmx {
         // Parse the attributes.
         tileID = wangTileElement->UnsignedAttribute("tileid");
 
-        // FIXME put into a function.
+        // FIXME put into a function?
         // Parse the wangid attribute.
         char *wangidString = strdup(wangTileElement->Attribute("wangid"));
         char *token = strtok(wangidString, ",");
         while (token) {
-            //int val = strtol(token, nullptr, 10);
             wangID.emplace_back(strtol(token, nullptr, 10));
             token = strtok(nullptr, ",");
         }

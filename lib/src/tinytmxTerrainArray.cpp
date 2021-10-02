@@ -1,5 +1,4 @@
 #include "tinyxml2.h"
-#include <cstdlib>
 
 #include "tinytmxTerrainArray.hpp"
 #include "tinytmxTerrain.hpp"

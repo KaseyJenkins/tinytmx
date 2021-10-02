@@ -2,7 +2,6 @@
 #include <algorithm>
 
 #ifdef USE_MINIZ
-//#define MINIZ_HEADER_FILE_ONLY
 #include "miniz.h"
 #else
 
@@ -12,8 +11,8 @@
 
 #include <zstd.h>
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <iostream>
 
 #include "tinytmxLayer.hpp"
@@ -118,8 +117,8 @@ namespace tinytmx {
                 auto chunk = new Chunk();
                 chunk->m_x = chunkElem->IntAttribute("x");
                 chunk->m_y = chunkElem->IntAttribute("y");
-                chunk->width = chunkElem->IntAttribute("width");
-                chunk->height = chunkElem->IntAttribute("height");
+                chunk->width = chunkElem->UnsignedAttribute("width");
+                chunk->height = chunkElem->UnsignedAttribute("height");
 
                 chunk->tile_map = new MapTile[chunk->width * chunk->height];
 
@@ -182,7 +181,8 @@ namespace tinytmx {
             const char *gidText = tileElem->Attribute("gid");
 
             // Convert to an unsigned.
-            sscanf(gidText, "%u", &gid);
+            //sscanf(gidText, "%u", &gid);
+            gid = std::strtoul(gidText, nullptr, 10);
 
             // Find the tileset index.
             const int tilesetIndex = map->FindTilesetIndex(gid);
@@ -200,7 +200,7 @@ namespace tinytmx {
         }
     }
 
-    void TileLayer::ParseBase64(const std::string &innerText, int m_width, int m_height, tinytmx::MapTile *m_tile_map) {
+    void TileLayer::ParseBase64(const std::string &innerText, uint32_t m_width, uint32_t m_height, tinytmx::MapTile *m_tile_map) {
         std::string testText = innerText;
         Util::Trim(testText);
 

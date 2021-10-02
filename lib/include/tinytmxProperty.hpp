@@ -14,67 +14,67 @@ namespace tinytmx {
     /// The type of a property.
     //-------------------------------------------------------------------------
     enum class PropertyType {
-        /// A string property (default)
+        /// A string Property (default).
         TMX_PROPERTY_STRING,
 
-        /// A boolean property
+        /// A boolean Property.
         TMX_PROPERTY_BOOL,
 
-        /// An integer property
+        /// An integer Property.
         TMX_PROPERTY_INT,
 
-        /// A floating point property
+        /// A floating point Property.
         TMX_PROPERTY_FLOAT,
 
-        /// A color property
+        /// A color Property.
         TMX_PROPERTY_COLOR,
 
-        /// A file property
+        /// A file Property.
         TMX_PROPERTY_FILE,
 
-        /// An object property
+        /// An object Property.
         TMX_PROPERTY_OBJECT
     };
 
     //-------------------------------------------------------------------------
-    /// Used to store a (typed) property.
+    /// A class to store a (typed) property.
     //-------------------------------------------------------------------------
     class Property {
     public:
         Property();
 
-        /// Parse the property element.
+        /// Parse the Property element.
         void Parse(const tinyxml2::XMLElement *propertyElem);
 
-        /// Get the type of the property (default: TMX_PROPERTY_STRING)
-        PropertyType GetType() const { return type; }
+        /// Get the type of the Property (default: TMX_PROPERTY_STRING)
+        [[nodiscard]] PropertyType GetType() const { return type; }
 
-        /// Check if the property is of a certain type.
-        bool IsOfType(PropertyType propertyType) const { return (GetType() == propertyType); }
+        /// Check if the Property is of a certain type.
+        [[nodiscard]] bool IsOfType(PropertyType propertyType) const { return (GetType() == propertyType); }
 
-        /// Return the value of the property.
-        const std::string &GetValue() const { return value; }
+        /// Return the value of the Property.
+        [[nodiscard]] const std::string &GetValue() const { return value; }
 
         /// Return whether the value is empty or was not specified.
-        bool IsValueEmpty() const { return value.empty(); }
+        [[nodiscard]] bool IsValueEmpty() const { return value.empty(); }
 
         /// Convert the value to a boolean and return it (or the default value if not a boolean.)
-        bool GetBoolValue(bool defaultValue = false) const;
+        [[nodiscard]] bool GetBoolValue(bool defaultValue = false) const;
 
         /// Convert the value to an integer and return it (or the default value if not an integer).
-        int GetIntValue(int defaultValue = 0) const;
+        [[nodiscard]] int GetIntValue(int defaultValue = 0) const;
 
         /// Convert the value to a float and return it (or the default value if not a float).
-        float GetFloatValue(float defaultValue = 0.0f) const;
+        [[nodiscard]] float GetFloatValue(float defaultValue = 0.0f) const;
 
         /// Convert the value to a color and return it (or the default value if not a color).
-        tinytmx::Color GetColorValue(tinytmx::Color defaultValue = tinytmx::Color()) const;
+        [[nodiscard]] tinytmx::Color GetColorValue(tinytmx::Color defaultValue = tinytmx::Color()) const;
 
-        /// Convert the value into an objectID and return it (or 0 if no object is referenced).
+        /// Convert the value into an objectID and return it (or -1 if no object is referenced).
         // Object properties can reference any object on the same map and are stored as an integer
         // (the ID of the referenced object, or 0 when no object is referenced).
 
-        int GetObjectValue(int defaultValue = 0) const;
+        [[nodiscard]] int GetObjectValue(int defaultValue = -1) const;
 
     private:
         PropertyType type;

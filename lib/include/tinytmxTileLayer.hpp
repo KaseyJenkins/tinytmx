@@ -64,7 +64,7 @@ namespace tinytmx
         void Parse(const tinyxml2::XMLNode *tileLayerNode) override;
 
 //        /// Pick a specific tile id from the list.
-//        unsigned GetTileId(int x, int y) const { return tile_map[y * width + x].id; }
+//        unsigned GetTileID(int x, int y) const { return tile_map[y * width + x].id; }
 //
 //        /// Pick a specific tile gid from the list.
 //        unsigned GetTileGid(int x, int y) const { return tile_map[y * width + x].gid; }
@@ -91,7 +91,7 @@ namespace tinytmx
 //        const tinytmx::MapTile& GetTile(int index) const { return tile_map[index]; }
 
         /// Get the parallax.
-        tinytmx::Vector2f GetParallax() const { return parallax; }
+        const tinytmx::Vector2f& GetParallax() const { return parallax; }
 
         /// Get the type of encoding that was used for parsing the tile layer data.
         /// See: TileLayerEncodingType
@@ -110,9 +110,9 @@ namespace tinytmx
 
     private:
 
-        /// TODO these functions need redoing
+        // TODO these functions need a tad of redoing
         void ParseXML(const tinyxml2::XMLNode *dataNode, tinytmx::MapTile *m_tile_map = nullptr, const std::string& firstChildElement = "tile"); // Deprecated.
-        void ParseBase64(const std::string &innerText, int m_width = 0, int m_height = 0,  tinytmx::MapTile *m_tile_map = nullptr);
+        void ParseBase64(const std::string &innerText, uint32_t m_width = 0, uint32_t m_height = 0,  tinytmx::MapTile *m_tile_map = nullptr);
         void ParseCSV(const std::string &innerText, tinytmx::MapTile *m_tile_map = nullptr);
 
 //        tinytmx::MapTile *tile_map;

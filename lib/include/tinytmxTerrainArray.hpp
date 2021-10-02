@@ -1,8 +1,6 @@
 #ifndef TINYTMX_TINYTMXTERRAINARRAY_HPP
 #define TINYTMX_TINYTMXTERRAINARRAY_HPP
 
-//#include <map> deprecated
-//#include <string> deprecated
 #include <vector>
 
 namespace tinyxml2 {
@@ -13,7 +11,7 @@ namespace tinytmx {
     class Terrain;
 
     //-----------------------------------------------------------------------------
-    /// Class to parse terrain types, which can be referenced from the
+    /// A class to parse terrain types, which can be referenced from the
     /// terrain attribute of the tileset/tile element.
     //-----------------------------------------------------------------------------
     class TerrainArray {

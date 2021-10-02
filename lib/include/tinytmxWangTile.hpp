@@ -16,10 +16,10 @@ namespace tinytmx {
         void Parse(const tinyxml2::XMLElement *wangTileElement);
 
         /// Get the tile ID.
-        uint32_t GetTileId() const { return tileID; }
+        [[nodiscard]] uint32_t GetTileId() const { return tileID; }
 
         /// Get the wang ID.
-        const std::vector<uint32_t> &GetWangID() const { return wangID; }
+        [[nodiscard]] const std::vector<uint32_t> &GetWangID() const { return wangID; }
 
     private:
 

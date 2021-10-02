@@ -13,9 +13,8 @@ namespace tinytmx {
     class Color;
 
     //-------------------------------------------------------------------------
-    /// Class to contain information about a color that can be used to define
+    /// A class to store the information about a color that can be used to define
     /// the corner and/or edge of a Wang tile.
-    /// This class also contains a property set.
     //-------------------------------------------------------------------------
 
     class WangColor {
@@ -25,9 +24,11 @@ namespace tinytmx {
 
         void Parse(const tinyxml2::XMLElement *wangColorElement);
 
+        /// Get the name of this color.
         const std::string &GetName() const { return name; }
 
-        Color* GetColor() const noexcept { return color; } // FIXME check all noexcept functions
+        /// Get the color.
+        const Color* GetColor() const noexcept { return color; } // FIXME check all noexcept functions
 
         /// Get the tile ID  of the tile representing this color.
         int GetTileID() const { return tileID; }
@@ -36,7 +37,7 @@ namespace tinytmx {
         /// Defaults to 0;
         float GetProbability() const { return probability; }
 
-        /// Get a set of properties regarding the wangcolor.
+        /// Get a set of properties re the wangcolor.
         const tinytmx::PropertySet &GetProperties() const { return properties; }
 
     private:

@@ -4,7 +4,7 @@ include(GNUInstallDirs)
 
 
 set(TINYTMX_VERSION_MAJOR 1)
-set(TINYTMX_VERSION_MINOR 0)
+set(TINYTMX_VERSION_MINOR 1)
 set(TINYTMX_VERSION_PATCH 0)
 set(TINYTMX_VERSION "${TINYTMX_VERSION_MAJOR}.${TINYTMX_VERSION_MINOR}.${TINYTMX_VERSION_PATCH}")
 message(STATUS "TINYTMX VERSION ${TINYTMX_VERSION}")
@@ -48,7 +48,6 @@ target_sources(tinytmx
         PRIVATE src/tinytmxTileset.cpp
         PRIVATE src/tinytmxTransformations.cpp
         PRIVATE src/tinytmxUtil.cpp
-        PRIVATE src/tinytmxVector2.cpp
         PRIVATE src/tinytmxWangColor.cpp
         PRIVATE src/tinytmxWangSet.cpp
         PRIVATE src/tinytmxWangSetArray.cpp

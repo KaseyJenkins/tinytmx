@@ -15,11 +15,11 @@
 
 namespace tinytmx {
     Object::Object()
-            : name(), type(), x(0), y(0), width(0), height(0), gid(0),
-//              flippedHorizontally(false), flippedVertically(false), flippedDiagonally(false),
+            : x(0), y(0), width(0), height(0), gid(0),
               id(0), rotation(0.0f), visible(true),
-              ellipse(nullptr), point(nullptr), polygon(nullptr), polyline(nullptr), text(nullptr), mapTile(nullptr), properties(),
-              objectType(tinytmx::ObjectType::TMX_OT_UNDEFINED), isTemplate(false), tileset(nullptr) {}
+              ellipse(nullptr), point(nullptr), polygon(nullptr), polyline(nullptr), text(nullptr),
+              mapTile(nullptr), properties(), objectType(tinytmx::ObjectType::TMX_OT_UNDEFINED),
+              isTemplate(false), tileset(nullptr) {}
 
     Object::~Object() {
         if (ellipse != nullptr) {
@@ -126,7 +126,6 @@ namespace tinytmx {
             if (tilesetIndex != -1) {
                 // If valid, set up the object tile with the tileset.
                 const tinytmx::Tileset *_tileset = _map->GetTileset(tilesetIndex);
-//                tileset = _map->GetTileset(tilesetIndex);
                 delete mapTile;
                 mapTile = new MapTile(gid, _tileset->GetFirstGid(), tilesetIndex);
             } else {

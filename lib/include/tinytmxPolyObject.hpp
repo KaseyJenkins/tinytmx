@@ -2,7 +2,6 @@
 #define TINYTMX_TINYTMXPOLYOBJECT_HPP
 
 #include <vector>
-
 #include "tinytmxVector2.hpp"
 
 namespace tinyxml2 {
@@ -11,7 +10,7 @@ namespace tinyxml2 {
 
 namespace tinytmx {
     //-------------------------------------------------------------------------
-    /// Class to store a Polyline or a Polygon.
+    /// A class to store a Polyline or a Polygon.
     //-------------------------------------------------------------------------
 
     class PolyObject {
@@ -21,15 +20,14 @@ namespace tinytmx {
         /// Parse the polyline node.
         void Parse(const tinyxml2::XMLNode *polyObjectNode);
 
-
         /// Get all of the points.
-        const std::vector<tinytmx::Vector2f > &GetPoints() const { return points; }
+        [[nodiscard]] const std::vector<tinytmx::Vector2f > &GetPoints() const { return points; }
 
         /// Get one of the vertices.
-        const tinytmx::Vector2f &GetPoint(int index) const { return points.at(index); }
+        [[nodiscard]] const tinytmx::Vector2f &GetPoint(int index) const { return points.at(index); }
 
         /// Get the number of vertices.
-        auto GetNumPoints() const { return points.size(); }
+        [[nodiscard]] auto GetNumPoints() const { return points.size(); }
 
     private:
         std::vector<tinytmx::Vector2f> points;
