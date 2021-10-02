@@ -6,16 +6,9 @@
 
 namespace tinytmx {
     Text::Text()
-            : font_family("sans-serif"), pixel_size(16), wrap(false), color(new Color("#000000")), bold(false),
+            : font_family("sans-serif"), pixel_size(16), wrap(false), color("#000000"), bold(false),
               italic(false), underline(false), strikeout(false), kerning(true),
               horizontal_alignment(HorizontalAlignment::LEFT), vertical_alignment(VerticalAlignment::TOP) {
-    }
-
-    Text::~Text() {
-        if (color) {
-            delete color;
-            color = nullptr;
-        }
     }
 
     void Text::Parse(const tinyxml2::XMLNode *textNode) {
@@ -60,6 +53,6 @@ namespace tinytmx {
         }
 
         if (textElement->FindAttribute("color"))
-            color = new Color(textElement->Attribute("color"));
+            color = tinytmx::Color(textElement->Attribute("color"));
     }
 }

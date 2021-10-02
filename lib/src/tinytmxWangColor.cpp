@@ -3,14 +3,12 @@
 
 namespace tinytmx {
 
-    WangColor::WangColor() : color(nullptr), tileID(0), probability(0) {
-
-    }
+    WangColor::WangColor() : color(), tileID(0), probability(0), properties(nullptr) {}
 
     WangColor::~WangColor() {
-        if (color) {
-            delete color;
-            color = nullptr;
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
         }
     }
 
@@ -19,7 +17,7 @@ namespace tinytmx {
         name = wangColorElement->Attribute("name");
 
         // Color
-        color = new Color(wangColorElement->Attribute("color"));
+        color = tinytmx::Color(wangColorElement->Attribute("color"));
 
         tileID = wangColorElement->IntAttribute("tile");
         probability = wangColorElement->FloatAttribute("probability");
@@ -27,7 +25,9 @@ namespace tinytmx {
         // Parse the properties if any.
         const tinyxml2::XMLElement *propertiesElement = wangColorElement->FirstChildElement("properties");
         if (propertiesElement) {
-            properties.Parse(propertiesElement);
+            properties = new PropertySet();
+            properties->Parse(propertiesElement);
         }
     }
+
 }

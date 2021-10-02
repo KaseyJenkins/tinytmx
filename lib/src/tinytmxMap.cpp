@@ -1,6 +1,5 @@
 #include "tinyxml2.h"
-//#include <stdio.h>
-//#include <iostream>
+
 
 #include "tinytmxMap.hpp"
 #include "tinytmxTileset.hpp"
@@ -18,9 +17,15 @@ namespace tinytmx {
               render_order(MapRenderOrder::TMX_RIGHT_DOWN), stagger_axis(MapStaggerAxis::TMX_SA_NONE),
               stagger_index(MapStaggerIndex::TMX_SI_NONE), width(0), height(0),
               tile_width(0), tile_height(0), next_layer_id(0), next_object_id(0), hexside_length(0),
-              compression_level(-1), is_infinite(false), has_error(false), error_code(0) {}
+              compression_level(-1), is_infinite(false), has_error(false), error_code(0), properties(nullptr) {}
 
     Map::~Map() {
+
+        // Delete 'properties'
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
 
         // Iterate through all of the tilesets and delete each of them.
         for (auto tileset: tilesets) {
@@ -199,7 +204,9 @@ namespace tinytmx {
         for (tinyxml2::XMLNode *node = mapElem->FirstChild(); node != nullptr; node = node->NextSibling()) {
             // Read the map properties.
             if (std::strcmp(node->Value(), "properties") == 0) {
-                properties.Parse(node);
+                properties = new PropertySet();
+                properties->Parse(node);
+                //properties.Parse(node);
             }
 
             // Iterate through all of the tileset elements.

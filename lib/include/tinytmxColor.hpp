@@ -25,11 +25,15 @@ namespace tinytmx
         /// Initialize the Color from a string hexadecimal representation in the format "#AARRGGBB" or "#RRGGBB".
         explicit Color(const std::string& str);
 
-        /// Default copy constructor.
+        /// Default copy ctor.
         Color(const Color&) = default;
-
-        /// Default asignment operator.
+        /// Default copy asignment.
         Color& operator=(const Color&) = default;
+
+        /// Default move ctor.
+        Color(Color&&) = default;
+        /// Default move assignment.
+        Color& operator=(Color&&) = default;
 
         /// Check if two colors have the exact same four components.
         bool operator==(const Color& o) const { return color == o.color; }

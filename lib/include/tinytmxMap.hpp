@@ -6,7 +6,11 @@
 #include <string>
 #include <memory>
 
-#include "tinytmxPropertySet.hpp"
+#include "tinytmxColor.hpp"
+
+namespace tinyxml2 {
+    class XMLNode;
+}
 
 namespace tinytmx {
 
@@ -16,6 +20,7 @@ namespace tinytmx {
     class ObjectGroup;
     class GroupLayer;
     class Tileset;
+    class PropertySet;
 
     //-------------------------------------------------------------------------
     /// Error in handling of the Map class.
@@ -226,7 +231,7 @@ namespace tinytmx {
         [[nodiscard]] uint8_t GetErrorCode() const { return error_code; }
 
         /// Get the property set.
-        [[nodiscard]] const tinytmx::PropertySet &GetProperties() const { return properties; }
+        [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
 
     private:
 
@@ -264,7 +269,7 @@ namespace tinytmx {
         uint8_t error_code;
         std::string error_text;
 
-        tinytmx::PropertySet properties;
+        tinytmx::PropertySet* properties;
 
         // Parse a 'map' node.
         void Parse(tinyxml2::XMLNode *mapNode);

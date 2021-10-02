@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "tinytmxColor.hpp"
 
 namespace tinyxml2 {
     class XMLNode;
@@ -11,7 +12,6 @@ namespace tinyxml2 {
 namespace tinytmx
 {
 
-    class Color;
     //--------------------------------------------------------------------------
     /// Enum to denote Horizontal Alignment of Text
     //--------------------------------------------------------------------------
@@ -41,7 +41,6 @@ namespace tinytmx
     public:
         /// Construct text with the given options.
         Text();
-        ~Text();
 
         /// Parse the text node.
         void Parse(const tinyxml2::XMLNode *textNode);
@@ -50,7 +49,7 @@ namespace tinytmx
         [[nodiscard]] const std::string& GetFontFamily() const noexcept { return font_family; }
         [[nodiscard]] int GetPixelSize() const noexcept { return pixel_size; }
         [[nodiscard]] bool Wraps() const noexcept { return wrap; }
-        [[nodiscard]] const Color* GetColor() const noexcept { return color; }
+        [[nodiscard]] const Color& GetColor() const noexcept { return color; }
         [[nodiscard]] bool IsBold() const noexcept { return bold; }
         [[nodiscard]] bool IsItalic() const noexcept { return italic; }
         [[nodiscard]] bool IsUnderline() const noexcept { return underline; }
@@ -64,7 +63,7 @@ namespace tinytmx
         std::string font_family;
         int pixel_size;
         bool wrap;
-        Color* color;
+        tinytmx::Color color;
         bool bold;
         bool italic;
         bool underline;
