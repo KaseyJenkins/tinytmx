@@ -67,6 +67,7 @@ namespace tinytmx
         float GetRot() const { return rotation; }
 
         /// Get the Global ID of the tile associated with this object.
+        /// This is a raw value, hence GetTile->gid should be used instead.
         unsigned GetGid() const { return gid; }
 
         /// Get the ID of this object.

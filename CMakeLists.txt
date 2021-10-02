@@ -12,11 +12,6 @@ add_library(project_warnings INTERFACE)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
-if(TINYTMX_ENABLE_GOOGLE_TESTING)
-    message(STATUS "Building Google Tests.")
-    add_subdirectory(tests/google_tests)
-endif()
-
 # Build the targets
 add_subdirectory(lib)
 
