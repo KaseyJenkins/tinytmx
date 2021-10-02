@@ -69,7 +69,8 @@ namespace tinytmx {
         // Parse the properties if any.
         const tinyxml2::XMLNode *propertiesNode = groupLayerElem->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
     }
 

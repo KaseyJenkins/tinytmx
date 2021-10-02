@@ -18,10 +18,15 @@ namespace tinytmx {
             : x(0), y(0), width(0), height(0), gid(0),
               id(0), rotation(0.0f), visible(true),
               ellipse(nullptr), point(nullptr), polygon(nullptr), polyline(nullptr), text(nullptr),
-              mapTile(nullptr), properties(), objectType(tinytmx::ObjectType::TMX_OT_UNDEFINED),
+              mapTile(nullptr), properties(nullptr), objectType(tinytmx::ObjectType::TMX_OT_UNDEFINED),
               isTemplate(false), tileset(nullptr) {}
 
     Object::~Object() {
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
+
         if (ellipse != nullptr) {
             delete ellipse;
             ellipse = nullptr;
@@ -191,7 +196,9 @@ namespace tinytmx {
         // Read the properties of the object.
         const tinyxml2::XMLNode *propertiesNode = objectNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            delete properties;
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
 
     }

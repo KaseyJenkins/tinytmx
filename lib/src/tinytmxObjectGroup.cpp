@@ -60,7 +60,8 @@ namespace tinytmx {
         // Read the properties.
         const tinyxml2::XMLNode *propertiesNode = objectGroupNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
 
         // Iterate through all of the object elements.

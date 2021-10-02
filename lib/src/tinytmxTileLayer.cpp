@@ -78,7 +78,8 @@ namespace tinytmx {
         // Read the properties.
         const tinyxml2::XMLNode *propertiesNode = tileLayerNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
 
 //        // Allocate memory for reading the tiles.

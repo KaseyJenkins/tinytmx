@@ -34,22 +34,22 @@ namespace tinytmx {
         void Parse(const tinyxml2::XMLNode *wangsetNode);
 
         /// Get the name of the wangset.
-        const std::string &GetName() const { return name; }
+        [[nodiscard]] const std::string &GetName() const { return name; }
 
         /// Get the tile ID of the tile representing this wangset.
-        int GetTileId() const { return tileID; }
+        [[nodiscard]] int GetTileId() const { return tileID; }
 
 //        /// Get the type.
 //        tinytmx::WangSetType GetWangSetType() const { return wangSetType; }
 
         /// Returns the whole wangtile collection.
-        const std::vector< tinytmx::WangTile *> &GetWangTiles() const { return wangtiles; }
+        [[nodiscard]] const std::vector< tinytmx::WangTile *> &GetWangTiles() const { return wangtiles; }
 
         /// Returns the whole wangtile collection.
-        const std::vector< tinytmx::WangColor *> &GetWangColor() const { return wangcolors; }
+        [[nodiscard]] const std::vector< tinytmx::WangColor *> &GetWangColor() const { return wangcolors; }
 
         /// Get a set of properties regarding the wangset.
-        const tinytmx::PropertySet &GetProperties() const { return properties; }
+        [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
 
     private:
         std::string name;
@@ -59,7 +59,7 @@ namespace tinytmx {
         std::vector<tinytmx::WangTile*> wangtiles;
         std::vector<tinytmx::WangColor*> wangcolors;
 
-        tinytmx::PropertySet properties;
+        tinytmx::PropertySet* properties;
     };
 }
 

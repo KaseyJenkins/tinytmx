@@ -38,19 +38,19 @@ namespace tinytmx {
         void Parse(const tinyxml2::XMLNode *objectGroupNode) override;
 
         /// Get a single object.
-        const tinytmx::Object *GetObject(int index) const { return objects.at(index); }
+        [[nodiscard]] const tinytmx::Object *GetObject(int index) const { return objects.at(index); }
 
         /// Get the number of objects in the list.
-        auto GetNumObjects() const { return objects.size(); }
+        [[nodiscard]] auto GetNumObjects() const { return objects.size(); }
 
         /// Get the color used to display the objects in this group.
-        const tinytmx::Color& GetColor() const { return color; }
+        [[nodiscard]] const tinytmx::Color& GetColor() const { return color; }
 
         /// Get the whole list of objects.
-        const std::vector<tinytmx::Object *> &GetObjects() const { return objects; }
+        [[nodiscard]] const std::vector<tinytmx::Object *> &GetObjects() const { return objects; }
 
         /// Get the draworder.
-        tinytmx::DrawOrder GetDrawOrder() const { return draw_order; }
+        [[nodiscard]] tinytmx::DrawOrder GetDrawOrder() const { return draw_order; }
 
     private:
         tinytmx::Color color; // defaults to gray (“#a0a0a4”)

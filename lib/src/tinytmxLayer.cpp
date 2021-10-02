@@ -26,7 +26,7 @@ namespace tinytmx {
                  bool _visible, LayerType _layerType)
             : map(_map), tile(nullptr), name(std::move(_name)), ID(0), x(_x), y(_y), width(_width), height(_height), opacity(_opacity),
               visible(_visible), tint_color(0), offsetX(0), offsetY(0), zOrder(nextParseOrder), parseOrder(nextParseOrder), layerType(_layerType),
-              properties() {
+              properties(nullptr) {
         ++nextParseOrder;
     }
 
@@ -36,8 +36,15 @@ namespace tinytmx {
                  uint32_t _height, float _opacity, bool _visible, LayerType _layerType)
             : map(_map), tile(_tile), name(std::move(_name)), ID(0), x(_x), y(_y), width(_width), height(_height), opacity(_opacity),
               visible(_visible), tint_color(0), offsetX(0), offsetY(0), zOrder(nextParseOrder), parseOrder(nextParseOrder), layerType(_layerType),
-              properties() {
+              properties(nullptr) {
         ++nextParseOrder;
+    }
+
+    Layer::~Layer() {
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
     }
 
 }

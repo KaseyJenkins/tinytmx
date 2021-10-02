@@ -29,13 +29,13 @@ namespace tinytmx
         void AddChild(tinytmx::Layer* childLayer);
 
         /// Get a Child Layer.
-        tinytmx::Layer* GetChild(int index) const;
+        [[nodiscard]] tinytmx::Layer* GetChild(int index) const;
 
         /// Get all Child layers.
-        std::vector<tinytmx::Layer*> GetChildren() const noexcept;
+        [[nodiscard]] std::vector<tinytmx::Layer*> GetChildren() const noexcept;
 
         /// Get the number of Child Layers.
-        auto GetNumChildren() const noexcept;
+        [[nodiscard]] auto GetNumChildren() const noexcept;
 
     private:
         std::vector<tinytmx::Layer*> children;

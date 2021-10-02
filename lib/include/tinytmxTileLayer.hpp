@@ -91,21 +91,21 @@ namespace tinytmx
 //        const tinytmx::MapTile& GetTile(int index) const { return tile_map[index]; }
 
         /// Get the parallax.
-        const tinytmx::Vector2f& GetParallax() const { return parallax; }
+        [[nodiscard]] const tinytmx::Vector2f& GetParallax() const { return parallax; }
 
         /// Get the type of encoding that was used for parsing the tile layer data.
         /// See: TileLayerEncodingType
-        tinytmx::TileLayerEncodingType GetEncoding() const { return encoding; }
+        [[nodiscard]] tinytmx::TileLayerEncodingType GetEncoding() const { return encoding; }
 
         /// Get the type of compression that was used for parsing the tile layer data.
         /// See: TileLayerCompressionType
-        tinytmx::TileLayerCompressionType GetCompression() const { return compression; }
+        [[nodiscard]] tinytmx::TileLayerCompressionType GetCompression() const { return compression; }
 
         /// Get the chunks for the infinite map.
-        const std::vector<tinytmx::Chunk *>& GetChunks() const { return chunks; }
+        [[nodiscard]] const std::vector<tinytmx::Chunk *>& GetChunks() const { return chunks; }
 
         /// Get the data tile for the finite map.
-        const tinytmx::DataTileLayerHolder* GetDataTileFiniteMap () const { return  data_tile_finite_map; }
+        [[nodiscard]] const tinytmx::DataTileLayerHolder* GetDataTileFiniteMap () const { return  data_tile_finite_map; }
 
 
     private:

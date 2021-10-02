@@ -28,7 +28,7 @@ namespace tinytmx
 
         /// Returns a variable containing the information
         /// about the image of the ImageLayer.
-        const tinytmx::Image* GetImage() const { return image; }
+        [[nodiscard]] const tinytmx::Image* GetImage() const { return image; }
 
     private:
         tinytmx::Image* image;
