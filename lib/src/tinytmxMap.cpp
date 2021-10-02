@@ -12,12 +12,24 @@
 
 namespace tinytmx {
     Map::Map()
-            : background_color(), version(0.0f),
+            : has_error(false),
+              is_infinite(false),
+              error_code(0),
+              version(0.0f),
+              background_color(),
               orientation(MapOrientation::TMX_MO_ORTHOGONAL),
-              render_order(MapRenderOrder::TMX_RIGHT_DOWN), stagger_axis(MapStaggerAxis::TMX_SA_NONE),
-              stagger_index(MapStaggerIndex::TMX_SI_NONE), width(0), height(0),
-              tile_width(0), tile_height(0), next_layer_id(0), next_object_id(0), hexside_length(0),
-              compression_level(-1), is_infinite(false), has_error(false), error_code(0), properties(nullptr) {}
+              render_order(MapRenderOrder::TMX_RIGHT_DOWN),
+              stagger_axis(MapStaggerAxis::TMX_SA_NONE),
+              stagger_index(MapStaggerIndex::TMX_SI_NONE),
+              width(0),
+              height(0),
+              tile_width(0),
+              tile_height(0),
+              next_layer_id(0),
+              next_object_id(0),
+              hexside_length(0),
+              compression_level(-1),
+              properties(nullptr) {}
 
     Map::~Map() {
 

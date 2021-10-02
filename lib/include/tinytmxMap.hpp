@@ -93,7 +93,6 @@ namespace tinytmx {
     public:
         // Delete copy constructor.
         Map(const Map &) = delete;
-
         // Delete assignment operator.
         Map &operator=(const Map &) = delete;
 
@@ -235,14 +234,14 @@ namespace tinytmx {
 
     private:
 
-        std::string tiled_version;
+        bool has_error;
+        bool is_infinite;
+        uint8_t error_code;
 
-        std::string file_name;
-        std::string file_path;
+        float version;
 
         tinytmx::Color background_color;
 
-        float version;
         tinytmx::MapOrientation orientation;
         tinytmx::MapRenderOrder render_order;
         tinytmx::MapStaggerAxis stagger_axis;
@@ -256,7 +255,8 @@ namespace tinytmx {
         int next_object_id; // FIXME: can be unsigned?
         uint32_t hexside_length;
         int compression_level;
-        bool is_infinite;
+
+        tinytmx::PropertySet* properties;
 
         std::vector<tinytmx::Layer *> layers;
         std::vector<tinytmx::TileLayer *> tile_layers;
@@ -265,11 +265,10 @@ namespace tinytmx {
         std::vector<tinytmx::GroupLayer *> group_layers;
         std::vector<tinytmx::Tileset *> tilesets;
 
-        bool has_error;
-        uint8_t error_code;
         std::string error_text;
-
-        tinytmx::PropertySet* properties;
+        std::string tiled_version;
+        std::string file_name;
+        std::string file_path;
 
         // Parse a 'map' node.
         void Parse(tinyxml2::XMLNode *mapNode);
