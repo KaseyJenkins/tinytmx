@@ -3,7 +3,14 @@
 
 namespace tinytmx {
     Terrain::Terrain() :
-            tileID(), properties() {
+            tileID(), properties(nullptr) {
+    }
+
+    Terrain::~Terrain() {
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
     }
 
 
@@ -18,7 +25,9 @@ namespace tinytmx {
         // Parse the properties if any.
         const tinyxml2::XMLNode *propertiesNode = terrainNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
     }
+
 }

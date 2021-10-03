@@ -52,14 +52,15 @@ namespace tinytmx {
         [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
 
     private:
-        std::string name;
         int tileID;
-       // WangSetType wangSetType; // FIXME probably not needed as it's not in the TMX Map Format documentation
+        // WangSetType wangSetType; // FIXME probably not needed as it's not in the TMX Map Format documentation
+
+        tinytmx::PropertySet* properties;
 
         std::vector<tinytmx::WangTile*> wangtiles;
         std::vector<tinytmx::WangColor*> wangcolors;
 
-        tinytmx::PropertySet* properties;
+        std::string name;
     };
 }
 

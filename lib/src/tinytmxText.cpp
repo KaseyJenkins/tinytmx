@@ -6,10 +6,17 @@
 
 namespace tinytmx {
     Text::Text()
-            : font_family("sans-serif"), pixel_size(16), wrap(false), color("#000000"), bold(false),
-              italic(false), underline(false), strikeout(false), kerning(true),
-              horizontal_alignment(HorizontalAlignment::LEFT), vertical_alignment(VerticalAlignment::TOP) {
-    }
+            : bold(false),
+              italic(false),
+              underline(false),
+              strikeout(false),
+              kerning(true),
+              wrap(false),
+              horizontal_alignment(HorizontalAlignment::LEFT),
+              vertical_alignment(VerticalAlignment::TOP),
+              pixel_size(16),
+              color("#000000"),
+              font_family("sans-serif") {}
 
     void Text::Parse(const tinyxml2::XMLNode *textNode) {
         const tinyxml2::XMLElement *textElement = textNode->ToElement();

@@ -17,24 +17,26 @@ namespace tinytmx {
     class Terrain {
     public:
         Terrain();
+        ~Terrain();
 
         /// Parse a terrain type node.
         void Parse(const tinyxml2::XMLNode *terrainNode);
 
         /// Get the name of the terrain type.
-        const std::string &GetName() const { return name; }
+        [[nodiscard]] const std::string &GetName() const { return name; }
 
         /// Get the local tile-id of the tile that represents the terrain type visually.
-        int GetTileID() const { return tileID; }
+        [[nodiscard]] int GetTileID() const { return tileID; }
 
         /// Get a set of properties re the terrain type.
-        const tinytmx::PropertySet &GetProperties() const { return properties; }
+        [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
 
     private:
-        std::string name;
         int tileID;
 
-        tinytmx::PropertySet properties;
+        tinytmx::PropertySet* properties;
+
+        std::string name;
     };
 }
 

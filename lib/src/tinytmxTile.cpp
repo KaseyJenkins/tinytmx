@@ -5,21 +5,37 @@
 
 namespace tinytmx {
     Tile::Tile() :
-            id(0), probability(0.0f), properties(), isAnimated(false), hasObjects(false), hasObjectGroup(false), objectGroup(nullptr),
-            totalDuration(0), image(nullptr) {
-    }
+            isAnimated(false),
+            hasObjects(false),
+            hasObjectGroup(false),
+            id(0),
+            totalDuration(0),
+            probability(0.0f),
+            objectGroup(nullptr),
+            image(nullptr),
+            properties(nullptr) {}
 
     Tile::Tile(int id) :
-            id(id), probability(0.0f), properties(), isAnimated(false), hasObjects(false), hasObjectGroup(false), objectGroup(nullptr),
-            totalDuration(0), image(nullptr) {
-    }
+            isAnimated(false),
+            hasObjects(false),
+            hasObjectGroup(false),
+            id(id),
+            totalDuration(0),
+            probability(0.0f),
+            objectGroup(nullptr),
+            image(nullptr),
+            properties(nullptr) {}
 
     Tile::~Tile() {
-        if (image) {
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
+        if (image != nullptr) {
             delete image;
             image = nullptr;
         }
-        if (objectGroup) {
+        if (objectGroup != nullptr) {
             delete objectGroup;
             objectGroup = nullptr;
         }
@@ -53,7 +69,8 @@ namespace tinytmx {
         // Parse the properties if any.
         const tinyxml2::XMLNode *propertiesNode = tileNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
 
         // Parse the animation if there is one.

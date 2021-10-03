@@ -21,7 +21,7 @@ namespace tinytmx
     class PropertySet;
 
 
-    enum class ObjectType {
+    enum class ObjectType : uint8_t {
         TMX_OT_UNDEFINED,
         TMX_OT_TILE,
         TMX_OT_ELLIPSE,
@@ -110,21 +110,24 @@ namespace tinytmx
         [[nodiscard]] bool IsTemplate() const { return isTemplate; }
 
     private:
-        std::string name;
-        std::string type;
+        /// @cond INTERNAL
+        bool isTemplate;
+        ObjectType objectType;
+        /// @endcond
+
+        bool visible;
+
+        int id;
 
         float x;
         float y;
         float width;
         float height;
+        float rotation;
         unsigned gid;
 
-        int id;
-
-        float rotation;
-        bool visible;
-
-        std::string t_template;
+        /// @cond INTERNAL
+        /// @endcond
 
         tinytmx::Ellipse *ellipse;
         tinytmx::Vector2f *point;
@@ -136,20 +139,16 @@ namespace tinytmx
 
         tinytmx::PropertySet* properties;
 
-
-        /// @cond INTERNAL
-
-        ObjectType objectType;
-        void setObjectType();
-
-        void ParseObject(const tinyxml2::XMLNode *objectNode, const tinytmx::Map *_map = nullptr);
-
-        bool isTemplate;
-
-        /// @endcond
-
         tinytmx::Tileset* tileset; // If a templated object uses a templated tileset...
 
+        std::string name;
+        std::string type;
+        std::string t_template;
+
+        /// @cond INTERNAL
+        void setObjectType();
+        void ParseObject(const tinyxml2::XMLNode *objectNode, const tinytmx::Map *_map = nullptr);
+        /// @endcond
     };
 }
 

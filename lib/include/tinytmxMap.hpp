@@ -25,7 +25,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     /// Error in handling of the Map class.
     //-------------------------------------------------------------------------
-    enum class MapError {
+    enum class MapError : uint8_t {
         /// A file could not be opened. (usually due to permission problems)
         TMX_COULDNT_OPEN = 0x01,
 
@@ -40,7 +40,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     /// The way the map is viewed.
     //-------------------------------------------------------------------------
-    enum class MapOrientation {
+    enum class MapOrientation : uint8_t {
         /// This map is an orthogonal map.
         TMX_MO_ORTHOGONAL = 0x01,
 
@@ -58,7 +58,7 @@ namespace tinytmx {
     /// The order in which tiles on tile layers are rendered.
     /// The default is TMX_RIGHT_DOWN.
     //-------------------------------------------------------------------------
-    enum class MapRenderOrder {
+    enum class MapRenderOrder : uint8_t {
         TMX_RIGHT_DOWN = 0x01,
         TMX_RIGHT_UP = 0x02,
         TMX_LEFT_DOWN = 0x03,
@@ -68,7 +68,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     /// For staggered and hexagonal maps, determines which axis ("x" or "y") is staggered.
     //-------------------------------------------------------------------------
-    enum class MapStaggerAxis {
+    enum class MapStaggerAxis : uint8_t {
         TMX_SA_NONE = 0x00,  // if the map is not hexagonal or staggered
         TMX_SA_X = 0x01,
         TMX_SA_Y = 0x02
@@ -78,7 +78,7 @@ namespace tinytmx {
     /// For staggered and hexagonal maps, determines whether
     /// the “even” or “odd” indexes along the staggered axis are shifted.
     //-------------------------------------------------------------------------
-    enum class MapStaggerIndex {
+    enum class MapStaggerIndex :uint8_t {
         TMX_SI_NONE = 0x00,  // if the map is not hexagonal
         TMX_SI_EVEN = 0x01,
         TMX_SI_ODD = 0x02
@@ -238,14 +238,14 @@ namespace tinytmx {
         bool is_infinite;
         uint8_t error_code;
 
-        float version;
-
-        tinytmx::Color background_color;
-
         tinytmx::MapOrientation orientation;
         tinytmx::MapRenderOrder render_order;
         tinytmx::MapStaggerAxis stagger_axis;
         tinytmx::MapStaggerIndex stagger_index;
+
+        float version;
+
+        tinytmx::Color background_color;
 
         uint32_t width;
         uint32_t height;

@@ -29,15 +29,6 @@ namespace tinytmx {
             id -= _tilesetFirstGid;
         }
 
-        /// Tileset id.
-        int tilesetId;
-
-        /// Id.
-        unsigned id;
-
-        /// Gid.
-        unsigned gid;
-
         /// True when the tile should be drawn flipped horizontally.
         bool flippedHorizontally;
 
@@ -46,6 +37,15 @@ namespace tinytmx {
 
         /// True when the tile should be drawn flipped diagonally.
         bool flippedDiagonally;
+
+        /// Tileset id.
+        int tilesetId;
+
+        /// Id.
+        unsigned id;
+
+        /// Gid.
+        unsigned gid;
     };
 }
 

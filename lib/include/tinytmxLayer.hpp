@@ -14,7 +14,7 @@ namespace tinytmx {
 
     class Tile;
 
-    enum class LayerType {
+    enum class LayerType : uint8_t {
         TMX_LAYERTYPE_TILE = 0X01,
         TMX_LAYERTYPE_OBJECTGROUP = 0X02,
         TMX_LAYERTYPE_IMAGE_LAYER = 0X04,
@@ -114,33 +114,34 @@ namespace tinytmx {
 
     protected:
         /// @cond INTERNAL
-        const tinytmx::Map *map;
-        const tinytmx::Tile *tile;
-        std::string name;
+        bool visible;
+        const tinytmx::LayerType layerType;
 
         uint32_t ID;
-
         int x;
         int y;
         uint32_t width;
         uint32_t height;
 
         float opacity;
-        bool visible;
 
-        tinytmx::Color tint_color;
 
         float offsetX;
         float offsetY;
 
         int zOrder;
         const int parseOrder;
+        static int nextParseOrder;
 
-        const tinytmx::LayerType layerType;
+        tinytmx::Color tint_color;
+
+        const tinytmx::Map *map;
+        const tinytmx::Tile *tile;
 
         tinytmx::PropertySet* properties;
 
-        static int nextParseOrder;
+        std::string name;
+
         /// @endcond
     };
 }

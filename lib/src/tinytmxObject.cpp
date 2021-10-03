@@ -5,6 +5,7 @@
 #include "tinytmxEllipse.hpp"
 #include "tinytmxText.hpp"
 #include "tinytmxTileset.hpp"
+#include "tinytmxPropertySet.hpp"
 
 #include <iostream>
 #include "tinytmxImage.hpp"
@@ -15,11 +16,18 @@
 
 namespace tinytmx {
     Object::Object()
-            : x(0), y(0), width(0), height(0), gid(0),
-              id(0), rotation(0.0f), visible(true),
+            : isTemplate(false),
+              objectType(tinytmx::ObjectType::TMX_OT_UNDEFINED),
+              visible(true),
+              id(0),
+              x(0),
+              y(0),
+              width(0),
+              height(0),
+              rotation(0.0f),
+              gid(0),
               ellipse(nullptr), point(nullptr), polygon(nullptr), polyline(nullptr), text(nullptr),
-              mapTile(nullptr), properties(nullptr), objectType(tinytmx::ObjectType::TMX_OT_UNDEFINED),
-              isTemplate(false), tileset(nullptr) {}
+              mapTile(nullptr), properties(nullptr), tileset(nullptr) {}
 
     Object::~Object() {
         if (properties != nullptr) {

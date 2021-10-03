@@ -3,17 +3,17 @@
 #include "tinytmxLayer.hpp"
 #include "tinytmxObjectGroup.hpp"
 #include "tinytmxObject.hpp"
-//#include "tinytmxMap.hpp"
 
 namespace tinytmx {
     ObjectGroup::ObjectGroup(const tinytmx::Map *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
-              color("#a0a0a4"), draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN) {
-    }
+              draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
+              color("#a0a0a4") {}
 
     ObjectGroup::ObjectGroup(const tinytmx::Tile *_tile, const tinytmx::Map *_map)
             : Layer(_tile, _map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
-              color("#a0a0a4"), draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN) {}
+              draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
+              color("#a0a0a4") {}
 
     ObjectGroup::~ObjectGroup() {
         for (auto obj: objects) {

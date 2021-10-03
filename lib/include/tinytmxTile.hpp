@@ -37,40 +37,40 @@ namespace tinytmx {
         void Parse(const tinyxml2::XMLNode *tileNode, const tinytmx::Map *_map);
 
         /// Get the Id. (relative to the tileset)
-        int GetId() const { return id; }
+        [[nodiscard]] int GetId() const { return id; }
 
         /// Returns true if the tile is animated (has one or more animation frames)
-        bool IsAnimated() const { return isAnimated; }
+        [[nodiscard]] bool IsAnimated() const { return isAnimated; }
 
         /// Returns the number of frames of the animation. If the tile is not animated, returns 0.
-        auto GetFrameCount() const { return frames.size(); }
+        [[nodiscard]] auto GetFrameCount() const { return frames.size(); }
 
         /// Returns the total duration of the animation, in milliseconds,
         /// or 0 if the tile is not animated.
-        unsigned int GetTotalDuration() const { return totalDuration; }
+        [[nodiscard]] unsigned int GetTotalDuration() const { return totalDuration; }
 
         /// Returns the tile image if defined.
-        const tinytmx::Image *GetImage() const { return image; }
+        [[nodiscard]] const tinytmx::Image *GetImage() const { return image; }
 
         /// Returns the object type of the tile.
-        const std::string& GetType() const { return type; }
+        [[nodiscard]] const std::string& GetType() const { return type; }
 
         /// Returns the frames of the animation.
-        const std::vector<AnimationFrame> &GetFrames() const { return frames; }
+        [[nodiscard]] const std::vector<AnimationFrame> &GetFrames() const { return frames; }
 
         /// Get a set of properties regarding the tile.
-        const tinytmx::PropertySet &GetProperties() const { return properties; }
+        [[nodiscard]] const tinytmx::PropertySet *GetProperties() const { return properties; }
 
         //// Get the object group, which contains additional tile properties
-        const tinytmx::ObjectGroup *GetObjectGroup() const { return objectGroup; }
+        [[nodiscard]] const tinytmx::ObjectGroup *GetObjectGroup() const { return objectGroup; }
 
         /// Returns true if the tile has an objectgroup.
-        bool HasObjectGroup() const { return hasObjectGroup; }
+        [[nodiscard]] bool HasObjectGroup() const { return hasObjectGroup; }
         /// Returns true if tile has Collision Objects
-        bool HasObjects() const { return hasObjects; }
+        [[nodiscard]] bool HasObjects() const { return hasObjects; }
 
         /// Get probability.
-        float GetProbability() const { return probability; }
+        [[nodiscard]] float GetProbability() const { return probability; }
 
         // FIXME Do we really need these convenience functions?
 
@@ -103,22 +103,23 @@ namespace tinytmx {
 
 
     private:
-        int id;
-
-        float probability;
-
-        tinytmx::PropertySet properties;
 
         bool isAnimated;
         bool hasObjects;
         bool hasObjectGroup;
-        tinytmx::ObjectGroup *objectGroup;
+
+        int id;
         unsigned int totalDuration;
-        std::vector<AnimationFrame> frames;
+        float probability;
+
+        tinytmx::ObjectGroup *objectGroup;
         tinytmx::Image *image;
+
+        std::vector<AnimationFrame> frames;
+        std::vector<int> terrain;
         std::string type;
 
-        std::vector<int> terrain;
+        tinytmx::PropertySet* properties;
 
     };
 

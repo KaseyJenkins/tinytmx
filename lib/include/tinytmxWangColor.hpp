@@ -39,12 +39,11 @@ namespace tinytmx {
         [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
 
     private:
-        std::string name;
-        tinytmx::Color color;
         int tileID;
         float probability;
-
+        tinytmx::Color color;
         tinytmx::PropertySet* properties;
+        std::string name;
     };
 
 }

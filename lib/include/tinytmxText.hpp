@@ -15,22 +15,20 @@ namespace tinytmx
     //--------------------------------------------------------------------------
     /// Enum to denote Horizontal Alignment of Text
     //--------------------------------------------------------------------------
-    enum class HorizontalAlignment
-    {
-      LEFT,
-      HCENTER,
-      RIGHT,
-      JUSTIFY
+    enum class HorizontalAlignment : uint8_t {
+        LEFT,
+        HCENTER,
+        RIGHT,
+        JUSTIFY
     };
 
     //--------------------------------------------------------------------------
     /// Enum to denote Vertical Alignment of Text
     //--------------------------------------------------------------------------
-    enum class VerticalAlignment
-    {
-      TOP,
-      VCENTER,
-      BOTTOM
+    enum class VerticalAlignment : uint8_t {
+        TOP,
+        VCENTER,
+        BOTTOM
     };
 
     //-------------------------------------------------------------------------
@@ -59,18 +57,22 @@ namespace tinytmx
         [[nodiscard]] VerticalAlignment GetVerticalAlignment() const noexcept { return vertical_alignment; }
 
     private:
-        std::string contents;
-        std::string font_family;
-        int pixel_size;
-        bool wrap;
-        tinytmx::Color color;
         bool bold;
         bool italic;
         bool underline;
         bool strikeout;
         bool kerning;
+        bool wrap;
+
         HorizontalAlignment horizontal_alignment;
         VerticalAlignment vertical_alignment;
+
+        int pixel_size;
+
+        tinytmx::Color color;
+
+        std::string contents;
+        std::string font_family;
     };
 }
 

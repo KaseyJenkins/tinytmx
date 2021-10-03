@@ -14,37 +14,41 @@
 #include "tinytmxWangSetArray.hpp"
 #include "tinytmxWangSet.hpp"
 
-using std::vector;
-using std::string;
 
 namespace tinytmx {
     Tileset::Tileset()
-            : first_gid(0), name(), tile_width(0), tile_height(0), spacing(0), margin(0), tile_count(0), columns(0),
+            : first_gid(0), tile_width(0), tile_height(0), spacing(0), margin(0), tile_count(0), columns(0),
               object_alignment(tinytmx::ObjectAlignment::TMX_OA_UNSPECIFIED), grid(new Grid()), tileOffset(nullptr), image(nullptr),
-              transformations(nullptr) {
+              transformations(nullptr), properties(nullptr) {
     }
 
     Tileset::~Tileset() {
 
+        // Delete the properties if any.
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
+
         // Delete the grid from memory if allocated.
-        if (grid) {
+        if (grid != nullptr) {
             delete grid;
             grid = nullptr;
         }
 
         // Delete the tile offset from memory if allocated.
-        if (tileOffset) {
+        if (tileOffset != nullptr) {
             delete tileOffset;
             tileOffset = nullptr;
         }
 
         // Delete the image from memory if allocated.
-        if (image) {
+        if (image != nullptr) {
             delete image;
             image = nullptr;
         }
 
-        if (transformations) {
+        if (transformations != nullptr) {
             delete transformations;
             transformations = nullptr;
         }
@@ -186,7 +190,8 @@ namespace tinytmx {
         // Parse the properties if any.
         const tinyxml2::XMLNode *propertiesNode = tilesetNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties.Parse(propertiesNode);
+            properties = new PropertySet();
+            properties->Parse(propertiesNode);
         }
     }
 

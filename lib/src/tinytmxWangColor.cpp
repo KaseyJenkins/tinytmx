@@ -3,7 +3,7 @@
 
 namespace tinytmx {
 
-    WangColor::WangColor() : color(), tileID(0), probability(0), properties(nullptr) {}
+    WangColor::WangColor() : tileID(0), probability(0), color(), properties(nullptr) {}
 
     WangColor::~WangColor() {
         if (properties != nullptr) {

@@ -53,9 +53,9 @@ namespace tinytmx {
         [[nodiscard]] tinytmx::DrawOrder GetDrawOrder() const { return draw_order; }
 
     private:
+        DrawOrder draw_order;
         tinytmx::Color color; // defaults to gray (“#a0a0a4”)
         std::vector<tinytmx::Object *> objects;
-        DrawOrder draw_order;
     };
 }
 

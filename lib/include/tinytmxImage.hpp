@@ -36,10 +36,10 @@ namespace tinytmx {
 
     private:
         // std::string format - for when it's possible to use Tiled to create maps with embedded image data
-        std::string source;
         uint32_t width;
         uint32_t height;
         tinytmx::Color transparent_color;
+        std::string source;
     };
 }
 
