@@ -17,8 +17,8 @@ namespace tinyxml2 {
 namespace tinytmx
 {
     class Map;
-    class Chunk;
-    class DataTileLayerHolder;
+//    class Chunk;
+    class DataChunkTile;
 
     //-------------------------------------------------------------------------
     /// Type used for the encoding of the tile layer data.
@@ -42,19 +42,13 @@ namespace tinytmx
     };
 
     //-------------------------------------------------------------------------
-    /// Used for storing information about the tile ids for every tile layer.
-    /// This class also has a property set.
+    /// Used to store the information about the tile ids for every tile layer.
     //-------------------------------------------------------------------------
     class TileLayer : public tinytmx::Layer
     {
     private:
 
     public:
-
-        // Delete copy constructor.
-        TileLayer(const TileLayer&) = delete;
-        // Delete assignment constructor.
-        TileLayer& operator=(const TileLayer&) = delete;
 
         /// Construct a TileLayer on the given map.
         explicit TileLayer(const tinytmx::Map *_map);
@@ -102,10 +96,12 @@ namespace tinytmx
         [[nodiscard]] tinytmx::TileLayerCompressionType GetCompression() const { return compression; }
 
         /// Get the chunks for the infinite map.
-        [[nodiscard]] const std::vector<tinytmx::Chunk *>& GetChunks() const { return chunks; }
+        [[nodiscard]] const std::vector<tinytmx::DataChunkTile *>& GetChunks() const { return chunks; }
+        /// Get the chunk at a particular index.
+        [[nodiscard]] const tinytmx::DataChunkTile* GetChunk(std::vector<tinytmx::DataChunkTile *>::size_type index) const { return chunks.at(index); }
 
         /// Get the data tile for the finite map.
-        [[nodiscard]] const tinytmx::DataTileLayerHolder* GetDataTileFiniteMap () const { return  data_tile_finite_map; }
+        [[nodiscard]] const tinytmx::DataChunkTile* GetDataTileFiniteMap () const { return  data_tile_finite_map; }
 
 
     private:
@@ -122,8 +118,8 @@ namespace tinytmx
         tinytmx::TileLayerEncodingType encoding;
         tinytmx::TileLayerCompressionType compression;
 
-        std::vector<tinytmx::Chunk *> chunks;
-        tinytmx::DataTileLayerHolder *data_tile_finite_map;
+        std::vector<tinytmx::DataChunkTile *> chunks;
+        tinytmx::DataChunkTile *data_tile_finite_map;
 
     };
 }

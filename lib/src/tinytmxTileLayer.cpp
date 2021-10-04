@@ -20,9 +20,9 @@
 #include "tinytmxUtil.hpp"
 #include "tinytmxMap.hpp"
 #include "tinytmxTileset.hpp"
-#include "tinytmxChunk.hpp"
+//#include "tinytmxChunk.hpp"
 
-#include "tinytmxDataTileLayerHolder.hpp"
+#include "tinytmxDataChunkTile.hpp"
 
 namespace tinytmx {
     TileLayer::TileLayer(const Map *_map)
@@ -115,25 +115,34 @@ namespace tinytmx {
             const tinyxml2::XMLElement *chunkElem = dataElem->FirstChildElement("chunk");
             // Iterate through all the chunks.
             while (chunkElem) {
-                auto chunk = new Chunk();
-                chunk->m_x = chunkElem->IntAttribute("x");
-                chunk->m_y = chunkElem->IntAttribute("y");
-                chunk->width = chunkElem->UnsignedAttribute("width");
-                chunk->height = chunkElem->UnsignedAttribute("height");
+                auto chunk = new DataChunkTile(
+                        chunkElem->UnsignedAttribute("width"),
+                        chunkElem->UnsignedAttribute("height"),
+                        chunkElem->IntAttribute("x"),
+                        chunkElem->IntAttribute("y")
+                        );
+//                chunk->m_x = chunkElem->IntAttribute("x");
+//                chunk->m_y = chunkElem->IntAttribute("y");
+//                chunk->width = chunkElem->UnsignedAttribute("width");
+//                chunk->height = chunkElem->UnsignedAttribute("height");
 
-                chunk->tile_map = new MapTile[chunk->width * chunk->height];
+//                chunk->tile_map = new MapTile[chunk->width * chunk->height];
 
                 switch (encoding) {
                     case TileLayerEncodingType::TMX_ENCODING_XML:
-                        ParseXML(chunkElem, chunk->tile_map);
+                        ParseXML(chunkElem, chunk->GetMapTile());
                         break;
 
                     case TileLayerEncodingType::TMX_ENCODING_BASE64:
-                        ParseBase64(chunkElem->GetText(), chunk->width, chunk->height, chunk->tile_map);
+                        ParseBase64(chunkElem->GetText(),
+                                    chunk->GetWidth(),
+                                    chunk->GetHeight(),
+                                    chunk->GetMapTile());
                         break;
 
                     case TileLayerEncodingType::TMX_ENCODING_CSV:
-                        ParseCSV(chunkElem->GetText(), chunk->tile_map);
+                        ParseCSV(chunkElem->GetText(),
+                                 chunk->GetMapTile());
                         break;
                 }
 
@@ -146,23 +155,27 @@ namespace tinytmx {
         } else {
             // Allocate memory for reading the tiles.
             //tile_map = new MapTile[width * height];
-            data_tile_finite_map = new DataTileLayerHolder(width, height);
+            data_tile_finite_map = new DataChunkTile(width, height);
 
             // Decode.
             switch (encoding) {
                 case TileLayerEncodingType::TMX_ENCODING_XML:
                     //ParseXML(dataElem, tile_map);
-                    ParseXML(dataElem, data_tile_finite_map->tile_map);
+                    ParseXML(dataElem, data_tile_finite_map->GetMapTile());
                     break;
 
                 case TileLayerEncodingType::TMX_ENCODING_BASE64:
                     //ParseBase64(dataElem->GetText(), width, height, tile_map);
-                    ParseBase64(dataElem->GetText(), width, height, data_tile_finite_map->tile_map);
+                    ParseBase64(dataElem->GetText(),
+                                data_tile_finite_map->GetWidth(),
+                                data_tile_finite_map->GetHeight(),
+                                data_tile_finite_map->GetMapTile());
                     break;
 
                 case TileLayerEncodingType::TMX_ENCODING_CSV:
                     //ParseCSV(dataElem->GetText(), tile_map);
-                    ParseCSV(dataElem->GetText(), data_tile_finite_map->tile_map);
+                    ParseCSV(dataElem->GetText(),
+                             data_tile_finite_map->GetMapTile());
                     break;
             }
         }

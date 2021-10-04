@@ -13,13 +13,20 @@ namespace tinyxml2 {
 namespace tinytmx {
     class Property;
 
-    //-----------------------------------------------------------------------------
-    /// This class contains a map of properties.
-    //-----------------------------------------------------------------------------
     class PropertySet {
     public:
-        PropertySet();
 
+        // Delete copy constructor.
+        PropertySet(const PropertySet &) = delete;
+        // Delete move constructor.
+        PropertySet(PropertySet &&) = delete;
+        // Delete copy assignment operator.
+        PropertySet &operator=(const PropertySet &) = delete;
+        // Delete move assignment operator.
+        PropertySet &operator=(PropertySet &&) = delete;
+
+
+        PropertySet();
         ~PropertySet();
 
         /// Parse a node containing all the property nodes.

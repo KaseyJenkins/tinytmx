@@ -31,9 +31,12 @@ namespace tinytmx {
 
         // Delete copy constructor.
         Layer(const Layer &) = delete;
-
-        // Delete assignment constructor.
+        // Delete move constructor.
+        Layer(Layer &&) = delete;
+        // Delete copy assignment operator.
         Layer &operator=(const Layer &) = delete;
+        // Delete move assignment operator.
+        Layer &operator=(Layer &&) = delete;
 
         /// Construct a new Layer used by a map's objectgroup
         Layer(const tinytmx::Map *_map, std::string _name, int _x, int _y,

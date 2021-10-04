@@ -27,12 +27,11 @@ namespace tinytmx
 
         /// Default copy ctor.
         Color(const Color&) = default;
-        /// Default copy asignment.
+        /// Default copy asignment operator.
         Color& operator=(const Color&) = default;
-
         /// Default move ctor.
         Color(Color&&) = default;
-        /// Default move assignment.
+        /// Default move assignment operator.
         Color& operator=(Color&&) = default;
 
         /// Check if two colors have the exact same four components.

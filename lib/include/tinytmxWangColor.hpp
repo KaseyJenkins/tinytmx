@@ -17,6 +17,17 @@ namespace tinytmx {
 
     class WangColor {
     public:
+
+        // Delete copy constructor.
+        WangColor(const WangColor &) = delete;
+        // Delete move constructor.
+        WangColor(WangColor &&) = delete;
+        // Delete copy assignment operator.
+        WangColor &operator=(const WangColor &) = delete;
+        // Delete move assignment operator.
+        WangColor &operator=(WangColor &&) = delete;
+
+
         WangColor();
         ~WangColor();
 

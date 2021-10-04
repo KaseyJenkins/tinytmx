@@ -39,6 +39,15 @@ namespace tinytmx
     class Object
     {
     public:
+        // Delete copy constructor.
+        Object(const Object &) = delete;
+        // Delete move constructor.
+        Object(Object &&) = delete;
+        // Delete copy assignment operator.
+        Object &operator=(const Object &) = delete;
+        // Delete move assignment operator.
+        Object &operator=(Object &&) = delete;
+
         Object();
         ~Object();
 

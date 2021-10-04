@@ -93,8 +93,12 @@ namespace tinytmx {
     public:
         // Delete copy constructor.
         Map(const Map &) = delete;
+        // Delete move constructor.
+        Map(Map &&) = delete;
         // Delete assignment operator.
         Map &operator=(const Map &) = delete;
+        // Delete move assignment operator.
+        Map &operator=(Map &&) = delete;
 
         Map();
         ~Map();

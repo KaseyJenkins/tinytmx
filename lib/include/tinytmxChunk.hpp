@@ -2,7 +2,7 @@
 #define TINYTMX_TINYTMXCHUNK_HPP
 
 #include "tinytmxMapTile.hpp"
-#include "tinytmxDataTileLayerHolder.hpp"
+#include "tinytmxDataChunkTile.hpp"
 
 namespace tinytmx {
 

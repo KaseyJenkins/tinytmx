@@ -45,6 +45,16 @@ namespace tinytmx
     class Tileset 
     {
     public:
+
+        // Delete copy constructor.
+        Tileset(const Tileset &) = delete;
+        // Delete move constructor.
+        Tileset(Tileset &&) = delete;
+        // Delete copy assignment operator.
+        Tileset &operator=(const Tileset &) = delete;
+        // Delete move assignment operator.
+        Tileset &operator=(Tileset &&) = delete;
+
         Tileset();
         ~Tileset();
 
@@ -130,7 +140,6 @@ namespace tinytmx
         std::vector<tinytmx::WangSet*> wangsets;
 
         std::string name;
-
 
     };
 }

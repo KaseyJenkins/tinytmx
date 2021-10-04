@@ -26,6 +26,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     class ObjectGroup : public tinytmx::Layer {
     public:
+
         /// Construct a new ObjectGroup
         explicit ObjectGroup(const tinytmx::Map *_map);
 

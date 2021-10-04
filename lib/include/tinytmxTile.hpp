@@ -26,11 +26,21 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     class Tile {
     public:
+
+
+        // Delete copy constructor.
+        Tile(const Tile &) = delete;
+        // Delete move constructor.
+        Tile(Tile &&) = delete;
+        // Delete copy assignment operator.
+        Tile &operator=(const Tile &) = delete;
+        // Delete move assignment operator.
+        Tile &operator=(Tile &&) = delete;
+
+
         /// Construct a new tile with the given id.
         explicit Tile(int id);
-
         Tile();
-
         ~Tile();
 
         /// Parse a tile node.

@@ -12,10 +12,19 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     /// A class to contain the information about every terrain in the
     /// tileset/terraintypes element.
-    /// DEPRECATED since 1.5.
+    /// FIXME DEPRECATED since 1.5 (soon to most likely be deleted)
     //-------------------------------------------------------------------------
     class Terrain {
     public:
+        // Delete copy constructor.
+        Terrain(const Terrain &) = delete;
+        // Delete move constructor.
+        Terrain(Terrain &&) = delete;
+        // Delete copy assignment operator.
+        Terrain &operator=(const Terrain &) = delete;
+        // Delete move assignment operator.
+        Terrain &operator=(Terrain &&) = delete;
+        
         Terrain();
         ~Terrain();
 

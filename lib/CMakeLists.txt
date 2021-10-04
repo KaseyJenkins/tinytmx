@@ -24,9 +24,9 @@ if (BUILD_SHARED_LIBS)
 endif ()
 
 target_sources(tinytmx
-        PRIVATE src/tinytmxChunk.cpp
+#        PRIVATE src/tinytmxChunk.cpp
         PRIVATE src/tinytmxColor.cpp
-        PRIVATE src/tinytmxDataTileLayerHolder.cpp
+        PRIVATE src/tinytmxDataChunkTile.cpp
         PRIVATE src/tinytmxEllipse.cpp
         PRIVATE src/tinytmxGrid.cpp
         PRIVATE src/tinytmxGroupLayer.cpp

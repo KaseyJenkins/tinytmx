@@ -27,6 +27,16 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     class WangSet {
     public:
+
+        // Delete copy constructor.
+        WangSet(const WangSet &) = delete;
+        // Delete move constructor.
+        WangSet(WangSet &&) = delete;
+        // Delete copy assignment operator.
+        WangSet &operator=(const WangSet &) = delete;
+        // Delete move assignment operator.
+        WangSet &operator=(WangSet &&) = delete;
+
         WangSet();
         ~WangSet();
 
