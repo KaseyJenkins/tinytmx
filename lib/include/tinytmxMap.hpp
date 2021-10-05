@@ -119,22 +119,23 @@ namespace tinytmx {
         /// Get the background color of the map file. If unset, return a fully transparent color.
         [[nodiscard]] const tinytmx::Color& GetBackgroundColor() const { return background_color; }
 
-        /// Get the version of the map.
+        /// Get the TMX format version.
         [[nodiscard]] float GetVersion() const { return version; }
 
-        /// Get the Tiled version.
+        /// Get the Tiled version used to save the file.
         [[nodiscard]] const std::string& GetTiledVersion() const { return tiled_version; }
 
-        /// Get the orientation of the map.
+        /// Get the map orientation.
         [[nodiscard]] tinytmx::MapOrientation GetOrientation() const { return orientation; }
 
-        /// Get the render order of the map.
+        /// Get the order in which tiles on tile layers are rendered.
         [[nodiscard]] tinytmx::MapRenderOrder GetRenderOrder() const { return render_order; }
 
-        /// Get the compression level.
+        /// Get the compression level to use for tile layer data
+        /// (defaults to -1, which means to use the algorithm default).
         [[nodiscard]] int GetCompressionLevel() const { return compression_level; }
 
-        /// Is the map infinite? - get the bool value.
+        /// Is the map infinite? - returns 'true' if it is.
         [[nodiscard]] bool IsInfinite() const { return is_infinite; }
 
         /// Get the stagger axis of the map.
@@ -143,16 +144,16 @@ namespace tinytmx {
         /// Get the stagger index of the map.
         [[nodiscard]] tinytmx::MapStaggerIndex GetStaggerIndex() const { return stagger_index; }
 
-        /// Get the map width, in tiles.
+        /// Get the map width in tiles.
         [[nodiscard]] uint32_t GetWidth() const { return width; }
 
-        /// Get the map height, in tiles.
+        /// Get the map height in tiles.
         [[nodiscard]] uint32_t GetHeight() const { return height; }
 
-        /// Get the width of a tile, in pixels.
+        /// Get the width of a tile in pixels.
         [[nodiscard]] uint32_t GetTileWidth() const { return tile_width; }
 
-        /// Get the height of a tile, in pixels.
+        /// Get the height of a tile in pixels.
         [[nodiscard]] uint32_t GetTileHeight() const { return tile_height; }
 
         /// Get the next available ID for new layers.

@@ -2,6 +2,7 @@
 #define TINYTMX_TINYTMXDATATILELAYERHOLDER_HPP
 
 #include "tinytmxMapTile.hpp"
+#include "tinytmxVector2.hpp"
 #include <cstdint>
 
 namespace tinytmx {
@@ -71,6 +72,7 @@ namespace tinytmx {
     private:
         uint32_t width;
         uint32_t height;
+
         int m_x;
         int m_y;
         tinytmx::MapTile *tile_map;

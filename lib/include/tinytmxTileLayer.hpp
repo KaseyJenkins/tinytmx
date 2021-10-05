@@ -57,35 +57,12 @@ namespace tinytmx
         /// Parse a tile layer node.
         void Parse(const tinyxml2::XMLNode *tileLayerNode) override;
 
-//        /// Pick a specific tile id from the list.
-//        unsigned GetTileID(int x, int y) const { return tile_map[y * width + x].id; }
-//
-//        /// Pick a specific tile gid from the list.
-//        unsigned GetTileGid(int x, int y) const { return tile_map[y * width + x].gid; }
-//
-//        /// Get the tileset index for a tileset from the list.
-//        int GetTileTilesetIndex(int x, int y) const { return tile_map[y * width + x].tilesetId; }
-//
-//        /// Get whether a tile is flipped horizontally.
-//        bool IsTileFlippedHorizontally(int x, int y) const
-//        { return tile_map[y * width + x].flippedHorizontally; }
-//
-//        /// Get whether a tile is flipped vertically.
-//        bool IsTileFlippedVertically(int x, int y) const
-//        { return tile_map[y * width + x].flippedVertically; }
-//
-//        /// Get whether a tile is flipped diagonally.
-//        bool IsTileFlippedDiagonally(int x, int y) const
-//        { return tile_map[y * width + x].flippedDiagonally; }
-//
-//        /// Get the tile at the given position.
-//        const tinytmx::MapTile& GetTile(int x, int y) const { return tile_map[y * width + x]; }
-//
-//        /// Get a tile by its index.
-//        const tinytmx::MapTile& GetTile(int index) const { return tile_map[index]; }
 
-        /// Get the parallax.
-        [[nodiscard]] const tinytmx::Vector2f& GetParallax() const { return parallax; }
+        /// Get the horizontal parallax factor for this layer.
+        [[nodiscard]] float GetParallaxX() const { return parallax.x; }
+
+        /// Get the vertical parallax factor for this layer.
+        [[nodiscard]] float GetParallaxY() const { return parallax.y; }
 
         /// Get the type of encoding that was used for parsing the tile layer data.
         /// See: TileLayerEncodingType
@@ -99,6 +76,8 @@ namespace tinytmx
         [[nodiscard]] const std::vector<tinytmx::DataChunkTile *>& GetChunks() const { return chunks; }
         /// Get the chunk at a particular index.
         [[nodiscard]] const tinytmx::DataChunkTile* GetChunk(std::vector<tinytmx::DataChunkTile *>::size_type index) const { return chunks.at(index); }
+        /// Get the number of chunks.
+        [[nodiscard]] auto GetNumChunks() { return chunks.size(); }
 
         /// Get the data tile for the finite map.
         [[nodiscard]] const tinytmx::DataChunkTile* GetDataTileFiniteMap () const { return  data_tile_finite_map; }
@@ -111,15 +90,13 @@ namespace tinytmx
         void ParseBase64(const std::string &innerText, uint32_t m_width = 0, uint32_t m_height = 0,  tinytmx::MapTile *m_tile_map = nullptr);
         void ParseCSV(const std::string &innerText, tinytmx::MapTile *m_tile_map = nullptr);
 
-//        tinytmx::MapTile *tile_map;
-
         tinytmx::Vector2f parallax;
 
         tinytmx::TileLayerEncodingType encoding;
         tinytmx::TileLayerCompressionType compression;
 
-        std::vector<tinytmx::DataChunkTile *> chunks;
         tinytmx::DataChunkTile *data_tile_finite_map;
+        std::vector<tinytmx::DataChunkTile *> chunks;
 
     };
 }

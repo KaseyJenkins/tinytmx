@@ -1,6 +1,8 @@
 #ifndef TINYTMX_TINYTMXVECTOR2_HPP
 #define TINYTMX_TINYTMXVECTOR2_HPP
 
+#include <cstdint>
+
 namespace tinytmx {
 
     template<typename T>
@@ -15,5 +17,6 @@ namespace tinytmx {
 
     using Vector2i = tinytmx::Vector2<int>;
     using Vector2f = tinytmx::Vector2<float>;
+    using Vector2ui = tinytmx::Vector2<uint32_t>;
 }
 #endif //TINYTMX_TINYTMXVECTOR2_HPP

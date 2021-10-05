@@ -4,6 +4,7 @@
 
 #include <string>
 #include "tinytmxPropertySet.hpp"
+#include "tinytmxVector2.hpp"
 
 namespace tinyxml2 {
     class XMLNode;
@@ -125,6 +126,7 @@ namespace tinytmx {
         int y;
         uint32_t width;
         uint32_t height;
+//        tinytmx::Vector2ui size;
 
         float opacity;
 

@@ -76,6 +76,9 @@ namespace tinytmx {
 
         [[nodiscard]] int GetObjectValue(int defaultValue = -1) const;
 
+        /// Get the value to a file and return it (or the default if not a file).
+        [[nodiscard]] const std::string& GetFileValue() const { return value; }
+
     private:
         PropertyType type;
         std::string value;

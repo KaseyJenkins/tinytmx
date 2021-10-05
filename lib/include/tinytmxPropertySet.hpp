@@ -39,7 +39,7 @@ namespace tinytmx {
         float GetFloatProperty(const std::string &name, float defaultValue = 0.0f) const;
 
         /// Get a string Property by its name.
-        std::string GetStringProperty(const std::string &name, std::string defaultValue = "") const;
+        const std::string& GetStringProperty(const std::string &name, const std::string& defaultValue = "") const;
 
         /// Get a bool Property by its name.
         bool GetBoolProperty(const std::string &name, bool defaultValue = false) const;
@@ -50,6 +50,9 @@ namespace tinytmx {
         /// Get an object Property by its name.
         int GetObjectProperty(const std::string &name, int defaultValue = 0) const;
 
+        /// Get a File Property by its name.
+        const std::string& GetFileProperty(const std::string& name, const std::string& defaultValue = "") const;
+
         /// Returns the number of properties.
         auto GetSize() const { return properties.size(); }
 
@@ -59,7 +62,7 @@ namespace tinytmx {
         /// Returns the unordered map of properties.
         const std::unordered_map<std::string, Property> &GetPropertyMap() const { return properties; }
 
-        /// Are there no properties? -- get the bool value.
+        /// Are there any properties at all? - returns 'true' if empty.
         bool Empty() const { return properties.empty(); }
 
     private:

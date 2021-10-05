@@ -5,7 +5,7 @@ include(GNUInstallDirs)
 
 set(TINYTMX_VERSION_MAJOR 1)
 set(TINYTMX_VERSION_MINOR 1)
-set(TINYTMX_VERSION_PATCH 1)
+set(TINYTMX_VERSION_PATCH 2)
 set(TINYTMX_VERSION "${TINYTMX_VERSION_MAJOR}.${TINYTMX_VERSION_MINOR}.${TINYTMX_VERSION_PATCH}")
 message(STATUS "TINYTMX VERSION ${TINYTMX_VERSION}")
 
@@ -24,7 +24,6 @@ if (BUILD_SHARED_LIBS)
 endif ()
 
 target_sources(tinytmx
-#        PRIVATE src/tinytmxChunk.cpp
         PRIVATE src/tinytmxColor.cpp
         PRIVATE src/tinytmxDataChunkTile.cpp
         PRIVATE src/tinytmxEllipse.cpp

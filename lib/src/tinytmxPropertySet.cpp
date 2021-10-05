@@ -34,7 +34,7 @@ namespace tinytmx {
         }
     }
 
-    std::string PropertySet::GetStringProperty(const std::string &name, std::string defaultValue) const {
+    const std::string& PropertySet::GetStringProperty(const std::string &name, const std::string& defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end()) { return defaultValue; }
@@ -83,10 +83,19 @@ namespace tinytmx {
         return iter->second.GetObjectValue(defaultValue);
     }
 
+    const std::string &PropertySet::GetFileProperty(const std::string &name, const std::string &defaultValue) const {
+        auto iter = properties.find(name);
+
+        if (iter == properties.end()) { return defaultValue; }
+
+        return iter->second.GetFileValue();
+    }
 
     bool PropertySet::HasProperty(const std::string &name) const {
         if (properties.empty()) { return false; }
         return (properties.find(name) != properties.end());
     }
+
+
 
 }

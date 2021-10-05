@@ -20,7 +20,6 @@
 #include "tinytmxUtil.hpp"
 #include "tinytmxMap.hpp"
 #include "tinytmxTileset.hpp"
-//#include "tinytmxChunk.hpp"
 
 #include "tinytmxDataChunkTile.hpp"
 
@@ -273,12 +272,15 @@ namespace tinytmx {
         char *csv = strdup(innerText.c_str());
 
         // Iterate through every token of ';' in the CSV string.
-        char *pch = strtok(csv, ",");
+        char *pch = std::strtok(csv, ",");
         int tileCount = 0;
 
         while (pch) {
             unsigned gid;
-            sscanf(pch, "%u", &gid);
+
+            // Convert to an unsigned.
+            //sscanf(pch, "%u", &gid);
+            gid = std::strtoul(pch, nullptr, 10);
 
             // Find the tileset index.
             const int tilesetIndex = map->FindTilesetIndex(gid);
@@ -291,7 +293,7 @@ namespace tinytmx {
                 m_tile_map[tileCount] = MapTile(gid, 0, -1);
             }
 
-            pch = strtok(nullptr, ",");
+            pch = std::strtok(nullptr, ",");
             tileCount++;
         }
 
