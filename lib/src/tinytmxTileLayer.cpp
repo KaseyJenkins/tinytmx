@@ -246,19 +246,19 @@ namespace tinytmx {
         }
 
         // Convert the gids to map tiles.
-        for (int x = 0; x < m_width; x++) {
-            for (int y = 0; y < m_height; y++) {
-                unsigned gid = out[y * m_width + x];
+        for (int x = 0; x < m_height; x++) {
+            for (int y = 0; y < m_width; y++) {
+                unsigned gid = out[x * m_height + y];
 
                 // Find the tileset index.
                 const int tilesetIndex = map->FindTilesetIndex(gid);
                 if (tilesetIndex != -1) {
                     // If valid, set up the map tile with the tileset.
                     const tinytmx::Tileset *tileset = map->GetTileset(tilesetIndex);
-                    m_tile_map[y * m_width + x] = MapTile(gid, tileset->GetFirstGid(), tilesetIndex);
+                    m_tile_map[x * m_height + y] = MapTile(gid, tileset->GetFirstGid(), tilesetIndex);
                 } else {
                     // Otherwise, make it null.
-                    m_tile_map[y * m_width + x] = MapTile(gid, 0, -1);
+                    m_tile_map[x * m_height + y] = MapTile(gid, 0, -1);
                 }
             }
         }
