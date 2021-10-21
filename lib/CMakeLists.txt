@@ -24,6 +24,7 @@ if (BUILD_SHARED_LIBS)
 endif ()
 
 target_sources(tinytmx
+        PRIVATE src/base64.cpp
         PRIVATE src/tinytmxColor.cpp
         PRIVATE src/tinytmxDataChunkTile.cpp
         PRIVATE src/tinytmxEllipse.cpp
@@ -81,18 +82,6 @@ if (TINYTMX_EMBED_TINYXML2)
 elseif (NOT TINYTMX_EMBED_TINYXML2)
     target_link_libraries(tinytmx PRIVATE
             tinyxml2
-            )
-endif ()
-
-if (TINYTMX_EMBED_BASE64)
-    target_sources(tinytmx
-            PRIVATE externals/base64/base64.cpp)
-    target_include_directories(tinytmx PRIVATE
-            externals/base64
-            )
-elseif (NOT TINYTMX_EMBED_BASE64)
-    target_link_libraries(tinytmx PRIVATE
-            base64
             )
 endif ()
 
