@@ -7,8 +7,8 @@ namespace tinytmx {
     // Flags that may be in the first three bits of the gid.
     //-------------------------------------------------------------------------
     const unsigned FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
-    const unsigned FLIPPED_VERTICALLY_FLAG = 0x40000000;
-    const unsigned FLIPPED_DIAGONALLY_FLAG = 0x20000000;
+    const unsigned FLIPPED_VERTICALLY_FLAG   = 0x40000000;
+    const unsigned FLIPPED_DIAGONALLY_FLAG   = 0x20000000;
 
     //-------------------------------------------------------------------------
     /// A struct to store the information about a specific tile in the map layer.

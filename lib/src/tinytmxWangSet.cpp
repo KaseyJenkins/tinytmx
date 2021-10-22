@@ -5,8 +5,7 @@
 
 namespace tinytmx {
 
-    WangSet::WangSet(): tileID(0), //wangSetType(WangSetType::TMX_WST_CORNER),
-    properties(nullptr) {}
+    WangSet::WangSet(): tileID(0), properties(nullptr) {}
 
     WangSet::~WangSet() {
 
@@ -36,16 +35,6 @@ namespace tinytmx {
         // Parse the attributes.
         name = wangsetElem->Attribute("name");
         tileID = wangsetElem->IntAttribute("tile");
-
-//        // Read the type.
-//        std::string typeStr = wangsetElem->Attribute("type");
-//        if (typeStr == "corner") {
-//            wangSetType = WangSetType::TMX_WST_CORNER;
-//        } else if (typeStr == "edge") {
-//            wangSetType = WangSetType::TMX_WST_EDGE;
-//        } else if (typeStr == "mixed") {
-//            wangSetType = WangSetType::TMX_WST_MIXED;
-//        }
 
         // Iterate through all of the wangcolor elements and parse them.
         tinyxml2::XMLElement const *wangColorElement = wangsetNode->FirstChildElement("wangcolor");

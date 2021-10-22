@@ -85,7 +85,7 @@ namespace tinytmx {
                 tinyxml2::XMLElement const *frameElement = frameNode->ToElement();
 
                 int const          tileID   = frameElement->IntAttribute("tileid");
-                unsigned int const duration = frameElement->IntAttribute("duration");
+                unsigned int const duration = frameElement->UnsignedAttribute("duration");
 
                 frames.emplace_back(tileID, duration);
                 durationSum += duration;

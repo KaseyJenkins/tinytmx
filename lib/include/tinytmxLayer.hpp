@@ -46,8 +46,7 @@ namespace tinytmx {
 
         /// Construct a new layer used by a tile's objectgroup
         Layer(tinytmx::Tile const *_tile,
-              tinytmx::Map const *_map,
-              std::string const &_name, int _x, int _y,
+              tinytmx::Map const *_map, std::string const &_name, int _x, int _y,
               uint32_t _width, uint32_t _height, float _opacity, bool _visible,
               LayerType _layerType);
 

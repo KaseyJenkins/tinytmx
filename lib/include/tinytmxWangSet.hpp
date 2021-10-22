@@ -15,12 +15,6 @@ namespace tinytmx {
     class WangColor;
 
 
-//    enum class WangSetType {
-//        TMX_WST_CORNER,
-//        TMX_WST_EDGE,
-//        TMX_WST_MIXED
-//    };
-
 //-------------------------------------------------------------------------
 /// A class to contain the information about every wangset in the
 /// wangsets element.
@@ -53,9 +47,6 @@ namespace tinytmx {
         /// Get the tile ID of the tile representing this wangset.
         [[nodiscard]] int GetTileId() const { return tileID; }
 
-//        /// Get the type.
-//        tinytmx::WangSetType GetWangSetType() const { return wangSetType; }
-
         /// Returns the whole wangtile collection.
         [[nodiscard]] std::vector<tinytmx::WangTile *> const &GetWangTiles() const { return wangtiles; }
 
@@ -67,7 +58,6 @@ namespace tinytmx {
 
     private:
         int tileID;
-        // WangSetType wangSetType; // FIXME probably not needed as it's not in the TMX Map Format documentation
 
         tinytmx::PropertySet *properties;
 

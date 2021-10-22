@@ -67,21 +67,21 @@ namespace tinytmx {
     }
 
     void Object::Parse(tinyxml2::XMLNode const *objectNode, tinytmx::Map const *_map) {
-        const tinyxml2::XMLElement *objectElem = objectNode->ToElement();
+        tinyxml2::XMLElement const *objectElem = objectNode->ToElement();
 
         if (objectElem->Attribute("template")) {
             isTemplate = true;
             t_template = objectElem->Attribute("template");
             std::string const &file_path = _map->GetFilepath();
-            std::string const &fileName = file_path + t_template;
+            std::string const fileName = file_path + t_template;
 
             // Let's parse the template.
             tinyxml2::XMLDocument template_doc;
             template_doc.LoadFile(fileName.c_str());
 
-            tinyxml2::XMLNode *mapNode = template_doc.FirstChildElement("template");
+            tinyxml2::XMLNode const *mapNode = template_doc.FirstChildElement("template");
 
-            for (tinyxml2::XMLNode *node = mapNode->FirstChild(); node != nullptr; node = node->NextSibling()) {
+            for (tinyxml2::XMLNode const *node = mapNode->FirstChild(); node != nullptr; node = node->NextSibling()) {
                 // Read the properties. Can contain at most one: <tileset>, <object>
 
                 if (strcmp(node->Value(), "tileset") == 0) {

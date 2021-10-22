@@ -276,7 +276,7 @@ namespace tinytmx {
         std::string file_path;
 
         // Parse a 'map' node.
-        void Parse(tinyxml2::XMLNode *mapNode);
+        void Parse(tinyxml2::XMLNode const *mapNode);
     };
 }
 

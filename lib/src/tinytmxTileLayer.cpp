@@ -34,11 +34,6 @@ namespace tinytmx {
     }
 
     TileLayer::~TileLayer() {
-        // If the tile map is allocated, delete it from the memory.
-//        if (tile_map) {
-//            delete[] tile_map;
-//            tile_map = nullptr;
-//        }
 
         for (auto chunk: chunks) {
             delete chunk;
@@ -81,10 +76,7 @@ namespace tinytmx {
             properties->Parse(propertiesNode);
         }
 
-//        // Allocate memory for reading the tiles.
-//        tile_map = new MapTile[width * height];
 
-        //const tinyxml2::XMLNode *dataNode = tileLayerNode->FirstChildElement("data");
         tinyxml2::XMLElement const *dataElem = tileLayerNode->FirstChildElement("data");
         char const *encodingStr = dataElem->Attribute("encoding");
         char const *compressionStr = dataElem->Attribute("compression");
@@ -146,19 +138,15 @@ namespace tinytmx {
 
 
         } else {
-            // Allocate memory for reading the tiles.
-            //tile_map = new MapTile[width * height];
             data_tile_finite_map = new DataChunkTile(width, height);
 
             // Decode.
             switch (encoding) {
                 case TileLayerEncodingType::TMX_ENCODING_XML:
-                    //ParseXML(dataElem, tile_map);
                     ParseXML(dataElem, data_tile_finite_map->GetMapTile());
                     break;
 
                 case TileLayerEncodingType::TMX_ENCODING_BASE64:
-                    //ParseBase64(dataElem->GetText(), width, height, tile_map);
                     ParseBase64(dataElem->GetText(),
                                 data_tile_finite_map->GetWidth(),
                                 data_tile_finite_map->GetHeight(),
@@ -166,7 +154,6 @@ namespace tinytmx {
                     break;
 
                 case TileLayerEncodingType::TMX_ENCODING_CSV:
-                    //ParseCSV(dataElem->GetText(), tile_map);
                     ParseCSV(dataElem->GetText(),
                              data_tile_finite_map->GetMapTile());
                     break;

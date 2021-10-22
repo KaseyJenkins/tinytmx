@@ -75,7 +75,7 @@ namespace tinytmx {
     void Map::ParseFile(std::string const &fileName) {
         file_name = fileName;
 
-        auto lastSlash = fileName.find_last_of('/');
+        auto const lastSlash = fileName.find_last_of('/');
 
         // Get the directory of the file using substring.
         if (lastSlash != std::string::npos) {
@@ -96,7 +96,7 @@ namespace tinytmx {
             return;
         }
 
-        tinyxml2::XMLNode *mapNode = doc.FirstChildElement("map");
+        tinyxml2::XMLNode const *mapNode = doc.FirstChildElement("map");
         Parse(mapNode);
     }
 
@@ -113,7 +113,7 @@ namespace tinytmx {
             return;
         }
 
-        tinyxml2::XMLNode *mapNode = doc.FirstChildElement("map");
+        tinyxml2::XMLNode const *mapNode = doc.FirstChildElement("map");
         Parse(mapNode);
     }
 
@@ -139,8 +139,8 @@ namespace tinytmx {
         return nullptr;
     }
 
-    void Map::Parse(tinyxml2::XMLNode *mapNode) {
-        tinyxml2::XMLElement *mapElem = mapNode->ToElement();
+    void Map::Parse(tinyxml2::XMLNode const *mapNode) {
+        tinyxml2::XMLElement const *mapElem = mapNode->ToElement();
 
         // Read the map attributes.
         version = mapElem->FloatAttribute("version");
@@ -163,48 +163,52 @@ namespace tinytmx {
         }
 
         // Read the orientation
-        std::string orientationStr = mapElem->Attribute("orientation");
+        char const *orientationCString = mapElem->Attribute("orientation");
 
-        if (orientationStr == "orthogonal") {
+        if (std::strcmp(orientationCString, "orthogonal") == 0) {
             orientation = MapOrientation::TMX_MO_ORTHOGONAL;
-        } else if (orientationStr == "isometric") {
+        } else if (std::strcmp(orientationCString, "isometric") == 0) {
             orientation = MapOrientation::TMX_MO_ISOMETRIC;
-        } else if (orientationStr == "staggered") {
+        } else if (std::strcmp(orientationCString, "staggered") == 0) {
             orientation = MapOrientation::TMX_MO_STAGGERED;
-        } else if (orientationStr == "hexagonal") {
+        } else if (std::strcmp(orientationCString, "hexagonal") == 0) {
             orientation = MapOrientation::TMX_MO_HEXAGONAL;
         }
 
+
         // Read the render order
         if (mapElem->Attribute("renderorder")) {
-            std::string renderorderStr = mapElem->Attribute("renderorder");
-            if (renderorderStr == "right-down") {
+            char const *renderOrderCString = mapElem->Attribute("renderorder");
+
+            if (std::strcmp(renderOrderCString, "right-down") == 0) {
                 render_order = MapRenderOrder::TMX_RIGHT_DOWN;
-            } else if (renderorderStr == "right-up") {
+            } else if (std::strcmp(renderOrderCString, "right-up") == 0) {
                 render_order = MapRenderOrder::TMX_RIGHT_UP;
-            } else if (renderorderStr == "left-down") {
+            } else if (std::strcmp(renderOrderCString, "left-down") == 0) {
                 render_order = MapRenderOrder::TMX_LEFT_DOWN;
-            } else if (renderorderStr == "left-down") {
+            } else if (std::strcmp(renderOrderCString, "left-up") == 0) {
                 render_order = MapRenderOrder::TMX_LEFT_UP;
             }
         }
 
         // Read the stagger axis
         if (mapElem->Attribute("staggeraxis")) {
-            std::string staggerAxisStr = mapElem->Attribute("staggeraxis");
-            if (staggerAxisStr == "x") {
+            char const *staggerAxisCString = mapElem->Attribute("staggeraxis");
+
+            if (std::strcmp(staggerAxisCString, "x") == 0) {
                 stagger_axis = MapStaggerAxis::TMX_SA_X;
-            } else if (staggerAxisStr == "y") {
+            } else if (std::strcmp(staggerAxisCString, "y") == 0) {
                 stagger_axis = MapStaggerAxis::TMX_SA_Y;
             }
         }
 
         // Read the stagger index
         if (mapElem->Attribute("staggerindex")) {
-            std::string staggerIndexStr = mapElem->Attribute("staggerindex");
-            if (staggerIndexStr == "even") {
+            char const *staggerIndexCString = mapElem->Attribute("staggerindex");
+
+            if (std::strcmp(staggerIndexCString, "even") == 0) {
                 stagger_index = MapStaggerIndex::TMX_SI_EVEN;
-            } else if (staggerIndexStr == "odd") {
+            } else if (std::strcmp(staggerIndexCString, "odd") == 0) {
                 stagger_index = MapStaggerIndex::TMX_SI_ODD;
             }
         }
@@ -213,12 +217,11 @@ namespace tinytmx {
         mapElem->QueryUnsignedAttribute("hexsidelength", &hexside_length);
 
         // read all other attributes
-        for (tinyxml2::XMLNode *node = mapElem->FirstChild(); node != nullptr; node = node->NextSibling()) {
+        for (tinyxml2::XMLNode const *node = mapElem->FirstChild(); node != nullptr; node = node->NextSibling()) {
             // Read the map properties.
             if (std::strcmp(node->Value(), "properties") == 0) {
                 properties = new PropertySet();
                 properties->Parse(node);
-                //properties.Parse(node);
             }
 
             // Iterate through all of the tileset elements.
