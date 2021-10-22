@@ -66,14 +66,14 @@ namespace tinytmx {
 
     }
 
-    void Object::Parse(const tinyxml2::XMLNode *objectNode, const tinytmx::Map *_map) {
+    void Object::Parse(tinyxml2::XMLNode const *objectNode, tinytmx::Map const *_map) {
         const tinyxml2::XMLElement *objectElem = objectNode->ToElement();
 
         if (objectElem->Attribute("template")) {
             isTemplate = true;
             t_template = objectElem->Attribute("template");
-            const std::string& file_path = _map->GetFilepath();
-            std::string fileName = file_path + t_template;
+            std::string const &file_path = _map->GetFilepath();
+            std::string const &fileName = file_path + t_template;
 
             // Let's parse the template.
             tinyxml2::XMLDocument template_doc;
@@ -125,8 +125,8 @@ namespace tinytmx {
         }
     }
 
-    void Object::ParseObject(const tinyxml2::XMLNode *objectNode, const tinytmx::Map *_map) {
-        const tinyxml2::XMLElement *objectElem = objectNode->ToElement();
+    void Object::ParseObject(tinyxml2::XMLNode const *objectNode, tinytmx::Map const *_map) {
+        tinyxml2::XMLElement const *objectElem = objectNode->ToElement();
 
         // Read the attributes of the object.
 
@@ -135,10 +135,10 @@ namespace tinytmx {
             gid = objectElem->UnsignedAttribute("gid");
 
             // Find the tileset index.
-            const int tilesetIndex = _map->FindTilesetIndex(gid);
+            int const tilesetIndex = _map->FindTilesetIndex(gid);
             if (tilesetIndex != -1) {
                 // If valid, set up the object tile with the tileset.
-                const tinytmx::Tileset *_tileset = _map->GetTileset(tilesetIndex);
+                tinytmx::Tileset const *_tileset = _map->GetTileset(tilesetIndex);
                 delete mapTile;
                 mapTile = new MapTile(gid, _tileset->GetFirstGid(), tilesetIndex);
             } else {
@@ -166,14 +166,14 @@ namespace tinytmx {
         objectElem->QueryBoolAttribute("visible", &visible);
 
         // Read the ellipse of the object if there is any.
-        const tinyxml2::XMLNode *ellipseNode = objectNode->FirstChildElement("ellipse");
+        tinyxml2::XMLNode const *ellipseNode = objectNode->FirstChildElement("ellipse");
         if (ellipseNode) {
             delete ellipse;
             ellipse = new Ellipse(x, y, width, height);
         }
 
         // Read the point of the object if there is any.
-        const tinyxml2::XMLNode *pointNode = objectNode->FirstChildElement("point");
+        tinyxml2::XMLNode const *pointNode = objectNode->FirstChildElement("point");
         if (pointNode) {
             delete point;
             point = new Vector2f();
@@ -182,19 +182,19 @@ namespace tinytmx {
         }
 
         // Read the Polygon and Polyline of the object if there are any.
-        const tinyxml2::XMLNode *polygonNode = objectNode->FirstChildElement("polygon");
+        tinyxml2::XMLNode const *polygonNode = objectNode->FirstChildElement("polygon");
         if (polygonNode) {
             delete polygon;
             polygon = new PolyObject();
             polygon->Parse(polygonNode);
         }
-        const tinyxml2::XMLNode *polylineNode = objectNode->FirstChildElement("polyline");
+        tinyxml2::XMLNode const *polylineNode = objectNode->FirstChildElement("polyline");
         if (polylineNode) {
             delete polyline;
             polyline = new PolyObject();
             polyline->Parse(polylineNode);
         }
-        const tinyxml2::XMLNode *textNode = objectNode->FirstChildElement("text");
+        tinyxml2::XMLNode const *textNode = objectNode->FirstChildElement("text");
         if (textNode) {
             delete text;
             text = new Text();
@@ -202,7 +202,7 @@ namespace tinytmx {
         }
 
         // Read the properties of the object.
-        const tinyxml2::XMLNode *propertiesNode = objectNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = objectNode->FirstChildElement("properties");
         if (propertiesNode) {
             delete properties;
             properties = new PropertySet();

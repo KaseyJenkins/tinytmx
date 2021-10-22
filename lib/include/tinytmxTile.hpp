@@ -29,11 +29,11 @@ namespace tinytmx {
 
 
         // Delete copy constructor.
-        Tile(const Tile &) = delete;
+        Tile(Tile const &) = delete;
         // Delete move constructor.
         Tile(Tile &&) = delete;
         // Delete copy assignment operator.
-        Tile &operator=(const Tile &) = delete;
+        Tile &operator=(Tile const &) = delete;
         // Delete move assignment operator.
         Tile &operator=(Tile &&) = delete;
 
@@ -44,7 +44,7 @@ namespace tinytmx {
         ~Tile();
 
         /// Parse a tile node.
-        void Parse(const tinyxml2::XMLNode *tileNode, const tinytmx::Map *_map);
+        void Parse(tinyxml2::XMLNode const *tileNode, tinytmx::Map const *_map);
 
         /// Get the Id. (relative to the tileset)
         [[nodiscard]] int GetId() const { return id; }
@@ -60,19 +60,19 @@ namespace tinytmx {
         [[nodiscard]] unsigned int GetTotalDuration() const { return totalDuration; }
 
         /// Returns the tile image if defined.
-        [[nodiscard]] const tinytmx::Image *GetImage() const { return image; }
+        [[nodiscard]] tinytmx::Image const *GetImage() const { return image; }
 
         /// Returns the object type of the tile.
-        [[nodiscard]] const std::string& GetType() const { return type; }
+        [[nodiscard]] std::string const &GetType() const { return type; }
 
         /// Returns the frames of the animation.
-        [[nodiscard]] const std::vector<AnimationFrame> &GetFrames() const { return frames; }
+        [[nodiscard]] std::vector<AnimationFrame> const &GetFrames() const { return frames; }
 
         /// Get a set of properties regarding the tile.
-        [[nodiscard]] const tinytmx::PropertySet *GetProperties() const { return properties; }
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
 
         //// Get the object group, which contains additional tile properties
-        [[nodiscard]] const tinytmx::ObjectGroup *GetObjectGroup() const { return objectGroup; }
+        [[nodiscard]] tinytmx::ObjectGroup const *GetObjectGroup() const { return objectGroup; }
 
         /// Returns true if the tile has an objectgroup.
         [[nodiscard]] bool HasObjectGroup() const { return hasObjectGroup; }

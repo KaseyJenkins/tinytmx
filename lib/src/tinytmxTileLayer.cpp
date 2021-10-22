@@ -24,7 +24,7 @@
 #include "tinytmxDataChunkTile.hpp"
 
 namespace tinytmx {
-    TileLayer::TileLayer(const Map *_map)
+    TileLayer::TileLayer(Map const *_map)
             : Layer(_map, std::string(), 0, 0, _map->GetWidth(), _map->GetHeight(), 1.0f, true,
                     LayerType::TMX_LAYERTYPE_TILE)
             //, tile_map(nullptr)  // Set the map to null to specify that it is not yet allocated.
@@ -51,8 +51,8 @@ namespace tinytmx {
         }
     }
 
-    void TileLayer::Parse(const tinyxml2::XMLNode *tileLayerNode) {
-        const tinyxml2::XMLElement *tileLayerElem = tileLayerNode->ToElement();
+    void TileLayer::Parse(tinyxml2::XMLNode const *tileLayerNode) {
+        tinyxml2::XMLElement const *tileLayerElem = tileLayerNode->ToElement();
 
         // Read the attributes.
         ID = tileLayerElem->UnsignedAttribute("id");
@@ -75,7 +75,7 @@ namespace tinytmx {
         tileLayerElem->QueryFloatAttribute("parallaxy", &parallax.y);
 
         // Read the properties.
-        const tinyxml2::XMLNode *propertiesNode = tileLayerNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = tileLayerNode->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);
@@ -85,9 +85,9 @@ namespace tinytmx {
 //        tile_map = new MapTile[width * height];
 
         //const tinyxml2::XMLNode *dataNode = tileLayerNode->FirstChildElement("data");
-        const tinyxml2::XMLElement *dataElem = tileLayerNode->FirstChildElement("data");
-        const char *encodingStr = dataElem->Attribute("encoding");
-        const char *compressionStr = dataElem->Attribute("compression");
+        tinyxml2::XMLElement const *dataElem = tileLayerNode->FirstChildElement("data");
+        char const *encodingStr = dataElem->Attribute("encoding");
+        char const *compressionStr = dataElem->Attribute("compression");
 
         // Check for encoding.
         if (encodingStr) {
@@ -111,7 +111,7 @@ namespace tinytmx {
 
         // If the map is infinite parse all the chunks
         if (map->IsInfinite()) {
-            const tinyxml2::XMLElement *chunkElem = dataElem->FirstChildElement("chunk");
+            tinyxml2::XMLElement const *chunkElem = dataElem->FirstChildElement("chunk");
             // Iterate through all the chunks.
             while (chunkElem) {
                 auto chunk = new DataChunkTile(
@@ -120,12 +120,6 @@ namespace tinytmx {
                         chunkElem->IntAttribute("x"),
                         chunkElem->IntAttribute("y")
                         );
-//                chunk->m_x = chunkElem->IntAttribute("x");
-//                chunk->m_y = chunkElem->IntAttribute("y");
-//                chunk->width = chunkElem->UnsignedAttribute("width");
-//                chunk->height = chunkElem->UnsignedAttribute("height");
-
-//                chunk->tile_map = new MapTile[chunk->width * chunk->height];
 
                 switch (encoding) {
                     case TileLayerEncodingType::TMX_ENCODING_XML:
@@ -181,27 +175,27 @@ namespace tinytmx {
 
     }
 
-    void TileLayer::ParseXML(const tinyxml2::XMLNode *dataNode, tinytmx::MapTile *m_tile_map,
-                             const std::string &firstChildElement) {
-        const tinyxml2::XMLNode *tileNode = dataNode->FirstChildElement(firstChildElement.c_str());
+    void TileLayer::ParseXML(tinyxml2::XMLNode const *dataNode, tinytmx::MapTile *m_tile_map,
+                             std::string const &firstChildElement) {
+        tinyxml2::XMLNode const *tileNode = dataNode->FirstChildElement(firstChildElement.c_str());
         int tileCount = 0;
         while (tileNode) {
-            const tinyxml2::XMLElement *tileElem = tileNode->ToElement();
+            tinyxml2::XMLElement const *tileElem = tileNode->ToElement();
 
             unsigned gid = 0;
 
             // Read the Global-ID of the tile.
-            const char *gidText = tileElem->Attribute("gid");
+            char const *gidText = tileElem->Attribute("gid");
 
             // Convert to an unsigned.
             //sscanf(gidText, "%u", &gid);
             gid = std::strtoul(gidText, nullptr, 10);
 
             // Find the tileset index.
-            const int tilesetIndex = map->FindTilesetIndex(gid);
+            int const tilesetIndex = map->FindTilesetIndex(gid);
             if (tilesetIndex != -1) {
                 // If valid, set up the map tile with the tileset.
-                const tinytmx::Tileset *tileset = map->GetTileset(tilesetIndex);
+                tinytmx::Tileset const *tileset = map->GetTileset(tilesetIndex);
                 m_tile_map[tileCount] = MapTile(gid, tileset->GetFirstGid(), tilesetIndex);
             } else {
                 // Otherwise, make it null.
@@ -213,11 +207,11 @@ namespace tinytmx {
         }
     }
 
-    void TileLayer::ParseBase64(const std::string &innerText, uint32_t m_width, uint32_t m_height, tinytmx::MapTile *m_tile_map) {
+    void TileLayer::ParseBase64(std::string const &innerText, uint32_t m_width, uint32_t m_height, tinytmx::MapTile *m_tile_map) {
         std::string testText = innerText;
         Util::Trim(testText);
 
-        const std::string &text = Util::DecodeBase64(testText);
+        std::string const &text = Util::DecodeBase64(testText);
 
         // Temporary array of gids to be converted to map tiles.
         unsigned *out = nullptr;
@@ -251,10 +245,10 @@ namespace tinytmx {
                 unsigned gid = out[x * m_height + y];
 
                 // Find the tileset index.
-                const int tilesetIndex = map->FindTilesetIndex(gid);
+                int const tilesetIndex = map->FindTilesetIndex(gid);
                 if (tilesetIndex != -1) {
                     // If valid, set up the map tile with the tileset.
-                    const tinytmx::Tileset *tileset = map->GetTileset(tilesetIndex);
+                    tinytmx::Tileset const *tileset = map->GetTileset(tilesetIndex);
                     m_tile_map[x * m_height + y] = MapTile(gid, tileset->GetFirstGid(), tilesetIndex);
                 } else {
                     // Otherwise, make it null.
@@ -267,7 +261,7 @@ namespace tinytmx {
         free(out);
     }
 
-    void TileLayer::ParseCSV(const std::string &innerText, tinytmx::MapTile *m_tile_map) {
+    void TileLayer::ParseCSV(std::string const &innerText, tinytmx::MapTile *m_tile_map) {
         // Duplicate the string for use with C stdio.
         char *csv = strdup(innerText.c_str());
 
@@ -283,10 +277,10 @@ namespace tinytmx {
             gid = std::strtoul(pch, nullptr, 10);
 
             // Find the tileset index.
-            const int tilesetIndex = map->FindTilesetIndex(gid);
+            int const tilesetIndex = map->FindTilesetIndex(gid);
             if (tilesetIndex != -1) {
                 // If valid, set up the map tile with the tileset.
-                const tinytmx::Tileset *tileset = map->GetTileset(tilesetIndex);
+                tinytmx::Tileset const *tileset = map->GetTileset(tilesetIndex);
                 m_tile_map[tileCount] = MapTile(gid, tileset->GetFirstGid(), tilesetIndex);
             } else {
                 // Otherwise, make it null.

@@ -44,7 +44,7 @@ namespace tinytmx {
         Property();
 
         /// Parse the Property element.
-        void Parse(const tinyxml2::XMLElement *propertyElem);
+        void Parse(tinyxml2::XMLElement const *propertyElem);
 
         /// Get the type of the Property (default: TMX_PROPERTY_STRING)
         [[nodiscard]] PropertyType GetType() const { return type; }
@@ -53,7 +53,7 @@ namespace tinytmx {
         [[nodiscard]] bool IsOfType(PropertyType propertyType) const { return (GetType() == propertyType); }
 
         /// Return the value of the Property.
-        [[nodiscard]] const std::string &GetValue() const { return value; }
+        [[nodiscard]] std::string const &GetValue() const { return value; }
 
         /// Return whether the value is empty or was not specified.
         [[nodiscard]] bool IsValueEmpty() const { return value.empty(); }
@@ -77,7 +77,7 @@ namespace tinytmx {
         [[nodiscard]] int GetObjectValue(int defaultValue = -1) const;
 
         /// Get the value to a file and return it (or the default if not a file).
-        [[nodiscard]] const std::string& GetFileValue() const { return value; }
+        [[nodiscard]] std::string const &GetFileValue() const { return value; }
 
     private:
         PropertyType type;

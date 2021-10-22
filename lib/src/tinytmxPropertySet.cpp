@@ -11,11 +11,11 @@ namespace tinytmx {
         properties.clear();
     }
 
-    void PropertySet::Parse(const tinyxml2::XMLNode *propertiesNode) {
+    void PropertySet::Parse(tinyxml2::XMLNode const *propertiesNode) {
         // Iterate through all of the property nodes.
-        const tinyxml2::XMLNode *propertyNode = propertiesNode->FirstChildElement("property");
+        tinyxml2::XMLNode const *propertyNode = propertiesNode->FirstChildElement("property");
         while (propertyNode) {
-            const tinyxml2::XMLElement *propertyElem = propertyNode->ToElement();
+            tinyxml2::XMLElement const *propertyElem = propertyNode->ToElement();
 
             auto nameAttrib = propertyElem->FindAttribute("name");
             // FIXME MAYBE - is the name attribute ever nullptr or an empty string?
@@ -34,7 +34,7 @@ namespace tinytmx {
         }
     }
 
-    const std::string& PropertySet::GetStringProperty(const std::string &name, const std::string& defaultValue) const {
+    std::string const &PropertySet::GetStringProperty(std::string const &name, std::string const &defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end()) { return defaultValue; }
@@ -42,7 +42,7 @@ namespace tinytmx {
         return iter->second.GetValue();
     }
 
-    int PropertySet::GetIntProperty(const std::string &name, int defaultValue) const {
+    int PropertySet::GetIntProperty(std::string const &name, int defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
@@ -50,7 +50,7 @@ namespace tinytmx {
         return iter->second.GetIntValue(defaultValue);
     }
 
-    float PropertySet::GetFloatProperty(const std::string &name, float defaultValue) const {
+    float PropertySet::GetFloatProperty(std::string const &name, float defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
@@ -58,7 +58,7 @@ namespace tinytmx {
         return iter->second.GetFloatValue(defaultValue);
     }
 
-    bool PropertySet::GetBoolProperty(const std::string &name, bool defaultValue) const {
+    bool PropertySet::GetBoolProperty(std::string const &name, bool defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
@@ -66,7 +66,7 @@ namespace tinytmx {
         return (iter->second.GetBoolValue(defaultValue));
     }
 
-    tinytmx::Color PropertySet::GetColorProperty(const std::string &name, tinytmx::Color defaultValue) const {
+    tinytmx::Color PropertySet::GetColorProperty(std::string const &name, tinytmx::Color defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
@@ -75,7 +75,7 @@ namespace tinytmx {
     }
 
 
-    int PropertySet::GetObjectProperty(const std::string &name, int defaultValue) const {
+    int PropertySet::GetObjectProperty(std::string const &name, int defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
@@ -83,7 +83,7 @@ namespace tinytmx {
         return iter->second.GetObjectValue(defaultValue);
     }
 
-    const std::string &PropertySet::GetFileProperty(const std::string &name, const std::string &defaultValue) const {
+    std::string const &PropertySet::GetFileProperty(std::string const &name, std::string const &defaultValue) const {
         auto iter = properties.find(name);
 
         if (iter == properties.end()) { return defaultValue; }
@@ -91,7 +91,7 @@ namespace tinytmx {
         return iter->second.GetFileValue();
     }
 
-    bool PropertySet::HasProperty(const std::string &name) const {
+    bool PropertySet::HasProperty(std::string const &name) const {
         if (properties.empty()) { return false; }
         return (properties.find(name) != properties.end());
     }

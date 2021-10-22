@@ -14,8 +14,8 @@ namespace tinytmx {
     }
 
 
-    void Terrain::Parse(const tinyxml2::XMLNode *terrainNode) {
-        const tinyxml2::XMLElement *terrainElem = terrainNode->ToElement();
+    void Terrain::Parse(tinyxml2::XMLNode const *terrainNode) {
+        tinyxml2::XMLElement const *terrainElem = terrainNode->ToElement();
 
         // Parse the attributes.
         name = std::string(terrainElem->Attribute("name"));
@@ -23,7 +23,7 @@ namespace tinytmx {
         tileID = terrainElem->IntAttribute("tile");
 
         // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = terrainNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = terrainNode->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);

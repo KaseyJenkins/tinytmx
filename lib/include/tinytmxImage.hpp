@@ -20,10 +20,10 @@ namespace tinytmx {
         Image();
 
         /// Parses an image element.
-        void Parse(const tinyxml2::XMLNode *imageNode);
+        void Parse(tinyxml2::XMLNode const *imageNode);
 
         /// Get the path to the file of the image (relative to the map)
-        [[nodiscard]] const std::string &GetSource() const { return source; }
+        [[nodiscard]] std::string const &GetSource() const { return source; }
 
         /// Get the width of the image.
         [[nodiscard]] uint32_t GetWidth() const { return width; }

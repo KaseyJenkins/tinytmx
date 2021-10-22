@@ -41,13 +41,13 @@ namespace tinytmx
         Text();
 
         /// Parse the text node.
-        void Parse(const tinyxml2::XMLNode *textNode);
+        void Parse(tinyxml2::XMLNode const *textNode);
 
-        [[nodiscard]] const std::string& GetContents() const noexcept { return contents; }
-        [[nodiscard]] const std::string& GetFontFamily() const noexcept { return font_family; }
+        [[nodiscard]] std::string const &GetContents() const noexcept { return contents; }
+        [[nodiscard]] std::string const &GetFontFamily() const noexcept { return font_family; }
         [[nodiscard]] int GetPixelSize() const noexcept { return pixel_size; }
         [[nodiscard]] bool Wraps() const noexcept { return wrap; }
-        [[nodiscard]] const Color& GetColor() const noexcept { return color; }
+        [[nodiscard]] Color const &GetColor() const noexcept { return color; }
         [[nodiscard]] bool IsBold() const noexcept { return bold; }
         [[nodiscard]] bool IsItalic() const noexcept { return italic; }
         [[nodiscard]] bool IsUnderline() const noexcept { return underline; }

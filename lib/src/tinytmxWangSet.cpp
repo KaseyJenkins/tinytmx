@@ -30,8 +30,8 @@ namespace tinytmx {
 
     }
 
-    void WangSet::Parse(const tinyxml2::XMLNode *wangsetNode) {
-        const tinyxml2::XMLElement *wangsetElem = wangsetNode->ToElement();
+    void WangSet::Parse(tinyxml2::XMLNode const *wangsetNode) {
+        tinyxml2::XMLElement const *wangsetElem = wangsetNode->ToElement();
 
         // Parse the attributes.
         name = wangsetElem->Attribute("name");
@@ -48,7 +48,7 @@ namespace tinytmx {
 //        }
 
         // Iterate through all of the wangcolor elements and parse them.
-        const tinyxml2::XMLElement *wangColorElement = wangsetNode->FirstChildElement("wangcolor");
+        tinyxml2::XMLElement const *wangColorElement = wangsetNode->FirstChildElement("wangcolor");
         while (wangColorElement) {
 
             auto wangColor = new WangColor();
@@ -58,7 +58,7 @@ namespace tinytmx {
             wangColorElement = wangColorElement->NextSiblingElement("wangcolor");
         }
         // Iterate through all of the wangtile elements and parse each.
-        const tinyxml2::XMLElement *wangTileElement = wangsetNode->FirstChildElement("wangtile");
+        tinyxml2::XMLElement const *wangTileElement = wangsetNode->FirstChildElement("wangtile");
         while(wangTileElement) {
 
             auto wangTile = new WangTile();
@@ -69,7 +69,7 @@ namespace tinytmx {
         }
 
         // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = wangsetNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = wangsetNode->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);

@@ -40,11 +40,11 @@ namespace tinytmx
     {
     public:
         // Delete copy constructor.
-        Object(const Object &) = delete;
+        Object(Object const &) = delete;
         // Delete move constructor.
         Object(Object &&) = delete;
         // Delete copy assignment operator.
-        Object &operator=(const Object &) = delete;
+        Object &operator=(Object const &) = delete;
         // Delete move assignment operator.
         Object &operator=(Object &&) = delete;
 
@@ -52,13 +52,13 @@ namespace tinytmx
         ~Object();
 
         /// Parse an object node.
-        void Parse(const tinyxml2::XMLNode *objectNode, const tinytmx::Map *_map = nullptr);
+        void Parse(tinyxml2::XMLNode const *objectNode, tinytmx::Map const *_map = nullptr);
 
         /// Get the name of the object.
-        [[nodiscard]] const std::string &GetName() const { return name; }
+        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the type of the object. An arbitrary string. (defaults to "")
-        [[nodiscard]] const std::string &GetType() const { return type; }
+        [[nodiscard]] std::string const &GetType() const { return type; }
 
         /// Get the left side of the object, in pixels.
         [[nodiscard]] float GetX() const { return x; }
@@ -86,34 +86,34 @@ namespace tinytmx
         [[nodiscard]] bool IsVisible() const { return visible; }
 
         /// Get the object type. (Rectangle, Ellipse, Point... etc)
-        [[nodiscard]] const tinytmx::ObjectType& GetObjectType() const { return objectType; }
+        [[nodiscard]] tinytmx::ObjectType const &GetObjectType() const { return objectType; }
 
         /// Get the Template.
-        [[nodiscard]] const std::string &GetTemplate() const { return t_template; }
+        [[nodiscard]] std::string const &GetTemplate() const { return t_template; }
 
         /// Get the Ellipse.
-        [[nodiscard]] const tinytmx::Ellipse *GetEllipse() const { return ellipse; }
+        [[nodiscard]] tinytmx::Ellipse const *GetEllipse() const { return ellipse; }
 
         /// Get the Point.
-        [[nodiscard]] const tinytmx::Vector2f *GetPoint() const { return point; }
+        [[nodiscard]] tinytmx::Vector2f const *GetPoint() const { return point; }
 
         /// Get the Polygon.
-        [[nodiscard]] const tinytmx::PolyObject *GetPolygon() const { return polygon; }
+        [[nodiscard]] tinytmx::PolyObject const *GetPolygon() const { return polygon; }
 
         /// Get the Polyline.
-        [[nodiscard]] const tinytmx::PolyObject *GetPolyline() const { return polyline; }
+        [[nodiscard]] tinytmx::PolyObject const *GetPolyline() const { return polyline; }
 
         /// Get the Text.
-        [[nodiscard]] const tinytmx::Text *GetText() const { return text; }
+        [[nodiscard]] tinytmx::Text const *GetText() const { return text; }
 
         /// Get the property set.
-        [[nodiscard]] const tinytmx::PropertySet *GetProperties() const { return properties; }
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
 
         /// Get the tile for a tile object.
-        [[nodiscard]] const tinytmx::MapTile *GetTile() const { return mapTile; }
+        [[nodiscard]] tinytmx::MapTile const *GetTile() const { return mapTile; }
 
         /// Get the templated tileset.
-        [[nodiscard]] const tinytmx::Tileset *GetTileset() const { return tileset; }
+        [[nodiscard]] tinytmx::Tileset const *GetTileset() const { return tileset; }
 
         /// Is it a template? -- get the bool value.
         [[nodiscard]] bool IsTemplate() const { return isTemplate; }

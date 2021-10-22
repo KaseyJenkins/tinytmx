@@ -5,12 +5,12 @@
 #include "tinytmxObject.hpp"
 
 namespace tinytmx {
-    ObjectGroup::ObjectGroup(const tinytmx::Map *_map)
+    ObjectGroup::ObjectGroup(tinytmx::Map const *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
               draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
               color("#a0a0a4") {}
 
-    ObjectGroup::ObjectGroup(const tinytmx::Tile *_tile, const tinytmx::Map *_map)
+    ObjectGroup::ObjectGroup(tinytmx::Tile const *_tile, tinytmx::Map const *_map)
             : Layer(_tile, _map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
               draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
               color("#a0a0a4") {}
@@ -22,8 +22,8 @@ namespace tinytmx {
         }
     }
 
-    void ObjectGroup::Parse(const tinyxml2::XMLNode *objectGroupNode) {
-        const tinyxml2::XMLElement *objectGroupElem = objectGroupNode->ToElement();
+    void ObjectGroup::Parse(tinyxml2::XMLNode const *objectGroupNode) {
+        tinyxml2::XMLElement const *objectGroupElem = objectGroupNode->ToElement();
 
         // Read the object group attributes, set to unknown if not defined in XML
         //objectGroupElem->Attribute("name") != nullptr ? name = objectGroupElem->Attribute("name") : name = "unknown";
@@ -48,7 +48,7 @@ namespace tinytmx {
         }
 
         if (objectGroupElem->Attribute("draworder")) {
-            const char* draworderAsCString = objectGroupElem->Attribute("draworder");
+            char const *draworderAsCString = objectGroupElem->Attribute("draworder");
 
             if (std::strcmp(draworderAsCString, "index") == 0) {
                 draw_order = tinytmx::DrawOrder::TMX_DRAWORDER_INDEX;
@@ -58,14 +58,14 @@ namespace tinytmx {
         }
 
         // Read the properties.
-        const tinyxml2::XMLNode *propertiesNode = objectGroupNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = objectGroupNode->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);
         }
 
         // Iterate through all of the object elements.
-        const tinyxml2::XMLNode *objectNode = objectGroupNode->FirstChildElement("object");
+        tinyxml2::XMLNode const *objectNode = objectGroupNode->FirstChildElement("object");
         while (objectNode) {
             // Allocate a new object and parse it.
             auto object = new Object();

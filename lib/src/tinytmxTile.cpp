@@ -41,8 +41,8 @@ namespace tinytmx {
         }
     }
 
-    void Tile::Parse(const tinyxml2::XMLNode *tileNode, const tinytmx::Map *_map) {
-        const tinyxml2::XMLElement *tileElem = tileNode->ToElement();
+    void Tile::Parse(tinyxml2::XMLNode const *tileNode, tinytmx::Map const *_map) {
+        tinyxml2::XMLElement const *tileElem = tileNode->ToElement();
 
         // Parse the attributes.
         id = tileElem->IntAttribute("id");
@@ -67,25 +67,25 @@ namespace tinytmx {
         }
 
         // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = tileNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = tileNode->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);
         }
 
         // Parse the animation if there is one.
-        const tinyxml2::XMLNode *animationNode = tileNode->FirstChildElement("animation");
+        tinyxml2::XMLNode const *animationNode = tileNode->FirstChildElement("animation");
         if (animationNode) {
             isAnimated = true;
 
-            const tinyxml2::XMLNode *frameNode = animationNode->FirstChildElement("frame");
+            tinyxml2::XMLNode const *frameNode = animationNode->FirstChildElement("frame");
             unsigned int durationSum = 0;
             while (frameNode != nullptr) {
 
-                const tinyxml2::XMLElement *frameElement = frameNode->ToElement();
+                tinyxml2::XMLElement const *frameElement = frameNode->ToElement();
 
-                const int tileID = frameElement->IntAttribute("tileid");
-                const unsigned int duration = frameElement->IntAttribute("duration");
+                int const          tileID   = frameElement->IntAttribute("tileid");
+                unsigned int const duration = frameElement->IntAttribute("duration");
 
                 frames.emplace_back(tileID, duration);
                 durationSum += duration;
@@ -96,7 +96,7 @@ namespace tinytmx {
             totalDuration = durationSum;
         }
 
-        const tinyxml2::XMLNode *objectGroupNode = tileNode->FirstChildElement("objectgroup");
+        tinyxml2::XMLNode const *objectGroupNode = tileNode->FirstChildElement("objectgroup");
         if (objectGroupNode) {
             hasObjectGroup = true;
             objectGroup = new ObjectGroup(this, _map);
@@ -105,7 +105,7 @@ namespace tinytmx {
 
         }
 
-        const tinyxml2::XMLNode *imageNode = tileNode->FirstChildElement("image");
+        tinyxml2::XMLNode const *imageNode = tileNode->FirstChildElement("image");
         if (imageNode) {
             image = new Image();
             image->Parse(imageNode);

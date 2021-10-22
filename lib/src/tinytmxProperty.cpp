@@ -7,11 +7,11 @@ namespace tinytmx {
             : type(tinytmx::PropertyType::TMX_PROPERTY_STRING) {
     }
 
-    void Property::Parse(const tinyxml2::XMLElement *propertyElem) {
-        const tinyxml2::XMLAttribute *typeAttribute = propertyElem->FindAttribute("type");
+    void Property::Parse(tinyxml2::XMLElement const *propertyElem) {
+        tinyxml2::XMLAttribute const *typeAttribute = propertyElem->FindAttribute("type");
 
         if (typeAttribute != nullptr) {
-            const char *typeAsCString = typeAttribute->Value();
+            char const *typeAsCString = typeAttribute->Value();
             if (std::strcmp(typeAsCString, "string") == 0) {
                 type = tinytmx::PropertyType::TMX_PROPERTY_STRING;
             } else if (std::strcmp(typeAsCString, "bool") == 0) {
@@ -29,7 +29,7 @@ namespace tinytmx {
             }
         }
 
-        const char *valueAsCString = propertyElem->Attribute("value");
+        char const *valueAsCString = propertyElem->Attribute("value");
         if (valueAsCString) {
             value = valueAsCString;
         } else {

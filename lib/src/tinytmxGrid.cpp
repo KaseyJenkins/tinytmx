@@ -8,7 +8,7 @@ namespace tinytmx {
             grid_orientation(tinytmx::GridOrientation::TMX_GO_ORTHOGONAL),
             width(0), height(0) {}
 
-    void Grid::Parse(const tinyxml2::XMLNode *gridNode) {
+    void Grid::Parse(tinyxml2::XMLNode const *gridNode) {
         const tinyxml2::XMLElement *gridElement = gridNode->ToElement();
 
         // Read all the attributes into member variables.

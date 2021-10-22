@@ -4,9 +4,9 @@
 
 namespace tinytmx {
 
-    void WangSetArray::Parse(std::vector<tinytmx::WangSet *> *wangsets, const tinyxml2::XMLNode *wangsetsNode) {
+    void WangSetArray::Parse(std::vector<tinytmx::WangSet *> *wangsets, tinyxml2::XMLNode const *wangsetsNode) {
         // Iterate through all of the wangsets nodes.
-        const tinyxml2::XMLNode* wangsetNode = wangsetsNode->FirstChildElement("wangset");
+        tinyxml2::XMLNode const *wangsetNode = wangsetsNode->FirstChildElement("wangset");
 
         while (wangsetNode) {
             // Read the attributes of the wangset and add it the WangSet vector.

@@ -11,9 +11,9 @@ namespace tinytmx
     {}
 
 
-    void Image::Parse(const tinyxml2::XMLNode *imageNode) 
+    void Image::Parse(tinyxml2::XMLNode const *imageNode)
     {
-        const tinyxml2::XMLElement* imageElem = imageNode->ToElement();
+        tinyxml2::XMLElement const *imageElem = imageNode->ToElement();
         
         // Read all the attribute into member variables.
         source = imageElem->Attribute("source");
@@ -21,7 +21,7 @@ namespace tinytmx
         width = imageElem->UnsignedAttribute("width");
         height = imageElem->UnsignedAttribute("height");
 
-        const char *trans = imageElem->Attribute("trans");
+        char const *trans = imageElem->Attribute("trans");
         if (trans) 
         {
             transparent_color = tinytmx::Color(trans);

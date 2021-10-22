@@ -51,11 +51,11 @@ namespace tinytmx
     public:
 
         /// Construct a TileLayer on the given map.
-        explicit TileLayer(const tinytmx::Map *_map);
+        explicit TileLayer(tinytmx::Map const *_map);
         ~TileLayer() override;
 
         /// Parse a tile layer node.
-        void Parse(const tinyxml2::XMLNode *tileLayerNode) override;
+        void Parse(tinyxml2::XMLNode const *tileLayerNode) override;
 
 
         /// Get the horizontal parallax factor for this layer.
@@ -73,22 +73,22 @@ namespace tinytmx
         [[nodiscard]] tinytmx::TileLayerCompressionType GetCompression() const { return compression; }
 
         /// Get the chunks for the infinite map.
-        [[nodiscard]] const std::vector<tinytmx::DataChunkTile *>& GetChunks() const { return chunks; }
+        [[nodiscard]] std::vector<tinytmx::DataChunkTile *> const &GetChunks() const { return chunks; }
         /// Get the chunk at a particular index.
-        [[nodiscard]] const tinytmx::DataChunkTile* GetChunk(std::vector<tinytmx::DataChunkTile *>::size_type index) const { return chunks.at(index); }
+        [[nodiscard]] tinytmx::DataChunkTile const *GetChunk(std::vector<tinytmx::DataChunkTile *>::size_type index) const { return chunks.at(index); }
         /// Get the number of chunks.
         [[nodiscard]] auto GetNumChunks() { return chunks.size(); }
 
         /// Get the data tile for the finite map.
-        [[nodiscard]] const tinytmx::DataChunkTile* GetDataTileFiniteMap () const { return  data_tile_finite_map; }
+        [[nodiscard]] tinytmx::DataChunkTile const *GetDataTileFiniteMap () const { return  data_tile_finite_map; }
 
 
     private:
 
         // TODO these functions need a tad of redoing
-        void ParseXML(const tinyxml2::XMLNode *dataNode, tinytmx::MapTile *m_tile_map = nullptr, const std::string& firstChildElement = "tile"); // Deprecated.
-        void ParseBase64(const std::string &innerText, uint32_t m_width = 0, uint32_t m_height = 0,  tinytmx::MapTile *m_tile_map = nullptr);
-        void ParseCSV(const std::string &innerText, tinytmx::MapTile *m_tile_map = nullptr);
+        void ParseXML(tinyxml2::XMLNode const *dataNode, tinytmx::MapTile *m_tile_map = nullptr, std::string const &firstChildElement = "tile"); // Deprecated.
+        void ParseBase64(std::string const &innerText, uint32_t m_width = 0, uint32_t m_height = 0,  tinytmx::MapTile *m_tile_map = nullptr);
+        void ParseCSV(std::string const &innerText, tinytmx::MapTile *m_tile_map = nullptr);
 
         tinytmx::Vector2f parallax;
 

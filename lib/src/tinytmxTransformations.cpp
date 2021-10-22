@@ -5,8 +5,8 @@ namespace tinytmx {
     Transformations::Transformations() :
             hflip(false), vflip(false), rotate(false), preferuntransformed(false) {}
 
-    void Transformations::Parse(const tinyxml2::XMLNode *transformationsNode) {
-        const tinyxml2::XMLElement *transformationsElement = transformationsNode->ToElement();
+    void Transformations::Parse(tinyxml2::XMLNode const *transformationsNode) {
+        tinyxml2::XMLElement const *transformationsElement = transformationsNode->ToElement();
 
         // Read all the attributes into member variables.
         hflip = transformationsElement->BoolAttribute("hflip");

@@ -13,13 +13,13 @@ namespace tinytmx {
     public:
         WangTile();
 
-        void Parse(const tinyxml2::XMLElement *wangTileElement);
+        void Parse(tinyxml2::XMLElement const *wangTileElement);
 
         /// Get the tile ID.
         [[nodiscard]] uint32_t GetTileId() const { return tileID; }
 
         /// Get the wang ID.
-        [[nodiscard]] const std::vector<uint32_t> &GetWangID() const { return wangID; }
+        [[nodiscard]] std::vector<uint32_t> const &GetWangID() const { return wangID; }
 
     private:
 

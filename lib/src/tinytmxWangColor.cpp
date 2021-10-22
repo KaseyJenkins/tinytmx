@@ -12,7 +12,7 @@ namespace tinytmx {
         }
     }
 
-    void WangColor::Parse(const tinyxml2::XMLElement *wangColorElement) {
+    void WangColor::Parse(tinyxml2::XMLElement const *wangColorElement) {
         // Parse the attributes.
         name = wangColorElement->Attribute("name");
 
@@ -23,7 +23,7 @@ namespace tinytmx {
         probability = wangColorElement->FloatAttribute("probability");
 
         // Parse the properties if any.
-        const tinyxml2::XMLElement *propertiesElement = wangColorElement->FirstChildElement("properties");
+        tinyxml2::XMLElement const *propertiesElement = wangColorElement->FirstChildElement("properties");
         if (propertiesElement) {
             properties = new PropertySet();
             properties->Parse(propertiesElement);

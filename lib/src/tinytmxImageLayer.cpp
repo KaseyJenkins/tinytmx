@@ -8,7 +8,7 @@ using std::vector;
 using std::string;
 
 namespace tinytmx {
-    ImageLayer::ImageLayer(const tinytmx::Map *_map)
+    ImageLayer::ImageLayer(tinytmx::Map const *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_IMAGE_LAYER),
               image(nullptr) {
     }
@@ -18,8 +18,8 @@ namespace tinytmx {
         image = nullptr;
     }
 
-    void ImageLayer::Parse(const tinyxml2::XMLNode *imageLayerNode) {
-        const tinyxml2::XMLElement *imageLayerElem = imageLayerNode->ToElement();
+    void ImageLayer::Parse(tinyxml2::XMLNode const *imageLayerNode) {
+        tinyxml2::XMLElement const *imageLayerElem = imageLayerNode->ToElement();
 
         // Read all the attributes into local variables.
         ID = imageLayerElem->UnsignedAttribute("id");
@@ -39,14 +39,14 @@ namespace tinytmx {
         }
 
         // Parse the image if there is one.
-        const tinyxml2::XMLNode *imageNode = imageLayerElem->FirstChildElement("image");
+        tinyxml2::XMLNode const *imageNode = imageLayerElem->FirstChildElement("image");
         if (imageNode) {
             image = new Image();
             image->Parse(imageNode);
         }
 
         // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = imageLayerElem->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = imageLayerElem->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);

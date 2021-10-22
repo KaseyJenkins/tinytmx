@@ -20,7 +20,7 @@ namespace tinytmx {
         Transformations();
 
         /// Parse a transformations element.
-        void Parse(const tinyxml2::XMLNode *transformationsNode);
+        void Parse(tinyxml2::XMLNode const *transformationsNode);
 
         /// Get the value of the 'hflip' attribute of the Transformations element. (Defaults to 0).
         [[nodiscard]] bool GetHflip() const { return hflip; }

@@ -17,11 +17,11 @@ namespace tinytmx {
     class Terrain {
     public:
         // Delete copy constructor.
-        Terrain(const Terrain &) = delete;
+        Terrain(Terrain const &) = delete;
         // Delete move constructor.
         Terrain(Terrain &&) = delete;
         // Delete copy assignment operator.
-        Terrain &operator=(const Terrain &) = delete;
+        Terrain &operator=(Terrain const &) = delete;
         // Delete move assignment operator.
         Terrain &operator=(Terrain &&) = delete;
         
@@ -29,16 +29,16 @@ namespace tinytmx {
         ~Terrain();
 
         /// Parse a terrain type node.
-        void Parse(const tinyxml2::XMLNode *terrainNode);
+        void Parse(tinyxml2::XMLNode const *terrainNode);
 
         /// Get the name of the terrain type.
-        [[nodiscard]] const std::string &GetName() const { return name; }
+        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the local tile-id of the tile that represents the terrain type visually.
         [[nodiscard]] int GetTileID() const { return tileID; }
 
         /// Get a set of properties re the terrain type.
-        [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
 
     private:
         int tileID;

@@ -20,7 +20,7 @@ namespace tinytmx {
         WangSetArray() = default;
 
         /// Parse a node containing all the wangsets.
-        void Parse(std::vector<tinytmx::WangSet *> *wangsets, const tinyxml2::XMLNode *wangsetsNode);
+        void Parse(std::vector<tinytmx::WangSet *> *wangsets, tinyxml2::XMLNode const *wangsetsNode);
 
     };
 }

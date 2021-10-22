@@ -31,36 +31,36 @@ namespace tinytmx {
     public:
 
         // Delete copy constructor.
-        Layer(const Layer &) = delete;
+        Layer(Layer const &) = delete;
         // Delete move constructor.
         Layer(Layer &&) = delete;
         // Delete copy assignment operator.
-        Layer &operator=(const Layer &) = delete;
+        Layer &operator=(Layer const &) = delete;
         // Delete move assignment operator.
         Layer &operator=(Layer &&) = delete;
 
         /// Construct a new Layer used by a map's objectgroup
-        Layer(const tinytmx::Map *_map, std::string _name, int _x, int _y,
+        Layer(tinytmx::Map const *_map, std::string const &_name, int _x, int _y,
               uint32_t _width, uint32_t _height, float _opacity, bool _visible,
               LayerType _layerType);
 
         /// Construct a new layer used by a tile's objectgroup
-        Layer(const tinytmx::Tile *_tile,
-              const tinytmx::Map *_map,
-              std::string _name, int _x, int _y,
+        Layer(tinytmx::Tile const *_tile,
+              tinytmx::Map const *_map,
+              std::string const &_name, int _x, int _y,
               uint32_t _width, uint32_t _height, float _opacity, bool _visible,
               LayerType _layerType);
 
         virtual ~Layer();
 
         /// Parse a layer element.
-        virtual void Parse(const tinyxml2::XMLNode *layerNode) = 0;
+        virtual void Parse(tinyxml2::XMLNode const *layerNode) = 0;
 
         /// Get the pointer to the parent map.
-        [[nodiscard]] const tinytmx::Map *mapGetMap() const { return map; }
+        [[nodiscard]] tinytmx::Map const *mapGetMap() const { return map; }
 
         /// Get the name of the layer.
-        [[nodiscard]] const std::string &GetName() const { return name; }
+        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the ID.
         [[nodiscard]] uint32_t GetID() const { return ID; }
@@ -84,7 +84,7 @@ namespace tinytmx {
         [[nodiscard]] bool IsVisible() const { return visible; }
 
         /// Get the tint color.
-        [[nodiscard]] const tinytmx::Color& GetTintColor() const { return tint_color; }
+        [[nodiscard]] tinytmx::Color const &GetTintColor() const { return tint_color; }
 
         // FIXME should probably be deprecated.
 //        /// Sets the offset for this GroupLayer
@@ -100,14 +100,14 @@ namespace tinytmx {
         [[nodiscard]] float GetOffsetY() const noexcept { return offsetY; }
 
         /// Get the property set.
-        [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
 
         /// Get the zorder of the layer.
         [[nodiscard]] int GetZOrder() const { return zOrder; }
 
         /// Set the zorder of the layer.
-        //void SetZOrder(int z) { zOrder = z; }
-        int& SetZOrder() { return zOrder; }
+        void SetZOrder(int z) { zOrder = z; }
+//        int& SetZOrder() { return zOrder; }
 
         /// Get the parse order of the layer.
         [[nodiscard]] int GetParseOrder() const { return parseOrder; }

@@ -10,7 +10,7 @@
 
 namespace tinytmx {
 
-    GroupLayer::GroupLayer(const tinytmx::Map *_map)
+    GroupLayer::GroupLayer(tinytmx::Map const *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_GROUP_LAYER) {
     }
 
@@ -21,8 +21,8 @@ namespace tinytmx {
         }
     }
 
-    void GroupLayer::Parse(const tinyxml2::XMLNode *groupLayerNode) {
-        const tinyxml2::XMLElement *groupLayerElem = groupLayerNode->ToElement();
+    void GroupLayer::Parse(tinyxml2::XMLNode const *groupLayerNode) {
+        tinyxml2::XMLElement const *groupLayerElem = groupLayerNode->ToElement();
 
         // Read all the attributes into local variables.
         ID = groupLayerElem->UnsignedAttribute("id");
@@ -42,7 +42,7 @@ namespace tinytmx {
         }
 
         // Parse the group.
-        const tinyxml2::XMLNode *child = groupLayerElem->FirstChild();
+        tinyxml2::XMLNode const *child = groupLayerElem->FirstChild();
         assert(child); //RJCB
 
         while (child != nullptr) {
@@ -67,7 +67,7 @@ namespace tinytmx {
         }
 
         // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = groupLayerElem->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = groupLayerElem->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);
@@ -78,11 +78,11 @@ namespace tinytmx {
         children.push_back(childLayer);
     }
 
-    tinytmx::Layer *GroupLayer::GetChild(const int index) const {
+    tinytmx::Layer const *GroupLayer::GetChild(int const index) const {
         return children.at(index);
     }
 
-    std::vector<tinytmx::Layer *> GroupLayer::GetChildren() const noexcept {
+    std::vector<tinytmx::Layer *> const &GroupLayer::GetChildren() const noexcept {
         return children;
     }
 

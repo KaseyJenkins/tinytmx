@@ -11,11 +11,11 @@ namespace tinytmx {
     public:
 
         // Delete copy constructor.
-        DataChunkTile(const DataChunkTile &) = delete;
+        DataChunkTile(DataChunkTile const &) = delete;
         // Delete move constructor.
         DataChunkTile(DataChunkTile &&) = delete;
         // Delete copy assignment operator.
-        DataChunkTile &operator=(const DataChunkTile &) = delete;
+        DataChunkTile &operator=(DataChunkTile const &) = delete;
         // Delete move assignment operator.
         DataChunkTile &operator=(DataChunkTile &&) = delete;
 
@@ -63,10 +63,10 @@ namespace tinytmx {
         [[nodiscard]] bool IsTileFlippedDiagonally(int x, int y) const { return tile_map[y * width + x].flippedDiagonally; }
 
         /// Get a tile at the given position.
-        [[nodiscard]] const tinytmx::MapTile &GetTile(int x, int y) const { return tile_map[y * width + x]; }
+        [[nodiscard]] tinytmx::MapTile const &GetTile(int x, int y) const { return tile_map[y * width + x]; }
 
         /// Get a tile by its index.
-        [[nodiscard]] const tinytmx::MapTile &GetTile(int index) const { return tile_map[index]; }
+        [[nodiscard]] tinytmx::MapTile const &GetTile(int index) const { return tile_map[index]; }
 
 
     private:

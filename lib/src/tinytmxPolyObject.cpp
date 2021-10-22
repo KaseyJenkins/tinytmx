@@ -6,7 +6,7 @@
 
 namespace tinytmx {
 
-    void PolyObject::Parse(const tinyxml2::XMLNode *polyObjectNode) {
+    void PolyObject::Parse(tinyxml2::XMLNode const *polyObjectNode) {
         char *pointsLine = strdup(polyObjectNode->ToElement()->Attribute("points"));
 
         char *token = std::strtok(pointsLine, " ");

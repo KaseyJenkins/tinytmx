@@ -73,8 +73,8 @@ namespace tinytmx {
 
     }
 
-    void Tileset::Parse(const tinyxml2::XMLNode *tilesetNode, const std::string &file_path, const tinytmx::Map* _map) {
-        const tinyxml2::XMLElement *tilesetElem = tilesetNode->ToElement();
+    void Tileset::Parse(tinyxml2::XMLNode const *tilesetNode, std::string const &file_path, tinytmx::Map const *_map) {
+        tinyxml2::XMLElement const *tilesetElem = tilesetNode->ToElement();
 
         // Read all the attributes into local variables.
 
@@ -86,10 +86,10 @@ namespace tinytmx {
         // the tileset config should be loaded from an external
         // TSX (Tile Set XML) file. That file has the same structure
         // as the <tileset> element in the TMX map.
-        const char *source_name = tilesetElem->Attribute("source");
+        char const *source_name = tilesetElem->Attribute("source");
         tinyxml2::XMLDocument tileset_doc;
         if (source_name) {
-            std::string fileName = file_path + source_name;
+            std::string const &fileName = file_path + source_name;
             tileset_doc.LoadFile(fileName.c_str());
 
             if (tileset_doc.ErrorID() != 0) {
@@ -114,7 +114,7 @@ namespace tinytmx {
 
         // Read Object Alignment
         if (tilesetElem->Attribute("objectalignment")) {
-            std::string objectAlignment = tilesetElem->Attribute("objectalignment");
+            std::string const &objectAlignment = tilesetElem->Attribute("objectalignment");
             if (objectAlignment == "topleft") {
                 object_alignment = tinytmx::ObjectAlignment::TMX_OA_TOPLEFT;
             } else if (objectAlignment == "top") {
@@ -137,41 +137,41 @@ namespace tinytmx {
         }
 
         // Parse the tile offset, if it exists.
-        const tinyxml2::XMLNode *tileOffsetNode = tilesetNode->FirstChildElement("tileoffset");
+        tinyxml2::XMLNode const *tileOffsetNode = tilesetNode->FirstChildElement("tileoffset");
         if (tileOffsetNode) {
             tileOffset = new TileOffset();
             tileOffset->Parse(tileOffsetNode);
         }
 
         // Parse the terrain types if any.
-        const tinyxml2::XMLNode *terrainTypesNode = tilesetNode->FirstChildElement("terraintypes");
+        tinyxml2::XMLNode const *terrainTypesNode = tilesetNode->FirstChildElement("terraintypes");
         if (terrainTypesNode) {
             TerrainArray terrainArray;
             terrainArray.Parse(&terrainTypes, terrainTypesNode);
         }
 
         // Parse the image.
-        const tinyxml2::XMLNode *imageNode = tilesetNode->FirstChildElement("image");
+        tinyxml2::XMLNode const *imageNode = tilesetNode->FirstChildElement("image");
         if (imageNode) {
             image = new Image();
             image->Parse(imageNode);
         }
 
         // Parse the grid.
-        const tinyxml2::XMLNode *gridNode = tilesetNode->FirstChildElement("grid");
+        tinyxml2::XMLNode const *gridNode = tilesetNode->FirstChildElement("grid");
         if (gridNode) {
             grid->Parse(gridNode);
         }
 
         // Parse the transformations.
-        const tinyxml2::XMLNode *transformationsNode = tilesetNode->FirstChildElement("transformations");
+        tinyxml2::XMLNode const *transformationsNode = tilesetNode->FirstChildElement("transformations");
         if (transformationsNode) {
             transformations = new Transformations();
             transformations->Parse(transformationsNode);
         }
 
         // Iterate through all of the tile elements and parse each.
-        const tinyxml2::XMLNode *tileNode = tilesetNode->FirstChildElement("tile");
+        tinyxml2::XMLNode const *tileNode = tilesetNode->FirstChildElement("tile");
         for (int tId = 0; tileNode; ++tId) {
             auto tile = new Tile(tId);
             tile->Parse(tileNode, _map);
@@ -181,21 +181,21 @@ namespace tinytmx {
         }
 
         // Iterate through all of the wangsets if any.
-        const tinyxml2::XMLNode *wangsetsNode = tilesetNode->FirstChildElement("wangsets");
+        tinyxml2::XMLNode const *wangsetsNode = tilesetNode->FirstChildElement("wangsets");
         if (wangsetsNode) {
             WangSetArray wangSetArray; // FIXME on the stack or heap?
             wangSetArray.Parse(&wangsets, wangsetsNode);
         }
 
         // Parse the properties if any.
-        const tinyxml2::XMLNode *propertiesNode = tilesetNode->FirstChildElement("properties");
+        tinyxml2::XMLNode const *propertiesNode = tilesetNode->FirstChildElement("properties");
         if (propertiesNode) {
             properties = new PropertySet();
             properties->Parse(propertiesNode);
         }
     }
 
-    const Tile *Tileset::GetTile(int index) const {
+    Tile const *Tileset::GetTile(int index) const {
         for (auto tile: tiles) {
             if (tile->GetId() == index)
                 return tile;

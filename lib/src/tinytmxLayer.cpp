@@ -22,7 +22,7 @@ int tinytmx::Layer::nextParseOrder = 0;
 /// @endcond
 
 namespace tinytmx {
-    Layer::Layer(const tinytmx::Map *_map, std::string _name, int _x, int _y, uint32_t _width, uint32_t _height, float _opacity,
+    Layer::Layer(const tinytmx::Map *_map, std::string const &_name, int _x, int _y, uint32_t _width, uint32_t _height, float _opacity,
                  bool _visible, LayerType _layerType)
             : visible(_visible),
               layerType(_layerType),
@@ -40,13 +40,13 @@ namespace tinytmx {
               map(_map),
               tile(nullptr),
               properties(nullptr),
-              name(std::move(_name)) {
+              name(_name) {
         ++nextParseOrder;
     }
 
-    Layer::Layer(const tinytmx::Tile *_tile,
-                 const tinytmx::Map *_map,
-                 std::string _name, int _x, int _y, uint32_t _width,
+    Layer::Layer(tinytmx::Tile const *_tile,
+                 tinytmx::Map  const *_map,
+                 std::string   const &_name, int _x, int _y, uint32_t _width,
                  uint32_t _height, float _opacity, bool _visible, LayerType _layerType)
             : visible(_visible),
               layerType(_layerType),
@@ -64,7 +64,7 @@ namespace tinytmx {
               map(_map),
               tile(_tile),
               properties(nullptr),
-              name(std::move(_name)) {
+              name(_name) {
         ++nextParseOrder;
     }
 

@@ -19,7 +19,7 @@ namespace tinytmx {
         TerrainArray() = default;
 
         /// Parse a node containing all the terrain nodes.
-        void Parse(std::vector<tinytmx::Terrain *> *terrainTypes, const tinyxml2::XMLNode *terrainArrayNode);
+        void Parse(std::vector<tinytmx::Terrain *> *terrainTypes, tinyxml2::XMLNode const *terrainArrayNode);
     };
 }
 

@@ -22,7 +22,7 @@ namespace tinytmx {
         Grid();
 
         /// Parse a grid element.
-        void Parse(const tinyxml2::XMLNode *gridNode);
+        void Parse(tinyxml2::XMLNode const *gridNode);
 
         /// Get the grid's orientation.
         [[nodiscard]] tinytmx::GridOrientation GetOrientation() const { return grid_orientation; }

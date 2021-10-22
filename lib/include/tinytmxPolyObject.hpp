@@ -9,22 +9,22 @@ namespace tinyxml2 {
 }
 
 namespace tinytmx {
-    //-------------------------------------------------------------------------
-    /// A class to store a Polyline or a Polygon.
-    //-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
+/// A class to store a Polyline or a Polygon.
+//-------------------------------------------------------------------------
 
     class PolyObject {
     public:
         PolyObject() = default;
 
         /// Parse the polyline node.
-        void Parse(const tinyxml2::XMLNode *polyObjectNode);
+        void Parse(tinyxml2::XMLNode const *polyObjectNode);
 
         /// Get all of the points.
-        [[nodiscard]] const std::vector<tinytmx::Vector2f > &GetPoints() const { return points; }
+        [[nodiscard]] std::vector<tinytmx::Vector2f> const &GetPoints() const { return points; }
 
         /// Get one of the vertices.
-        [[nodiscard]] const tinytmx::Vector2f &GetPoint(int index) const { return points.at(index); }
+        [[nodiscard]] tinytmx::Vector2f const &GetPoint(int index) const { return points.at(index); }
 
         /// Get the number of vertices.
         [[nodiscard]] auto GetNumPoints() const { return points.size(); }

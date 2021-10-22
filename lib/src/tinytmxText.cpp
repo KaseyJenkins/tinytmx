@@ -18,8 +18,8 @@ namespace tinytmx {
               color("#000000"),
               font_family("sans-serif") {}
 
-    void Text::Parse(const tinyxml2::XMLNode *textNode) {
-        const tinyxml2::XMLElement *textElement = textNode->ToElement();
+    void Text::Parse(tinyxml2::XMLNode const *textNode) {
+        tinyxml2::XMLElement const *textElement = textNode->ToElement();
 
         contents = std::string(textElement->GetText() ? textElement->GetText() : "");
         if (textElement->FindAttribute("fontfamily")) {
@@ -34,7 +34,7 @@ namespace tinytmx {
         textElement->QueryBoolAttribute("kerning", &kerning);
 
         if (textElement->FindAttribute("halign")) {
-            const char* halignAsCString = textElement->Attribute("halign");
+            char const *halignAsCString = textElement->Attribute("halign");
 
             if (std::strcmp(halignAsCString, "left") == 0) {
                 horizontal_alignment = HorizontalAlignment::LEFT;
@@ -48,7 +48,7 @@ namespace tinytmx {
         }
 
         if (textElement->FindAttribute("valign")) {
-            const char* valignAsCString = textElement->Attribute("valign");
+            char const *valignAsCString = textElement->Attribute("valign");
 
             if (std::strcmp(valignAsCString, "top") == 0) {
                 vertical_alignment = VerticalAlignment::TOP;

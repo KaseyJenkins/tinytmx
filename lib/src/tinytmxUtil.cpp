@@ -62,11 +62,11 @@ namespace tinytmx {
 
 
 
-    std::string Util::DecodeBase64(const std::string &str) {
+    std::string Util::DecodeBase64(std::string const &str) {
         return base64_decode(str);
     }
 
-    char *Util::DecompressGZIP(const char *data, uint32_t dataSize, uint32_t expectedSize) {
+    char *Util::DecompressGZIP(char const *data, uint32_t dataSize, uint32_t expectedSize) {
         uint32_t bufferSize = expectedSize;
         int ret;
         z_stream strm;

@@ -19,11 +19,11 @@ namespace tinytmx {
     public:
 
         // Delete copy constructor.
-        WangColor(const WangColor &) = delete;
+        WangColor(WangColor const &) = delete;
         // Delete move constructor.
         WangColor(WangColor &&) = delete;
         // Delete copy assignment operator.
-        WangColor &operator=(const WangColor &) = delete;
+        WangColor &operator=(WangColor const &) = delete;
         // Delete move assignment operator.
         WangColor &operator=(WangColor &&) = delete;
 
@@ -31,13 +31,13 @@ namespace tinytmx {
         WangColor();
         ~WangColor();
 
-        void Parse(const tinyxml2::XMLElement *wangColorElement);
+        void Parse(tinyxml2::XMLElement const *wangColorElement);
 
         /// Get the name of this color.
-        [[nodiscard]] const std::string &GetName() const { return name; }
+        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the color.
-        [[nodiscard]] const Color& GetColor() const noexcept { return color; } // FIXME check all noexcept functions
+        [[nodiscard]] Color const &GetColor() const noexcept { return color; } // FIXME check all noexcept functions
 
         /// Get the tile ID  of the tile representing this color.
         [[nodiscard]] int GetTileID() const { return tileID; }
@@ -47,7 +47,7 @@ namespace tinytmx {
         [[nodiscard]] float GetProbability() const { return probability; }
 
         /// Get a set of properties re the wangcolor.
-        [[nodiscard]] const tinytmx::PropertySet* GetProperties() const { return properties; }
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
 
     private:
         int tileID;

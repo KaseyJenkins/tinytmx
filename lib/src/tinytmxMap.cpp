@@ -72,7 +72,7 @@ namespace tinytmx {
         }
     }
 
-    void Map::ParseFile(const std::string &fileName) {
+    void Map::ParseFile(std::string const &fileName) {
         file_name = fileName;
 
         auto lastSlash = fileName.find_last_of('/');
@@ -100,7 +100,7 @@ namespace tinytmx {
         Parse(mapNode);
     }
 
-    void Map::ParseText(const std::string &text) {
+    void Map::ParseText(std::string const &text) {
         // Create a tinyxml2 document and use it to parse the text.
         tinyxml2::XMLDocument doc;
         doc.Parse(text.c_str());
@@ -129,7 +129,7 @@ namespace tinytmx {
         return -1;
     }
 
-    const Tileset *Map::FindTileset(unsigned gid) const {
+    Tileset const *Map::FindTileset(unsigned gid) const {
         for (int i = tilesets.size() - 1; i > -1; --i) {
             // If the gid is beyond the tileset gid return the tileset.
             if (gid >= tilesets[i]->GetFirstGid()) {

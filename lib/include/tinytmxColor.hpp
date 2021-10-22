@@ -26,19 +26,19 @@ namespace tinytmx
         explicit Color(const std::string& str);
 
         /// Default copy ctor.
-        Color(const Color&) = default;
+        Color(Color const &) = default;
         /// Default copy asignment operator.
-        Color& operator=(const Color&) = default;
+        Color& operator=(Color const &) = default;
         /// Default move ctor.
-        Color(Color&&) = default;
+        Color(Color &&) = default;
         /// Default move assignment operator.
-        Color& operator=(Color&&) = default;
+        Color& operator=(Color &&) = default;
 
         /// Check if two colors have the exact same four components.
-        bool operator==(const Color& o) const { return color == o.color; }
+        bool operator==(Color const &o) const { return color == o.color; }
 
         /// Check if two colors are different.
-        bool operator!=(const Color& o) const { return color != o.color; }
+        bool operator!=(Color const &o) const { return color != o.color; }
 
         /// Get the alpha component of the color.
         [[nodiscard]] uint8_t GetAlpha() const;

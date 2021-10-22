@@ -47,11 +47,11 @@ namespace tinytmx
     public:
 
         // Delete copy constructor.
-        Tileset(const Tileset &) = delete;
+        Tileset(Tileset const &) = delete;
         // Delete move constructor.
         Tileset(Tileset &&) = delete;
         // Delete copy assignment operator.
-        Tileset &operator=(const Tileset &) = delete;
+        Tileset &operator=(Tileset const &) = delete;
         // Delete move assignment operator.
         Tileset &operator=(Tileset &&) = delete;
 
@@ -59,13 +59,13 @@ namespace tinytmx
         ~Tileset();
 
         /// Parse a tileset element.
-        void Parse(const tinyxml2::XMLNode *tilesetNode, const std::string& file_path, const tinytmx::Map* _map);
+        void Parse(tinyxml2::XMLNode const *tilesetNode, std::string const &file_path, tinytmx::Map const *_map);
 
         /// Returns the global id of the first tile.
         [[nodiscard]] int GetFirstGid() const { return first_gid; }
 
         /// Returns the name of the tileset.
-        [[nodiscard]] const std::string &GetName() const { return name; }
+        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the width of a single tile.
         [[nodiscard]] uint32_t GetTileWidth() const { return tile_width; }
@@ -89,32 +89,32 @@ namespace tinytmx
         [[nodiscard]] tinytmx::ObjectAlignment GetObjectAlignment() const { return object_alignment; }
 
         /// Get the grid.
-        [[nodiscard]] const tinytmx::Grid* GetGrid() const { return grid; }
+        [[nodiscard]] tinytmx::Grid const *GetGrid() const { return grid; }
 
         /// Get the offset of tileset
-        [[nodiscard]] const tinytmx::TileOffset* GetTileOffset() const { return tileOffset; }
+        [[nodiscard]] tinytmx::TileOffset const *GetTileOffset() const { return tileOffset; }
 
         /// Returns a variable containing information
         /// about the image of the tileset.
-        [[nodiscard]] const tinytmx::Image* GetImage() const { return image; }
+        [[nodiscard]] tinytmx::Image const *GetImage() const { return image; }
 
         /// Get the transformations.
-        [[nodiscard]] const tinytmx::Transformations* GetTransformations() const { return transformations; }
+        [[nodiscard]] tinytmx::Transformations const *GetTransformations() const { return transformations; }
 
         /// Returns a single tile of the set.
-        [[nodiscard]] const tinytmx::Tile *GetTile(int index) const;
+        [[nodiscard]] tinytmx::Tile const *GetTile(int index) const;
 
         /// Returns the whole tile collection.
-        [[nodiscard]] const std::vector< tinytmx::Tile *> &GetTiles() const { return tiles; }
+        [[nodiscard]] std::vector< tinytmx::Tile *> const &GetTiles() const { return tiles; }
 
         /// Returns the whole wangsets collection.
-        [[nodiscard]] const std::vector<tinytmx::WangSet*> &GetWangSets() const { return wangsets; }
+        [[nodiscard]] std::vector<tinytmx::WangSet*> const &GetWangSets() const { return wangsets; }
 
         /// Get a wangset by an index.
-        [[nodiscard]] const tinytmx::WangSet* GetWangSet(int index) const { return wangsets.at(index); }
+        [[nodiscard]] tinytmx::WangSet const *GetWangSet(int index) const { return wangsets.at(index); }
         
         /// Get a set of properties regarding the tile.
-        [[nodiscard]] const tinytmx::PropertySet *GetProperties() const { return properties; }
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
 
     private:
         int first_gid;
