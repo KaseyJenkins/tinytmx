@@ -5,8 +5,8 @@
 #include "tinytmxTileset.hpp"
 #include "tinytmxTileOffset.hpp"
 #include "tinytmxGrid.hpp"
-#include "tinytmxTerrainArray.hpp"
-#include "tinytmxTerrain.hpp"
+//#include "tinytmxTerrainArray.hpp" // Deprecated
+//#include "tinytmxTerrain.hpp"
 #include "tinytmxImage.hpp"
 #include "tinytmxTile.hpp"
 #include "tinytmxMap.hpp"
@@ -53,11 +53,12 @@ namespace tinytmx {
             transformations = nullptr;
         }
 
+        // Deprecated
         // Iterate through all of the terrain types in the tileset and delete each of them.
-        for (auto terrainType: terrainTypes) {
-            delete terrainType;
-            terrainType = nullptr;
-        }
+//        for (auto terrainType: terrainTypes) {
+//            delete terrainType;
+//            terrainType = nullptr;
+//        }
 
         // Iterate through all of the tiles in the tileset and delete each of them.
         for (auto tile: tiles) {
@@ -143,12 +144,12 @@ namespace tinytmx {
             tileOffset->Parse(tileOffsetNode);
         }
 
-        // Parse the terrain types if any.
-        tinyxml2::XMLNode const *terrainTypesNode = tilesetNode->FirstChildElement("terraintypes");
-        if (terrainTypesNode) {
-            TerrainArray terrainArray;
-            terrainArray.Parse(&terrainTypes, terrainTypesNode);
-        }
+        // Parse the terrain types if any. // Deprecated
+//        tinyxml2::XMLNode const *terrainTypesNode = tilesetNode->FirstChildElement("terraintypes");
+//        if (terrainTypesNode) {
+//            TerrainArray terrainArray;
+//            terrainArray.Parse(&terrainTypes, terrainTypesNode);
+//        }
 
         // Parse the image.
         tinyxml2::XMLNode const *imageNode = tilesetNode->FirstChildElement("image");

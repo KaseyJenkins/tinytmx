@@ -38,8 +38,8 @@ target_sources(tinytmx
         PRIVATE src/tinytmxPolyObject.cpp
         PRIVATE src/tinytmxProperty.cpp
         PRIVATE src/tinytmxPropertySet.cpp
-        PRIVATE src/tinytmxTerrain.cpp
-        PRIVATE src/tinytmxTerrainArray.cpp
+#        PRIVATE src/tinytmxTerrain.cpp
+#        PRIVATE src/tinytmxTerrainArray.cpp
         PRIVATE src/tinytmxText.cpp
         PRIVATE src/tinytmxTile.cpp
         PRIVATE src/tinytmxLayer.cpp

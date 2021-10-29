@@ -135,8 +135,8 @@ namespace tinytmx
 
         tinytmx::PropertySet* properties;
 
-        std::vector< tinytmx::Terrain* > terrainTypes;
-        std::vector< tinytmx::Tile* > tiles;
+//        std::vector< tinytmx::Terrain* > terrainTypes; // Deprecated
+        std::vector<tinytmx::Tile * > tiles;
         std::vector<tinytmx::WangSet*> wangsets;
 
         std::string name;

@@ -22,6 +22,6 @@
 #include "tinytmxTile.hpp"
 #include "tinytmxText.hpp"
 #include "tinytmxDataChunkTile.hpp"
-#include "tinytmxTerrain.hpp"
+//#include "tinytmxTerrain.hpp"
 
 #endif //TINYTMX_TINYTMX_HPP

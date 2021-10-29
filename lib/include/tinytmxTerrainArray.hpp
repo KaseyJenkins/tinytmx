@@ -14,7 +14,7 @@ namespace tinytmx {
     /// A class to parse terrain types, which can be referenced from the
     /// terrain attribute of the tileset/tile element.
     //-----------------------------------------------------------------------------
-    class TerrainArray {
+    class [[deprecated]] TerrainArray {
     public:
         TerrainArray() = default;
 

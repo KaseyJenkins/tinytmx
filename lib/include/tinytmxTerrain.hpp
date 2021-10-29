@@ -14,7 +14,8 @@ namespace tinytmx {
     /// tileset/terraintypes element.
     /// FIXME DEPRECATED since 1.5 (soon to most likely be deleted)
     //-------------------------------------------------------------------------
-    class Terrain {
+
+    class [[deprecated]] Terrain {
     public:
         // Delete copy constructor.
         Terrain(Terrain const &) = delete;
