@@ -140,7 +140,9 @@ endif ()
 
 install(DIRECTORY include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-        FILES_MATCHING PATTERN "*.hpp")
+        FILES_MATCHING
+        PATTERN "*.hpp"
+        PATTERN "*.h")
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/tinytmxConfigVersion.cmake

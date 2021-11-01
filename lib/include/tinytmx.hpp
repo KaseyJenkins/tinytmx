@@ -22,6 +22,7 @@
 #include "tinytmxTile.hpp"
 #include "tinytmxText.hpp"
 #include "tinytmxDataChunkTile.hpp"
+#include "base64.h"
 //#include "tinytmxTerrain.hpp"
 
 #endif //TINYTMX_TINYTMX_HPP
