@@ -1,6 +1,8 @@
 #ifndef TINYTMX_TINYTMXGRID_HPP
 #define TINYTMX_TINYTMXGRID_HPP
 
+#include <cstdint>
+
 namespace tinyxml2 {
     class XMLNode;
 }

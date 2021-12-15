@@ -1,4 +1,4 @@
-#include <string>
+#include <string_view>
 #include "tinytmxGrid.hpp"
 #include "tinyxml2.h"
 
@@ -12,11 +12,11 @@ namespace tinytmx {
         tinyxml2::XMLElement const *gridElement = gridNode->ToElement();
 
         // Read all the attributes into member variables.
-        char const *orientationsCString = gridElement->Attribute("orientation");
+        std::string_view orientationsCString = gridElement->Attribute("orientation");
 
-        if (std::strcmp(orientationsCString, "isometric") == 0) {
+        if (orientationsCString == "isometric") {
             grid_orientation = tinytmx::GridOrientation::TMX_GO_ISOMETRIC;
-        } else if (std::strcmp(orientationsCString, "orthogonal") == 0) {
+        } else if (orientationsCString == "orthogonal") {
             grid_orientation = tinytmx::GridOrientation::TMX_GO_ORTHOGONAL; // FIXME: probably redundant at the moment : This element is only used in case of isometric orientation
         }
 

@@ -1,4 +1,4 @@
-#include <cstring>
+#include <string_view>
 #include "tinyxml2.h"
 #include "tinytmxProperty.hpp"
 
@@ -11,20 +11,20 @@ namespace tinytmx {
         tinyxml2::XMLAttribute const *typeAttribute = propertyElem->FindAttribute("type");
 
         if (typeAttribute != nullptr) {
-            char const *typeAsCString = typeAttribute->Value();
-            if (std::strcmp(typeAsCString, "string") == 0) {
+            std::string_view typeAsCString = typeAttribute->Value();
+            if (typeAsCString == "string") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_STRING;
-            } else if (std::strcmp(typeAsCString, "bool") == 0) {
+            } else if (typeAsCString == "bool") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_BOOL;
-            } else if (std::strcmp(typeAsCString, "float") == 0) {
+            } else if (typeAsCString == "float") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_FLOAT;
-            } else if (std::strcmp(typeAsCString, "int") == 0) {
+            } else if (typeAsCString == "int") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_INT;
-            } else if (std::strcmp(typeAsCString, "color") == 0) {
+            } else if (typeAsCString == "color") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_COLOR;
-            } else if (std::strcmp(typeAsCString, "file") == 0) {
+            } else if (typeAsCString == "file") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_FILE;
-            } else if (std::strcmp(typeAsCString, "object") == 0) {
+            } else if (typeAsCString == "object") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_OBJECT;
             }
         }

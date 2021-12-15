@@ -1,8 +1,6 @@
 #ifndef TINYTMX_TINYTMXTILEOFFSET_HPP
 #define TINYTMX_TINYTMXTILEOFFSET_HPP
 
-#include <string>
-
 namespace tinyxml2 {
     class XMLNode;
 }

@@ -84,12 +84,12 @@ namespace tinytmx {
             for (tinyxml2::XMLNode const *node = mapNode->FirstChild(); node != nullptr; node = node->NextSibling()) {
                 // Read the properties. Can contain at most one: <tileset>, <object>
 
-                if (strcmp(node->Value(), "tileset") == 0) {
+                if (std::strcmp(node->Value(), "tileset") == 0) {
                     tileset = new Tileset();
                     tileset->Parse(node, file_path, _map);
                 }
 
-                if (strcmp(node->Value(), "object") == 0) {
+                if (std::strcmp(node->Value(), "object") == 0) {
                     ParseObject(node, _map); // go through a template object
                     ParseObject(objectNode, _map); // go through a normal object
                     setObjectType();

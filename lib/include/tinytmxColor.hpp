@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <string_view>
 #include <cstdint>
 
 namespace tinytmx
@@ -23,7 +24,7 @@ namespace tinytmx
         Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
 
         /// Initialize the Color from a string hexadecimal representation in the format "#AARRGGBB" or "#RRGGBB".
-        explicit Color(const std::string& str);
+        explicit Color(std::string_view str);
 
         /// Default copy ctor.
         Color(Color const &) = default;

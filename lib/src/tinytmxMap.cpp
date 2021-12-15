@@ -1,6 +1,5 @@
 #include "tinyxml2.h"
 
-
 #include "tinytmxMap.hpp"
 #include "tinytmxTileset.hpp"
 #include "tinytmxLayer.hpp"
@@ -163,52 +162,52 @@ namespace tinytmx {
         }
 
         // Read the orientation
-        char const *orientationCString = mapElem->Attribute("orientation");
+        std::string_view orientationCString = mapElem->Attribute("orientation");
 
-        if (std::strcmp(orientationCString, "orthogonal") == 0) {
+        if (orientationCString == "orthogonal") {
             orientation = MapOrientation::TMX_MO_ORTHOGONAL;
-        } else if (std::strcmp(orientationCString, "isometric") == 0) {
+        } else if (orientationCString == "isometric") {
             orientation = MapOrientation::TMX_MO_ISOMETRIC;
-        } else if (std::strcmp(orientationCString, "staggered") == 0) {
+        } else if (orientationCString == "staggered") {
             orientation = MapOrientation::TMX_MO_STAGGERED;
-        } else if (std::strcmp(orientationCString, "hexagonal") == 0) {
+        } else if (orientationCString == "hexagonal") {
             orientation = MapOrientation::TMX_MO_HEXAGONAL;
         }
 
 
         // Read the render order
         if (mapElem->Attribute("renderorder")) {
-            char const *renderOrderCString = mapElem->Attribute("renderorder");
+            std::string_view renderOrderCString = mapElem->Attribute("renderorder");
 
-            if (std::strcmp(renderOrderCString, "right-down") == 0) {
+            if (renderOrderCString == "right-down") {
                 render_order = MapRenderOrder::TMX_RIGHT_DOWN;
-            } else if (std::strcmp(renderOrderCString, "right-up") == 0) {
+            } else if (renderOrderCString == "right-up") {
                 render_order = MapRenderOrder::TMX_RIGHT_UP;
-            } else if (std::strcmp(renderOrderCString, "left-down") == 0) {
+            } else if (renderOrderCString == "left-down") {
                 render_order = MapRenderOrder::TMX_LEFT_DOWN;
-            } else if (std::strcmp(renderOrderCString, "left-up") == 0) {
+            } else if (renderOrderCString == "left-up") {
                 render_order = MapRenderOrder::TMX_LEFT_UP;
             }
         }
 
         // Read the stagger axis
         if (mapElem->Attribute("staggeraxis")) {
-            char const *staggerAxisCString = mapElem->Attribute("staggeraxis");
+            std::string_view staggerAxisCString = mapElem->Attribute("staggeraxis");
 
-            if (std::strcmp(staggerAxisCString, "x") == 0) {
+            if (staggerAxisCString == "x") {
                 stagger_axis = MapStaggerAxis::TMX_SA_X;
-            } else if (std::strcmp(staggerAxisCString, "y") == 0) {
+            } else if (staggerAxisCString == "y") {
                 stagger_axis = MapStaggerAxis::TMX_SA_Y;
             }
         }
 
         // Read the stagger index
         if (mapElem->Attribute("staggerindex")) {
-            char const *staggerIndexCString = mapElem->Attribute("staggerindex");
+            std::string_view staggerIndexCString = mapElem->Attribute("staggerindex");
 
-            if (std::strcmp(staggerIndexCString, "even") == 0) {
+            if (staggerIndexCString == "even") {
                 stagger_index = MapStaggerIndex::TMX_SI_EVEN;
-            } else if (std::strcmp(staggerIndexCString, "odd") == 0) {
+            } else if (staggerIndexCString == "odd") {
                 stagger_index = MapStaggerIndex::TMX_SI_ODD;
             }
         }

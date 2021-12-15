@@ -1,7 +1,7 @@
 #include "tinytmxText.hpp"
 #include "tinytmxColor.hpp"
 #include "tinyxml2.h"
-#include <cstdlib>
+#include <string_view>
 
 
 namespace tinytmx {
@@ -34,27 +34,27 @@ namespace tinytmx {
         textElement->QueryBoolAttribute("kerning", &kerning);
 
         if (textElement->FindAttribute("halign")) {
-            char const *halignAsCString = textElement->Attribute("halign");
+            std::string_view halignAsCString = textElement->Attribute("halign");
 
-            if (std::strcmp(halignAsCString, "left") == 0) {
+            if (halignAsCString == "left") {
                 horizontal_alignment = HorizontalAlignment::LEFT;
-            } else if (std::strcmp(halignAsCString, "center") == 0) {
+            } else if (halignAsCString == "center") {
                 horizontal_alignment = HorizontalAlignment::HCENTER;
-            } else if (std::strcmp(halignAsCString, "right") == 0) {
+            } else if (halignAsCString == "right") {
                 horizontal_alignment = HorizontalAlignment::RIGHT;
-            } else if (std::strcmp(halignAsCString, "justify") == 0) {
+            } else if (halignAsCString == "justify") {
                 horizontal_alignment = HorizontalAlignment::JUSTIFY;
             }
         }
 
         if (textElement->FindAttribute("valign")) {
-            char const *valignAsCString = textElement->Attribute("valign");
+            std::string_view valignAsCString = textElement->Attribute("valign");
 
-            if (std::strcmp(valignAsCString, "top") == 0) {
+            if (valignAsCString == "top") {
                 vertical_alignment = VerticalAlignment::TOP;
-            } else if (std::strcmp(valignAsCString, "center") == 0) {
+            } else if (valignAsCString == "center") {
                 vertical_alignment = VerticalAlignment::VCENTER;
-            } else if (std::strcmp(valignAsCString, "bottom") == 0) {
+            } else if (valignAsCString == "bottom") {
                 vertical_alignment = VerticalAlignment::BOTTOM;
             }
         }

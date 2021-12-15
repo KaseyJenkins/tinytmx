@@ -2,9 +2,6 @@
 #define TINYTMX_TINYTMXIMAGELAYER_HPP
 
 
-#include <string>
-#include <vector>
-
 #include "tinytmxLayer.hpp"
 #include "tinytmxPropertySet.hpp"
 

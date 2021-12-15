@@ -2,7 +2,6 @@
 #define TINYTMX_TINYTMXGROUPLAYER_HPP
 
 
-#include <string>
 #include <vector>
 
 #include "tinytmxLayer.hpp"

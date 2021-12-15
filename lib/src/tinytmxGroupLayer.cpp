@@ -1,6 +1,7 @@
 #include "tinyxml2.h"
 #include <cassert> //RJCB
 #include <cstring>
+#include <string>
 
 #include "tinytmxLayer.hpp"
 #include "tinytmxGroupLayer.hpp"

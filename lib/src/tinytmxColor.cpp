@@ -26,11 +26,11 @@ namespace tinytmx {
 
     }
 
-    Color::Color(std::string const &str) {
+    Color::Color(std::string_view str) {
         // We skip the first # character and then read directly the hexadecimal value
-        color = std::strtoul((str.c_str() + 1), nullptr, 16);
+        color = std::strtoul((str.data() + 1), nullptr, 16);
         // If the input has the short format #RRGGBB without alpha channel we set it to 255
-        if (str.length() == 7) { color |= 0xff000000; }
+        if (str.size() == 7) { color |= 0xff000000; }
     }
 
     uint8_t Color::GetAlpha() const {

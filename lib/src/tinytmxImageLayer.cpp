@@ -1,11 +1,10 @@
+#include <string>
 #include "tinyxml2.h"
 
 #include "tinytmxLayer.hpp"
 #include "tinytmxImageLayer.hpp"
 #include "tinytmxImage.hpp"
 
-using std::vector;
-using std::string;
 
 namespace tinytmx {
     ImageLayer::ImageLayer(tinytmx::Map const *_map)

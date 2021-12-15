@@ -1,4 +1,6 @@
 #include "tinyxml2.h"
+#include <string>
+#include <string_view>
 
 #include "tinytmxLayer.hpp"
 #include "tinytmxObjectGroup.hpp"
@@ -48,11 +50,11 @@ namespace tinytmx {
         }
 
         if (objectGroupElem->Attribute("draworder")) {
-            char const *draworderAsCString = objectGroupElem->Attribute("draworder");
+            std::string_view draworderAsCString = objectGroupElem->Attribute("draworder");
 
-            if (std::strcmp(draworderAsCString, "index") == 0) {
+            if (draworderAsCString == "index") {
                 draw_order = tinytmx::DrawOrder::TMX_DRAWORDER_INDEX;
-            } else if (std::strcmp(draworderAsCString, "topdown") == 0) {
+            } else if (draworderAsCString == "topdown") {
                 draw_order = tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN;
             }
         }
