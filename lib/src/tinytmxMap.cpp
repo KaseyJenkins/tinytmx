@@ -219,8 +219,7 @@ namespace tinytmx {
         for (tinyxml2::XMLNode const *node = mapElem->FirstChild(); node != nullptr; node = node->NextSibling()) {
             // Read the map properties.
             if (std::strcmp(node->Value(), "properties") == 0) {
-                properties = new PropertySet();
-                properties->Parse(node);
+                properties = new PropertySet(node);
             }
 
             // Iterate through all of the tileset elements.

@@ -15,10 +15,7 @@ namespace tinytmx
     class TileOffset
     {
     public:
-        TileOffset();
-
-        /// Parses a tileoffset element.
-        void Parse(tinyxml2::XMLNode const *tileOffsetNode);
+        explicit TileOffset(tinyxml2::XMLNode const *);
 
         /// Get the value of the x attribute of the tile offset. Horizontal offset in pixels.
         [[nodiscard]] int GetX() const { return x; }
@@ -31,6 +28,8 @@ namespace tinytmx
         // TODO maybe Vector2i
         int x;
         int y;
+
+        void Parse(tinyxml2::XMLNode const *tileOffsetNode);
     };
 }
 

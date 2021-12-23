@@ -4,7 +4,9 @@
 
 namespace tinytmx {
 
-    PropertySet::PropertySet() : properties() {}
+    PropertySet::PropertySet(tinyxml2::XMLNode const *propertiesNode) : properties() {
+        Parse(propertiesNode);
+    }
 
     PropertySet::~PropertySet() {
         properties.clear();
@@ -25,10 +27,8 @@ namespace tinytmx {
             }
 
             // Read the attributes of the property and add it to the map.
-            Property property;
-            property.Parse(propertyElem);
-            properties[nameAttrib->Value()] = property;
-
+            Property property(propertyElem);
+            properties.insert({nameAttrib->Value(), property});
             propertyNode = propertyNode->NextSiblingElement("property");
         }
     }

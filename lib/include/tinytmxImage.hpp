@@ -17,10 +17,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     class Image {
     public:
-        Image();
-
-        /// Parses an image element.
-        void Parse(tinyxml2::XMLNode const *imageNode);
+        explicit Image(tinyxml2::XMLNode const *);
 
         /// Get the path to the file of the image (relative to the map)
         [[nodiscard]] std::string const &GetSource() const { return source; }
@@ -40,6 +37,8 @@ namespace tinytmx {
         uint32_t height;
         tinytmx::Color transparent_color;
         std::string source;
+
+        void Parse(tinyxml2::XMLNode const *imageNode);
     };
 }
 

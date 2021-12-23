@@ -205,8 +205,7 @@ namespace tinytmx {
         tinyxml2::XMLNode const *propertiesNode = objectNode->FirstChildElement("properties");
         if (propertiesNode) {
             delete properties;
-            properties = new PropertySet();
-            properties->Parse(propertiesNode);
+            properties = new PropertySet(propertiesNode);
         }
 
     }

@@ -60,8 +60,7 @@ namespace tinytmx {
         // Parse the properties if any.
         tinyxml2::XMLNode const *propertiesNode = wangsetNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties = new PropertySet();
-            properties->Parse(propertiesNode);
+            properties = new PropertySet(propertiesNode);
         }
 
     }

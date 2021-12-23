@@ -2,8 +2,10 @@
 #include "tinytmxTileOffset.hpp"
 
 namespace tinytmx {
-    TileOffset::TileOffset()
-            : x(0), y(0) {}
+    TileOffset::TileOffset(tinyxml2::XMLNode const *tileOffsetNode)
+            : x(0), y(0) {
+        Parse(tileOffsetNode);
+    }
 
 
     void TileOffset::Parse(tinyxml2::XMLNode const *tileOffsetNode) {

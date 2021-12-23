@@ -18,7 +18,7 @@
 namespace tinytmx {
     Tileset::Tileset()
             : first_gid(0), tile_width(0), tile_height(0), spacing(0), margin(0), tile_count(0), columns(0),
-              object_alignment(tinytmx::ObjectAlignment::TMX_OA_UNSPECIFIED), grid(new Grid()), tileOffset(nullptr), image(nullptr),
+              object_alignment(tinytmx::ObjectAlignment::TMX_OA_UNSPECIFIED), grid(nullptr), tileOffset(nullptr), image(nullptr),
               transformations(nullptr), properties(nullptr) {
     }
 
@@ -140,8 +140,7 @@ namespace tinytmx {
         // Parse the tile offset, if it exists.
         tinyxml2::XMLNode const *tileOffsetNode = tilesetNode->FirstChildElement("tileoffset");
         if (tileOffsetNode) {
-            tileOffset = new TileOffset();
-            tileOffset->Parse(tileOffsetNode);
+            tileOffset = new TileOffset(tileOffsetNode);
         }
 
         // Parse the terrain types if any. // Deprecated
@@ -154,21 +153,19 @@ namespace tinytmx {
         // Parse the image.
         tinyxml2::XMLNode const *imageNode = tilesetNode->FirstChildElement("image");
         if (imageNode) {
-            image = new Image();
-            image->Parse(imageNode);
+            image = new Image(imageNode);
         }
 
         // Parse the grid.
         tinyxml2::XMLNode const *gridNode = tilesetNode->FirstChildElement("grid");
         if (gridNode) {
-            grid->Parse(gridNode);
+            grid = new Grid(gridNode);
         }
 
         // Parse the transformations.
         tinyxml2::XMLNode const *transformationsNode = tilesetNode->FirstChildElement("transformations");
         if (transformationsNode) {
-            transformations = new Transformations();
-            transformations->Parse(transformationsNode);
+            transformations = new Transformations(transformationsNode);
         }
 
         // Iterate through all of the tile elements and parse each.
@@ -191,8 +188,7 @@ namespace tinytmx {
         // Parse the properties if any.
         tinyxml2::XMLNode const *propertiesNode = tilesetNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties = new PropertySet();
-            properties->Parse(propertiesNode);
+            properties = new PropertySet(propertiesNode);
         }
     }
 

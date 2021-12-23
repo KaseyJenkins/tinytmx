@@ -26,11 +26,11 @@ namespace tinytmx {
         PropertySet &operator=(PropertySet &&) = delete;
 
 
-        PropertySet();
+        explicit PropertySet(tinyxml2::XMLNode const *);
         ~PropertySet();
 
         /// Parse a node containing all the property nodes.
-        void Parse(tinyxml2::XMLNode const *propertiesNode);
+//        void Parse(tinyxml2::XMLNode const *propertiesNode);
 
         /// Get an int Property by its name.
         int GetIntProperty(std::string const &name, int defaultValue = 0) const;
@@ -67,6 +67,8 @@ namespace tinytmx {
 
     private:
         std::unordered_map<std::string, Property> properties;
+
+        void Parse(tinyxml2::XMLNode const *propertiesNode);
     };
 }
 

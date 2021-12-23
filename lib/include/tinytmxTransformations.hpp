@@ -17,10 +17,7 @@ namespace tinytmx {
     class Transformations {
     public:
 
-        Transformations();
-
-        /// Parse a transformations element.
-        void Parse(tinyxml2::XMLNode const *transformationsNode);
+        explicit Transformations(tinyxml2::XMLNode const *);
 
         /// Get the value of the 'hflip' attribute of the Transformations element. (Defaults to 0).
         [[nodiscard]] bool GetHflip() const { return hflip; }
@@ -39,6 +36,8 @@ namespace tinytmx {
         bool vflip;
         bool rotate;
         bool preferuntransformed;
+
+        void Parse(tinyxml2::XMLNode const *transformationsNode);
     };
 }
 

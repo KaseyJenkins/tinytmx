@@ -41,10 +41,7 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     class Property {
     public:
-        Property();
-
-        /// Parse the Property element.
-        void Parse(tinyxml2::XMLElement const *propertyElem);
+        explicit Property(tinyxml2::XMLElement const *);
 
         /// Get the type of the Property (default: TMX_PROPERTY_STRING)
         [[nodiscard]] PropertyType GetType() const { return type; }
@@ -82,6 +79,8 @@ namespace tinytmx {
     private:
         PropertyType type;
         std::string value;
+
+        void Parse(tinyxml2::XMLElement const *propertyElem);
     };
 
 }

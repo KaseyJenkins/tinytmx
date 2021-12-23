@@ -70,12 +70,6 @@ namespace tinytmx {
         /// Get the value of the y attribute of the layer. Means different things for different layer types.
         [[nodiscard]] int GetY() const { return y; }
 
-        /// Get the width of the layer, in tiles. Only used in tile layers.
-        [[nodiscard]] uint32_t GetWidth() const { return width; }
-
-        /// Get the height of the layer, in tiles. Only used in tile layers.
-        [[nodiscard]] uint32_t GetHeight() const { return height; }
-
         /// Get the opacity of the layer.
         [[nodiscard]] float GetOpacity() const { return opacity; }
 
@@ -123,12 +117,13 @@ namespace tinytmx {
         uint32_t ID;
         int x;
         int y;
+
         uint32_t width;
         uint32_t height;
+
 //        tinytmx::Vector2ui size;
 
         float opacity;
-
 
         float offsetX;
         float offsetY;

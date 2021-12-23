@@ -69,8 +69,7 @@ namespace tinytmx {
         // Parse the properties if any.
         tinyxml2::XMLNode const *propertiesNode = tileNode->FirstChildElement("properties");
         if (propertiesNode) {
-            properties = new PropertySet();
-            properties->Parse(propertiesNode);
+            properties = new PropertySet(propertiesNode);
         }
 
         // Parse the animation if there is one.
@@ -107,8 +106,7 @@ namespace tinytmx {
 
         tinyxml2::XMLNode const *imageNode = tileNode->FirstChildElement("image");
         if (imageNode) {
-            image = new Image();
-            image->Parse(imageNode);
+            image = new Image(imageNode);
         }
 
     }

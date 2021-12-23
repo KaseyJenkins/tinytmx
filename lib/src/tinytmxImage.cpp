@@ -4,11 +4,12 @@
 
 namespace tinytmx
 {   
-    Image::Image() 
+    Image::Image(tinyxml2::XMLNode const *imageNode)
         : width(0)
         , height(0)
-        , transparent_color()
-    {}
+        , transparent_color() {
+        Parse(imageNode);
+    }
 
 
     void Image::Parse(tinyxml2::XMLNode const *imageNode)

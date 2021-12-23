@@ -4,9 +4,11 @@
 
 namespace tinytmx {
 
-    Grid::Grid() :
+    Grid::Grid(tinyxml2::XMLNode const *gridNode) :
             grid_orientation(tinytmx::GridOrientation::TMX_GO_ORTHOGONAL),
-            width(0), height(0) {}
+            width(0), height(0) {
+        Parse(gridNode);
+    }
 
     void Grid::Parse(tinyxml2::XMLNode const *gridNode) {
         tinyxml2::XMLElement const *gridElement = gridNode->ToElement();

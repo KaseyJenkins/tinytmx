@@ -41,6 +41,8 @@ namespace tinytmx
         /// Check if two colors are different.
         bool operator!=(Color const &o) const { return color != o.color; }
 
+        //FIXME: should be free functions operating on color class:
+
         /// Get the alpha component of the color.
         [[nodiscard]] uint8_t GetAlpha() const;
 

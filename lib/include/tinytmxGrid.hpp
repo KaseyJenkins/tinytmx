@@ -21,10 +21,7 @@ namespace tinytmx {
     class Grid {
     public:
 
-        Grid();
-
-        /// Parse a grid element.
-        void Parse(tinyxml2::XMLNode const *gridNode);
+        explicit Grid(tinyxml2::XMLNode const *);
 
         /// Get the grid's orientation.
         [[nodiscard]] tinytmx::GridOrientation GetOrientation() const { return grid_orientation; }
@@ -40,6 +37,8 @@ namespace tinytmx {
         // TODO maybe Vector2?
         uint32_t width;
         uint32_t height;
+
+        void Parse(tinyxml2::XMLNode const *gridNode);
     };
 
 }

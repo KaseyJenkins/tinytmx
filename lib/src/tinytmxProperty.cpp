@@ -3,8 +3,9 @@
 #include "tinytmxProperty.hpp"
 
 namespace tinytmx {
-    Property::Property()
+    Property::Property(tinyxml2::XMLElement const *propertyElem)
             : type(tinytmx::PropertyType::TMX_PROPERTY_STRING) {
+        Parse(propertyElem);
     }
 
     void Property::Parse(tinyxml2::XMLElement const *propertyElem) {

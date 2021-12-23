@@ -25,8 +25,7 @@ namespace tinytmx {
         // Parse the properties if any.
         tinyxml2::XMLElement const *propertiesElement = wangColorElement->FirstChildElement("properties");
         if (propertiesElement) {
-            properties = new PropertySet();
-            properties->Parse(propertiesElement);
+            properties = new PropertySet(propertiesElement);
         }
     }
 

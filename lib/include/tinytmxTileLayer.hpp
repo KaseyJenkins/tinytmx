@@ -57,6 +57,11 @@ namespace tinytmx
         /// Parse a tile layer node.
         void Parse(tinyxml2::XMLNode const *tileLayerNode) override;
 
+        /// Get the width of the layer, in tiles. Only used in tile layers.
+        [[nodiscard]] uint32_t GetWidth() const { return width; }
+
+        /// Get the height of the layer, in tiles. Only used in tile layers.
+        [[nodiscard]] uint32_t GetHeight() const { return height; }
 
         /// Get the horizontal parallax factor for this layer.
         [[nodiscard]] float GetParallaxX() const { return parallax.x; }
@@ -84,6 +89,7 @@ namespace tinytmx
 
 
     private:
+
 
         // TODO these functions need a tad of redoing
         void ParseXML(tinyxml2::XMLNode const *dataNode, tinytmx::MapTile *m_tile_map = nullptr, std::string const &firstChildElement = "tile"); // Deprecated.
