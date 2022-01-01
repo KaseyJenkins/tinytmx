@@ -18,14 +18,8 @@ namespace tinytmx
     {
     public:
         /// Construct a GroupLayer on the given map.
-        explicit GroupLayer(tinytmx::Map const *_map);
+        GroupLayer(tinytmx::Map const *, tinyxml2::XMLNode const *);
         ~GroupLayer() override;
-
-        /// Parse a GroupLayer element.
-        void Parse(tinyxml2::XMLNode const *groupLayerNode) override;
-
-        /// Adds a Child Layer to the group.
-        void AddChild(tinytmx::Layer *childLayer);
 
         /// Get a Child Layer.
         [[nodiscard]] tinytmx::Layer const *GetChild(int index) const;
@@ -33,11 +27,11 @@ namespace tinytmx
         /// Get all Child layers.
         [[nodiscard]] std::vector<tinytmx::Layer*> const &GetChildren() const noexcept;
 
-        /// Get the number of Child Layers.
-        [[nodiscard]] auto GetNumChildren() const noexcept;
-
     private:
         std::vector<tinytmx::Layer*> children;
+
+        void Parse(tinyxml2::XMLNode const *groupLayerNode) override;
+        void AddChild(tinytmx::Layer *childLayer);
     };
 }
 

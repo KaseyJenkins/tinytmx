@@ -235,8 +235,7 @@ namespace tinytmx {
             // Iterate through all of the "layer" (tile layer) elements.
             if (std::strcmp(node->Value(), "layer") == 0) {
                 // Allocate a new tile layer and parse it.
-                auto tileLayer = new TileLayer(this);
-                tileLayer->Parse(node);
+                auto tileLayer = new TileLayer(this, node);
 
                 // Add the tile layer to the lists.
                 tile_layers.push_back(tileLayer);
@@ -246,8 +245,7 @@ namespace tinytmx {
             // Iterate through all of the "imagelayer" (image layer) elements.
             if (std::strcmp(node->Value(), "imagelayer") == 0) {
                 // Allocate a new image layer and parse it.
-                auto imageLayer = new ImageLayer(this);
-                imageLayer->Parse(node);
+                auto imageLayer = new ImageLayer(this, node);
 
                 // Add the image layer to the lists.
                 image_layers.push_back(imageLayer);
@@ -257,8 +255,7 @@ namespace tinytmx {
             // Iterate through all of the "objectgroup" (object layer) elements.
             if (std::strcmp(node->Value(), "objectgroup") == 0) {
                 // Allocate a new object group and parse it.
-                auto objectGroup = new ObjectGroup(this);
-                objectGroup->Parse(node);
+                auto objectGroup = new ObjectGroup(this, node);
 
                 // Add the object group to the lists.
                 object_groups.push_back(objectGroup);
@@ -266,8 +263,7 @@ namespace tinytmx {
             }
 
             if (std::strcmp(node->Value(), "group") == 0) {
-                auto groupLayer = new GroupLayer(this);
-                groupLayer->Parse(node);
+                auto groupLayer = new GroupLayer(this, node);
 
                 // Add the group layer to the lists.
                 group_layers.push_back(groupLayer);

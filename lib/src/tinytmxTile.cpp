@@ -98,9 +98,8 @@ namespace tinytmx {
         tinyxml2::XMLNode const *objectGroupNode = tileNode->FirstChildElement("objectgroup");
         if (objectGroupNode) {
             hasObjectGroup = true;
-            objectGroup = new ObjectGroup(this, _map);
-            objectGroup->Parse(objectGroupNode);
-            if (objectGroup->GetNumObjects() > 0) { hasObjects = true; }
+            objectGroup = new ObjectGroup(this, _map, objectGroupNode);
+            if (!objectGroup->GetObjects().empty()) { hasObjects = true; }
 
         }
 

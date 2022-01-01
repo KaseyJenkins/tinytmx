@@ -46,16 +46,12 @@ namespace tinytmx
     //-------------------------------------------------------------------------
     class TileLayer : public tinytmx::Layer
     {
-    private:
 
     public:
 
         /// Construct a TileLayer on the given map.
-        explicit TileLayer(tinytmx::Map const *_map);
+        TileLayer(tinytmx::Map const *, tinyxml2::XMLNode const *);
         ~TileLayer() override;
-
-        /// Parse a tile layer node.
-        void Parse(tinyxml2::XMLNode const *tileLayerNode) override;
 
         /// Get the width of the layer, in tiles. Only used in tile layers.
         [[nodiscard]] uint32_t GetWidth() const { return width; }
@@ -68,6 +64,8 @@ namespace tinytmx
 
         /// Get the vertical parallax factor for this layer.
         [[nodiscard]] float GetParallaxY() const { return parallax.y; }
+
+
 
         /// Get the type of encoding that was used for parsing the tile layer data.
         /// See: TileLayerEncodingType
@@ -89,12 +87,16 @@ namespace tinytmx
 
 
     private:
+        void Parse(tinyxml2::XMLNode const *tileLayerNode) override;
 
 
         // TODO these functions need a tad of redoing
         void ParseXML(tinyxml2::XMLNode const *dataNode, tinytmx::MapTile *m_tile_map = nullptr, std::string const &firstChildElement = "tile"); // Deprecated.
         void ParseBase64(std::string const &innerText, uint32_t m_width = 0, uint32_t m_height = 0,  tinytmx::MapTile *m_tile_map = nullptr);
         void ParseCSV(std::string const &innerText, tinytmx::MapTile *m_tile_map = nullptr);
+
+        uint32_t width;
+        uint32_t height;
 
         tinytmx::Vector2f parallax;
 

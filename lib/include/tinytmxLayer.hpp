@@ -40,14 +40,14 @@ namespace tinytmx {
         Layer &operator=(Layer &&) = delete;
 
         /// Construct a new Layer used by a map's objectgroup
-        Layer(tinytmx::Map const *_map, std::string const &_name, int _x, int _y,
-              uint32_t _width, uint32_t _height, float _opacity, bool _visible,
+        Layer(tinytmx::Map const *_map, std::string const &_name,
+              float _opacity, bool _visible,
               LayerType _layerType);
 
         /// Construct a new layer used by a tile's objectgroup
         Layer(tinytmx::Tile const *_tile,
-              tinytmx::Map const *_map, std::string const &_name, int _x, int _y,
-              uint32_t _width, uint32_t _height, float _opacity, bool _visible,
+              tinytmx::Map const *_map, std::string const &_name,
+              float _opacity, bool _visible,
               LayerType _layerType);
 
         virtual ~Layer();
@@ -58,17 +58,12 @@ namespace tinytmx {
         /// Get the pointer to the parent map.
         [[nodiscard]] tinytmx::Map const *mapGetMap() const { return map; }
 
-        /// Get the name of the layer.
-        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the ID.
         [[nodiscard]] uint32_t GetID() const { return ID; }
 
-        /// Get the value of the x attribute of the layer. Means different things for different layer types.
-        [[nodiscard]] int GetX() const { return x; }
-
-        /// Get the value of the y attribute of the layer. Means different things for different layer types.
-        [[nodiscard]] int GetY() const { return y; }
+        /// Get the name of the layer.
+        [[nodiscard]] std::string const &GetName() const { return name; }
 
         /// Get the opacity of the layer.
         [[nodiscard]] float GetOpacity() const { return opacity; }
@@ -79,21 +74,19 @@ namespace tinytmx {
         /// Get the tint color.
         [[nodiscard]] tinytmx::Color const &GetTintColor() const { return tint_color; }
 
-        // FIXME should probably be deprecated.
-//        /// Sets the offset for this GroupLayer
-//        void SetOffset(float offsetXv, float offsetYv) {
-//            offsetX = offsetXv;
-//            offsetY = offsetYv;
-//        }
-
         /// Returns the x offset.
         [[nodiscard]] float GetOffsetX() const noexcept { return offsetX; }
 
         /// Returns the y offset.
         [[nodiscard]] float GetOffsetY() const noexcept { return offsetY; }
 
+
+        /// Get the type of the layer.
+        [[nodiscard]] tinytmx::LayerType GetLayerType() const { return layerType; }
+
         /// Get the property set.
         [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
+
 
         /// Get the zorder of the layer.
         [[nodiscard]] int GetZOrder() const { return zOrder; }
@@ -105,9 +98,6 @@ namespace tinytmx {
         /// Get the parse order of the layer.
         [[nodiscard]] int GetParseOrder() const { return parseOrder; }
 
-        /// Get the type of the layer.
-        [[nodiscard]] tinytmx::LayerType GetLayerType() const { return layerType; }
-
 
     protected:
         /// @cond INTERNAL
@@ -115,13 +105,6 @@ namespace tinytmx {
         const tinytmx::LayerType layerType;
 
         uint32_t ID;
-        int x;
-        int y;
-
-        uint32_t width;
-        uint32_t height;
-
-//        tinytmx::Vector2ui size;
 
         float opacity;
 

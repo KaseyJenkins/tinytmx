@@ -28,10 +28,8 @@ namespace tinytmx {
         WangColor &operator=(WangColor &&) = delete;
 
 
-        WangColor();
+        explicit WangColor(tinyxml2::XMLElement const *);
         ~WangColor();
-
-        void Parse(tinyxml2::XMLElement const *wangColorElement);
 
         /// Get the name of this color.
         [[nodiscard]] std::string const &GetName() const { return name; }
@@ -55,6 +53,8 @@ namespace tinytmx {
         tinytmx::Color color;
         tinytmx::PropertySet* properties;
         std::string name;
+
+        void Parse(tinyxml2::XMLElement const *wangColorElement);
     };
 
 }

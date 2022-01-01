@@ -24,13 +24,15 @@
 #include "tinytmxDataChunkTile.hpp"
 
 namespace tinytmx {
-    TileLayer::TileLayer(Map const *_map)
-            : Layer(_map, std::string(), 0, 0, _map->GetWidth(), _map->GetHeight(), 1.0f, true,
+    TileLayer::TileLayer(Map const *_map, tinyxml2::XMLNode const *tileLayerNode)
+            : Layer(_map, std::string(), 1.0f, true,
                     LayerType::TMX_LAYERTYPE_TILE)
-            //, tile_map(nullptr)  // Set the map to null to specify that it is not yet allocated.
-            , parallax(1.0f, 1.0f), encoding(TileLayerEncodingType::TMX_ENCODING_XML),
-              compression(TileLayerCompressionType::TMX_COMPRESSION_NONE),
-              data_tile_finite_map(nullptr) {
+            , width(_map->GetWidth())
+            , height(_map->GetHeight())
+            , parallax(1.0f, 1.0f), encoding(TileLayerEncodingType::TMX_ENCODING_XML)
+            , compression(TileLayerCompressionType::TMX_COMPRESSION_NONE)
+            , data_tile_finite_map(nullptr) {
+        Parse(tileLayerNode);
     }
 
     TileLayer::~TileLayer() {
@@ -52,9 +54,6 @@ namespace tinytmx {
         // Read the attributes.
         ID = tileLayerElem->UnsignedAttribute("id");
         name = tileLayerElem->Attribute("name");
-
-        tileLayerElem->QueryIntAttribute("x", &x);
-        tileLayerElem->QueryIntAttribute("y", &y);
 
         tileLayerElem->QueryFloatAttribute("offsetx", &offsetX);
         tileLayerElem->QueryFloatAttribute("offsety", &offsetY);

@@ -7,9 +7,12 @@
 
 
 namespace tinytmx {
-    ImageLayer::ImageLayer(tinytmx::Map const *_map)
-            : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_IMAGE_LAYER),
-              image(nullptr) {
+    ImageLayer::ImageLayer(tinytmx::Map const *_map, tinyxml2::XMLNode const *imageLayerNode)
+            : Layer(_map, std::string(), 1.0f, true, LayerType::TMX_LAYERTYPE_IMAGE_LAYER),
+              image(nullptr)
+              , repeatx(false)
+              , repeaty(false) {
+        Parse(imageLayerNode);
     }
 
     ImageLayer::~ImageLayer() {
@@ -27,15 +30,17 @@ namespace tinytmx {
         imageLayerElem->QueryFloatAttribute("offsetx", &offsetX);
         imageLayerElem->QueryFloatAttribute("offsety", &offsetY);
 
-        imageLayerElem->QueryIntAttribute("x", &x); // Deprecated since 0.15.
-        imageLayerElem->QueryIntAttribute("y", &y); // Deprecated since 0.15.
-
         imageLayerElem->QueryFloatAttribute("opacity", &opacity);
         imageLayerElem->QueryBoolAttribute("visible", &visible);
+
+        imageLayerElem->QueryBoolAttribute("repeatx", &repeatx);
+        imageLayerElem->QueryBoolAttribute("repeaty", &repeaty);
 
         if (imageLayerElem->Attribute("tintcolor")) {
             tint_color = tinytmx::Color(imageLayerElem->Attribute("tintcolor"));
         }
+
+
 
         // Parse the image if there is one.
         tinyxml2::XMLNode const *imageNode = imageLayerElem->FirstChildElement("image");

@@ -5,7 +5,9 @@
 
 namespace tinytmx {
 
-    WangSet::WangSet(): tileID(0), properties(nullptr) {}
+    WangSet::WangSet(tinyxml2::XMLNode const *wangsetNode): tileID(0), properties(nullptr) {
+        Parse(wangsetNode);
+    }
 
     WangSet::~WangSet() {
 
@@ -40,8 +42,7 @@ namespace tinytmx {
         tinyxml2::XMLElement const *wangColorElement = wangsetNode->FirstChildElement("wangcolor");
         while (wangColorElement) {
 
-            auto wangColor = new WangColor();
-            wangColor->Parse(wangColorElement);
+            auto wangColor = new WangColor(wangColorElement);
             wangcolors.push_back(wangColor);
 
             wangColorElement = wangColorElement->NextSiblingElement("wangcolor");

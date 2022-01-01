@@ -27,35 +27,34 @@ namespace tinytmx {
     public:
 
         /// Construct a new ObjectGroup
-        explicit ObjectGroup(tinytmx::Map const *_map);
+        ObjectGroup(tinytmx::Map const *, tinyxml2::XMLNode const *);
 
         /// Construct a new ObjectGroup used by a Tile
-        ObjectGroup(tinytmx::Tile const *_tile, tinytmx::Map const *_map);
+        ObjectGroup(tinytmx::Tile const *, tinytmx::Map const *, tinyxml2::XMLNode const *);
 
         ~ObjectGroup() override;
-
-        /// Parse an objectgroup node.
-        void Parse(tinyxml2::XMLNode const *objectGroupNode) override;
-
-        /// Get a single object.
-        [[nodiscard]] tinytmx::Object const *GetObject(int index) const { return objects.at(index); }
-
-        /// Get the number of objects in the list.
-        [[nodiscard]] auto GetNumObjects() const { return objects.size(); }
 
         /// Get the color used to display the objects in this group.
         [[nodiscard]] tinytmx::Color const &GetColor() const { return color; }
 
+        /// Get the draworder.
+        [[nodiscard]] tinytmx::DrawOrder GetDrawOrder() const { return draw_order; }
+
+
+
+        /// Get a single object.
+        [[nodiscard]] tinytmx::Object const *GetObject(int index) const { return objects.at(index); }
+
         /// Get the whole list of objects.
         [[nodiscard]] std::vector<tinytmx::Object *> const &GetObjects() const { return objects; }
 
-        /// Get the draworder.
-        [[nodiscard]] tinytmx::DrawOrder GetDrawOrder() const { return draw_order; }
 
     private:
         DrawOrder draw_order;
         tinytmx::Color color; // defaults to gray (“#a0a0a4”)
         std::vector<tinytmx::Object *> objects;
+
+        void Parse(tinyxml2::XMLNode const *objectGroupNode) override;
     };
 }
 

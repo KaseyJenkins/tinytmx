@@ -1,5 +1,4 @@
 #include "tinyxml2.h"
-#include <cassert> //RJCB
 #include <cstring>
 #include <string>
 
@@ -11,8 +10,9 @@
 
 namespace tinytmx {
 
-    GroupLayer::GroupLayer(tinytmx::Map const *_map)
-            : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_GROUP_LAYER) {
+    GroupLayer::GroupLayer(tinytmx::Map const *_map, tinyxml2::XMLNode const *groupLayerNode)
+            : Layer(_map, std::string(), 1.0f, true, LayerType::TMX_LAYERTYPE_GROUP_LAYER) {
+        Parse(groupLayerNode);
     }
 
     GroupLayer::~GroupLayer() {
@@ -29,9 +29,6 @@ namespace tinytmx {
         ID = groupLayerElem->UnsignedAttribute("id");
         name = groupLayerElem->Attribute("name");
 
-        groupLayerElem->QueryIntAttribute("x", &x);
-        groupLayerElem->QueryIntAttribute("y", &y);
-
         groupLayerElem->QueryFloatAttribute("offsetx", &offsetX);
         groupLayerElem->QueryFloatAttribute("offsety", &offsetY);
 
@@ -44,24 +41,19 @@ namespace tinytmx {
 
         // Parse the group.
         tinyxml2::XMLNode const *child = groupLayerElem->FirstChild();
-        assert(child); //RJCB
 
         while (child != nullptr) {
             if (std::strcmp(child->Value(), "group") == 0) {
-                auto groupLayer = new GroupLayer(map);
-                groupLayer->Parse(child);
+                auto groupLayer = new GroupLayer(map, child);
                 AddChild(groupLayer);
             } else if (std::strcmp(child->Value(), "layer") == 0) {
-                auto tileLayer = new TileLayer(map);
-                tileLayer->Parse(child);
+                auto tileLayer = new TileLayer(map, child);
                 AddChild(tileLayer);
             } else if (std::strcmp(child->Value(), "objectgroup") == 0) {
-                auto objectGroup = new ObjectGroup(map);
-                objectGroup->Parse(child);
+                auto objectGroup = new ObjectGroup(map, child);
                 AddChild(objectGroup);
             } else if (std::strcmp(child->Value(), "imagelayer") == 0) {
-                auto imageLayer = new ImageLayer(map);
-                imageLayer->Parse(child);
+                auto imageLayer = new ImageLayer(map, child);
                 AddChild(imageLayer);
             }
             child = child->NextSiblingElement();
@@ -84,10 +76,6 @@ namespace tinytmx {
 
     std::vector<tinytmx::Layer *> const &GroupLayer::GetChildren() const noexcept {
         return children;
-    }
-
-    auto GroupLayer::GetNumChildren() const noexcept {
-        return children.size();
     }
 
 }

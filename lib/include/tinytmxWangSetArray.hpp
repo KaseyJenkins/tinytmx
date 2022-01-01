@@ -16,12 +16,11 @@ namespace tinytmx {
     //-----------------------------------------------------------------------------
 
     class WangSetArray {
-    public:
-        WangSetArray() = default;
+        public:
+            WangSetArray(std::vector<tinytmx::WangSet *> *, tinyxml2::XMLNode const *);
 
-        /// Parse a node containing all the wangsets.
-        void Parse(std::vector<tinytmx::WangSet *> *wangsets, tinyxml2::XMLNode const *wangsetsNode);
-
+        private:
+            void Parse(std::vector<tinytmx::WangSet *> *, tinyxml2::XMLNode const *);
     };
 }
 

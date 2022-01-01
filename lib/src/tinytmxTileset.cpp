@@ -143,13 +143,6 @@ namespace tinytmx {
             tileOffset = new TileOffset(tileOffsetNode);
         }
 
-        // Parse the terrain types if any. // Deprecated
-//        tinyxml2::XMLNode const *terrainTypesNode = tilesetNode->FirstChildElement("terraintypes");
-//        if (terrainTypesNode) {
-//            TerrainArray terrainArray;
-//            terrainArray.Parse(&terrainTypes, terrainTypesNode);
-//        }
-
         // Parse the image.
         tinyxml2::XMLNode const *imageNode = tilesetNode->FirstChildElement("image");
         if (imageNode) {
@@ -181,8 +174,7 @@ namespace tinytmx {
         // Iterate through all of the wangsets if any.
         tinyxml2::XMLNode const *wangsetsNode = tilesetNode->FirstChildElement("wangsets");
         if (wangsetsNode) {
-            WangSetArray wangSetArray; // FIXME on the stack or heap?
-            wangSetArray.Parse(&wangsets, wangsetsNode);
+            WangSetArray wangSetArray(&wangsets, wangsetsNode); // FIXME on the stack or heap?
         }
 
         // Parse the properties if any.

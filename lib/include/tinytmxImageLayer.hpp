@@ -3,7 +3,7 @@
 
 
 #include "tinytmxLayer.hpp"
-#include "tinytmxPropertySet.hpp"
+//#include "tinytmxPropertySet.hpp"
 
 namespace tinytmx
 {
@@ -17,18 +17,26 @@ namespace tinytmx
     {
     public:
         /// Construct an ImageLayer on the given map.
-        explicit ImageLayer(tinytmx::Map const *_map);
+        ImageLayer(tinytmx::Map const *, tinyxml2::XMLNode const *);
         ~ImageLayer() override;
-
-        /// Parse an ImageLayer element.
-        void Parse(tinyxml2::XMLNode const *imageLayerNode) override;
 
         /// Returns a variable containing the information
         /// about the image of the ImageLayer.
         [[nodiscard]] tinytmx::Image const *GetImage() const { return image; }
 
+
+        /// Returns whether the image drawn by this layer is repeated along the X axis.
+        [[nodiscard]] bool IsRepeatX() const { return repeatx; }
+        /// Returns whether the image drawn by this layer is repeated along the Y axis.
+        [[nodiscard]] bool IsRepeatY() const { return repeaty; }
+
     private:
+        bool repeatx;
+        bool repeaty;
+
         tinytmx::Image* image;
+
+        void Parse(tinyxml2::XMLNode const *imageLayerNode) override;
     };
 }
 

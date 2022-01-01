@@ -3,7 +3,9 @@
 
 namespace tinytmx {
 
-    WangColor::WangColor() : tileID(0), probability(0), color(), properties(nullptr) {}
+    WangColor::WangColor(tinyxml2::XMLElement const *wangColorElement) : tileID(0), probability(0), color(), properties(nullptr) {
+        Parse(wangColorElement);
+    }
 
     WangColor::~WangColor() {
         if (properties != nullptr) {

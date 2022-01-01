@@ -24,22 +24,16 @@ namespace tinytmx {
 
         // Delete copy constructor.
         WangSet(WangSet const &) = delete;
-
         // Delete move constructor.
         WangSet(WangSet &&) = delete;
-
         // Delete copy assignment operator.
         WangSet &operator=(WangSet const &) = delete;
-
         // Delete move assignment operator.
         WangSet &operator=(WangSet &&) = delete;
 
-        WangSet();
-
+        explicit WangSet(tinyxml2::XMLNode const *);
         ~WangSet();
 
-        /// Parse a wangset node.
-        void Parse(tinyxml2::XMLNode const *wangsetNode);
 
         /// Get the name of the wangset.
         [[nodiscard]] std::string const &GetName() const { return name; }
@@ -65,6 +59,9 @@ namespace tinytmx {
         std::vector<tinytmx::WangColor *> wangcolors;
 
         std::string name;
+
+        void Parse(tinyxml2::XMLNode const *wangsetNode);
+
     };
 }
 

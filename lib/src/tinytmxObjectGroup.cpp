@@ -7,15 +7,19 @@
 #include "tinytmxObject.hpp"
 
 namespace tinytmx {
-    ObjectGroup::ObjectGroup(tinytmx::Map const *_map)
-            : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
+    ObjectGroup::ObjectGroup(tinytmx::Map const *_map, tinyxml2::XMLNode const *objectGroupNode)
+            : Layer(_map, std::string(), 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
               draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
-              color("#a0a0a4") {}
+              color("#a0a0a4") {
+        Parse(objectGroupNode);
+    }
 
-    ObjectGroup::ObjectGroup(tinytmx::Tile const *_tile, tinytmx::Map const *_map)
-            : Layer(_tile, _map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
+    ObjectGroup::ObjectGroup(tinytmx::Tile const *_tile, tinytmx::Map const *_map, tinyxml2::XMLNode const *objectGroupNode)
+            : Layer(_tile, _map, std::string(), 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
               draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
-              color("#a0a0a4") {}
+              color("#a0a0a4") {
+        Parse(objectGroupNode);
+    }
 
     ObjectGroup::~ObjectGroup() {
         for (auto obj: objects) {
