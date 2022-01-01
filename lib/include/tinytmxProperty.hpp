@@ -10,6 +10,10 @@ namespace tinyxml2 {
 }
 
 namespace tinytmx {
+    class PropertySet;
+}
+
+namespace tinytmx {
     //-------------------------------------------------------------------------
     /// The type of a property.
     //-------------------------------------------------------------------------
@@ -33,7 +37,10 @@ namespace tinytmx {
         TMX_PROPERTY_FILE,
 
         /// An object Property.
-        TMX_PROPERTY_OBJECT
+        TMX_PROPERTY_OBJECT,
+
+        /// A class Property
+        TMX_PROPERTY_CLASS,
     };
 
     //-------------------------------------------------------------------------
@@ -41,7 +48,19 @@ namespace tinytmx {
     //-------------------------------------------------------------------------
     class Property {
     public:
+
+        // Delete copy constructor.
+        Property(Property const &) = delete;
+        // Delete move constructor.
+        Property(Property &&) = delete;
+        // Delete copy assignment operator.
+        Property &operator=(Property const &) = delete;
+        // Delete move assignment operator.
+        Property &operator=(Property &&) = delete;
+
         explicit Property(tinyxml2::XMLElement const *);
+
+        ~Property();
 
         /// Get the type of the Property (default: TMX_PROPERTY_STRING)
         [[nodiscard]] PropertyType GetType() const { return type; }
@@ -76,9 +95,20 @@ namespace tinytmx {
         /// Get the value to a file and return it (or the default if not a file).
         [[nodiscard]] std::string const &GetFileValue() const { return value; }
 
+        /// Get he name of the custom property type, when applicable (since 1.8).
+        [[nodiscard]] std::string const &GetPropertyType() const { return propertytype; }
+
+        /// Get the property set.
+        [[nodiscard]] tinytmx::PropertySet const *GetProperties() const { return properties; }
+
     private:
         PropertyType type;
+
+        tinytmx::PropertySet* properties;
+
         std::string value;
+
+        std::string propertytype;
 
         void Parse(tinyxml2::XMLElement const *propertyElem);
     };

@@ -1,11 +1,19 @@
 #include <string_view>
 #include "tinyxml2.h"
 #include "tinytmxProperty.hpp"
+#include "tinytmxPropertySet.hpp"
 
 namespace tinytmx {
     Property::Property(tinyxml2::XMLElement const *propertyElem)
-            : type(tinytmx::PropertyType::TMX_PROPERTY_STRING) {
+            : type(tinytmx::PropertyType::TMX_PROPERTY_STRING), properties(nullptr) {
         Parse(propertyElem);
+    }
+
+    Property::~Property() {
+        if (properties != nullptr) {
+            delete properties;
+            properties = nullptr;
+        }
     }
 
     void Property::Parse(tinyxml2::XMLElement const *propertyElem) {
@@ -27,6 +35,8 @@ namespace tinytmx {
                 type = tinytmx::PropertyType::TMX_PROPERTY_FILE;
             } else if (typeAsCString == "object") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_OBJECT;
+            } else if (typeAsCString == "class") {
+                type = tinytmx::PropertyType::TMX_PROPERTY_CLASS;
             }
         }
 
@@ -38,7 +48,23 @@ namespace tinytmx {
             valueAsCString = propertyElem->GetText();
             value = valueAsCString ? valueAsCString : std::string();
         }
+
+        char const *propertytypeAsCString = propertyElem->Attribute("propertytype");
+        if (propertytypeAsCString) {
+            propertytype = propertytypeAsCString;
+        }
+
+
+        if (type == tinytmx::PropertyType::TMX_PROPERTY_CLASS) {
+            // Parse the properties if any.
+            tinyxml2::XMLNode const *propertiesNode = propertyElem->FirstChildElement("properties");
+            if (propertiesNode) {
+                properties = new PropertySet(propertiesNode);
+            }
+        }
+
     }
+
 
 
     bool Property::GetBoolValue(bool defaultValue) const {

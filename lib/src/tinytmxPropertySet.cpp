@@ -1,5 +1,6 @@
 #include "tinyxml2.h"
 #include "tinytmxPropertySet.hpp"
+#include "tinytmxProperty.hpp"
 
 
 namespace tinytmx {
@@ -27,7 +28,7 @@ namespace tinytmx {
             }
 
             // Read the attributes of the property and add it to the map.
-            Property property(propertyElem);
+            auto *property = new Property(propertyElem);
             properties.insert({nameAttrib->Value(), property});
             propertyNode = propertyNode->NextSiblingElement("property");
         }
@@ -38,48 +39,48 @@ namespace tinytmx {
 
         if (iter == properties.end()) { return defaultValue; }
 
-        return iter->second.GetValue();
+        return iter->second->GetValue();
     }
 
     int PropertySet::GetIntProperty(std::string const &name, int defaultValue) const {
         auto iter = properties.find(name);
 
-        if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
+        if (iter == properties.end() || iter->second->IsValueEmpty()) { return defaultValue; }
 
-        return iter->second.GetIntValue(defaultValue);
+        return iter->second->GetIntValue(defaultValue);
     }
 
     float PropertySet::GetFloatProperty(std::string const &name, float defaultValue) const {
         auto iter = properties.find(name);
 
-        if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
+        if (iter == properties.end() || iter->second->IsValueEmpty()) { return defaultValue; }
 
-        return iter->second.GetFloatValue(defaultValue);
+        return iter->second->GetFloatValue(defaultValue);
     }
 
     bool PropertySet::GetBoolProperty(std::string const &name, bool defaultValue) const {
         auto iter = properties.find(name);
 
-        if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
+        if (iter == properties.end() || iter->second->IsValueEmpty()) { return defaultValue; }
 
-        return (iter->second.GetBoolValue(defaultValue));
+        return (iter->second->GetBoolValue(defaultValue));
     }
 
     tinytmx::Color PropertySet::GetColorProperty(std::string const &name, tinytmx::Color defaultValue) const {
         auto iter = properties.find(name);
 
-        if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
+        if (iter == properties.end() || iter->second->IsValueEmpty()) { return defaultValue; }
 
-        return iter->second.GetColorValue(defaultValue);
+        return iter->second->GetColorValue(defaultValue);
     }
 
 
     int PropertySet::GetObjectProperty(std::string const &name, int defaultValue) const {
         auto iter = properties.find(name);
 
-        if (iter == properties.end() || iter->second.IsValueEmpty()) { return defaultValue; }
+        if (iter == properties.end() || iter->second->IsValueEmpty()) { return defaultValue; }
 
-        return iter->second.GetObjectValue(defaultValue);
+        return iter->second->GetObjectValue(defaultValue);
     }
 
     std::string const &PropertySet::GetFileProperty(std::string const &name, std::string const &defaultValue) const {
@@ -87,7 +88,15 @@ namespace tinytmx {
 
         if (iter == properties.end()) { return defaultValue; }
 
-        return iter->second.GetFileValue();
+        return iter->second->GetFileValue();
+    }
+
+    tinytmx::PropertySet const *PropertySet::GetClassProperty(std::string const &name, tinytmx::PropertySet *defaultValue) const {
+        auto iter = properties.find(name);
+
+        if (iter == properties.end()) { return defaultValue; }
+
+        return iter->second->GetProperties();
     }
 
     bool PropertySet::HasProperty(std::string const &name) const {

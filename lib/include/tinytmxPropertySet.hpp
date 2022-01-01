@@ -3,8 +3,8 @@
 
 #include <unordered_map>
 #include <string>
+#include "tinytmxColor.hpp"
 
-#include "tinytmxProperty.hpp"
 
 namespace tinyxml2 {
     class XMLNode;
@@ -53,6 +53,9 @@ namespace tinytmx {
         /// Get a File Property by its name.
         std::string const &GetFileProperty(std::string const &name, std::string const &defaultValue = "") const;
 
+        /// Get a Class Property by its name.
+        tinytmx::PropertySet const *GetClassProperty(std::string const &name, tinytmx::PropertySet *defaultValue = nullptr) const;
+
         /// Returns the number of properties.
         auto GetSize() const { return properties.size(); }
 
@@ -60,13 +63,13 @@ namespace tinytmx {
         bool HasProperty(std::string const &name) const;
 
         /// Returns the unordered map of properties.
-        std::unordered_map<std::string, Property> const &GetPropertyMap() const { return properties; }
+        std::unordered_map<std::string, Property *> const &GetPropertyMap() const { return properties; }
 
         /// Are there any properties at all? - returns 'true' if empty.
         bool Empty() const { return properties.empty(); }
 
     private:
-        std::unordered_map<std::string, Property> properties;
+        std::unordered_map<std::string, Property *> properties;
 
         void Parse(tinyxml2::XMLNode const *propertiesNode);
     };
