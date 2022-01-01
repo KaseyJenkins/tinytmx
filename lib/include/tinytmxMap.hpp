@@ -157,6 +157,11 @@ namespace tinytmx {
         /// Get the height of a tile in pixels.
         [[nodiscard]] uint32_t GetTileHeight() const { return tile_height; }
 
+        /// Get X coordinate of the parallax origin in pixels (defaults to 0). (since 1.8)
+        [[nodiscard]] float GetParallaxOriginX() const { return parallaxoriginx; }
+        /// Get Y coordinate of the parallax origin in pixels (defaults to 0). (since 1.8)
+        [[nodiscard]] float GetParallaxOriginY() const { return parallaxoriginy; }
+
         /// Get the next available ID for new layers.
         [[nodiscard]] int GetNextLayerID() const { return next_layer_id; }
 
@@ -250,6 +255,9 @@ namespace tinytmx {
         tinytmx::MapStaggerIndex stagger_index;
 
         float version;
+
+        float parallaxoriginx;
+        float parallaxoriginy;
 
         tinytmx::Color background_color;
 

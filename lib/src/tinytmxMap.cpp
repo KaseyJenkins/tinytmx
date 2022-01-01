@@ -19,6 +19,8 @@ namespace tinytmx {
               stagger_axis(MapStaggerAxis::TMX_SA_NONE),
               stagger_index(MapStaggerIndex::TMX_SI_NONE),
               version(0.0f),
+              parallaxoriginx(0.0f),
+              parallaxoriginy(0.0f),
               background_color(),
               width(0),
               height(0),
@@ -156,6 +158,8 @@ namespace tinytmx {
 
         mapElem->QueryIntAttribute("compressionlevel", &compression_level);
 
+        mapElem->QueryFloatAttribute("parallaxoriginx", &parallaxoriginx);
+        mapElem->QueryFloatAttribute("parallaxoriginy", &parallaxoriginy);
 
         if (mapElem->Attribute("backgroundcolor")) {
             background_color = tinytmx::Color(mapElem->Attribute("backgroundcolor"));
