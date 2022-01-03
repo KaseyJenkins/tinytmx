@@ -37,15 +37,11 @@ namespace tinytmx {
 
     TileLayer::~TileLayer() {
 
-        for (auto chunk: chunks) {
+        for (auto &chunk : chunks) {
             delete chunk;
-            chunk = nullptr;
         }
 
-        if (data_tile_finite_map) {
-            delete data_tile_finite_map;
-            data_tile_finite_map = nullptr;
-        }
+        delete data_tile_finite_map;
     }
 
     void TileLayer::Parse(tinyxml2::XMLNode const *tileLayerNode) {

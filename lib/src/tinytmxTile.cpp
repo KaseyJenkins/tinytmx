@@ -27,18 +27,11 @@ namespace tinytmx {
             properties(nullptr) {}
 
     Tile::~Tile() {
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
-        if (image != nullptr) {
-            delete image;
-            image = nullptr;
-        }
-        if (objectGroup != nullptr) {
-            delete objectGroup;
-            objectGroup = nullptr;
-        }
+        delete properties;
+
+        delete image;
+
+        delete objectGroup;
     }
 
     void Tile::Parse(tinyxml2::XMLNode const *tileNode, tinytmx::Map const *_map) {

@@ -17,7 +17,6 @@ namespace tinytmx {
 
     ImageLayer::~ImageLayer() {
         delete image;
-        image = nullptr;
     }
 
     void ImageLayer::Parse(tinyxml2::XMLNode const *imageLayerNode) {

@@ -35,40 +35,32 @@ namespace tinytmx {
     Map::~Map() {
 
         // Delete 'properties'
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
 
         // Iterate through all of the tilesets and delete each of them.
         for (auto tileset: tilesets) {
             delete tileset;
-            tileset = nullptr;
         }
 
         // Iterate through all of the group layers and delete each of them.
         for (auto grouplayer: group_layers) {
             delete grouplayer;
-            grouplayer = nullptr;
         }
 
         // Iterate through all of the object groups and delete each of them.
         for (auto objectGroup: object_groups) {
             delete objectGroup;
-            objectGroup = nullptr;
         }
 
         // Iterate through all of the image layers and delete each of them.
         for (auto layer: image_layers) {
             delete layer;
-            layer = nullptr;
         }
 
         // Iterate through all of the tile layers and delete each of them.
         for (auto layer: tile_layers) {
             if (layer) {
                 delete layer;
-                layer = nullptr;
             }
         }
     }

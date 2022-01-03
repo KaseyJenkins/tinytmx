@@ -30,40 +30,21 @@ namespace tinytmx {
               mapTile(nullptr), properties(nullptr), tileset(nullptr) {}
 
     Object::~Object() {
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
 
-        if (ellipse != nullptr) {
-            delete ellipse;
-            ellipse = nullptr;
-        }
-        if (point != nullptr) {
-            delete point;
-            point = nullptr;
-        }
-        if (polygon != nullptr) {
-            delete polygon;
-            polygon = nullptr;
-        }
-        if (polyline != nullptr) {
-            delete polyline;
-            polyline = nullptr;
-        }
-        if (text != nullptr) {
-            delete text;
-            text = nullptr;
-        }
-        if (tileset != nullptr) {
-            delete tileset;
-            tileset = nullptr;
-        }
-        if (mapTile != nullptr) {
-            delete mapTile;
-            mapTile = nullptr;
-        }
+        delete ellipse;
 
+        delete point;
+
+        delete polygon;
+
+        delete polyline;
+
+        delete text;
+
+        delete tileset;
+
+        delete mapTile;
     }
 
     void Object::Parse(tinyxml2::XMLNode const *objectNode, tinytmx::Map const *_map) {

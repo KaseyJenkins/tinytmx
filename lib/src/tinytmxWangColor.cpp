@@ -8,10 +8,7 @@ namespace tinytmx {
     }
 
     WangColor::~WangColor() {
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
     }
 
     void WangColor::Parse(tinyxml2::XMLElement const *wangColorElement) {

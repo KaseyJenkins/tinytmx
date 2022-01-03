@@ -10,10 +10,7 @@ namespace tinytmx {
     }
 
     Property::~Property() {
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
     }
 
     void Property::Parse(tinyxml2::XMLElement const *propertyElem) {

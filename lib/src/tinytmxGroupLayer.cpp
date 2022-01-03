@@ -18,7 +18,6 @@ namespace tinytmx {
     GroupLayer::~GroupLayer() {
         for (auto c : children) {
             delete c;
-            c = nullptr;
         }
     }
 

@@ -24,52 +24,28 @@ namespace tinytmx {
 
     Tileset::~Tileset() {
 
-        // Delete the properties if any.
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
 
-        // Delete the grid from memory if allocated.
-        if (grid != nullptr) {
-            delete grid;
-            grid = nullptr;
-        }
+        delete grid;
 
-        // Delete the tile offset from memory if allocated.
-        if (tileOffset != nullptr) {
-            delete tileOffset;
-            tileOffset = nullptr;
-        }
+        delete tileOffset;
 
-        // Delete the image from memory if allocated.
-        if (image != nullptr) {
-            delete image;
-            image = nullptr;
-        }
+        delete image;
 
-        if (transformations != nullptr) {
-            delete transformations;
-            transformations = nullptr;
-        }
+        delete transformations;
 
         // Deprecated
         // Iterate through all of the terrain types in the tileset and delete each of them.
-//        for (auto terrainType: terrainTypes) {
+//        for (auto &terrainType: terrainTypes) {
 //            delete terrainType;
-//            terrainType = nullptr;
 //        }
 
-        // Iterate through all of the tiles in the tileset and delete each of them.
-        for (auto tile: tiles) {
+        for (auto &tile: tiles) {
             delete tile;
-            tile = nullptr;
         }
 
-        // Iterate through all of the wangsets in the wangset and delete each of them.
-        for (auto wangset : wangsets) {
+        for (auto &wangset : wangsets) {
             delete wangset;
-            wangset = nullptr;
         }
 
     }

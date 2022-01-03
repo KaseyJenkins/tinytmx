@@ -24,7 +24,6 @@ namespace tinytmx {
     ObjectGroup::~ObjectGroup() {
         for (auto obj: objects) {
             delete obj;
-            obj = nullptr;
         }
     }
 

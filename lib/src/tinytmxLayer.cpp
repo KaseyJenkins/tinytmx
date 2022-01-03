@@ -60,10 +60,7 @@ namespace tinytmx {
     }
 
     Layer::~Layer() {
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
     }
 
 }

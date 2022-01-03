@@ -11,10 +11,9 @@ namespace tinytmx {
 
     PropertySet::~PropertySet() {
 
-        // Iterate through all properties and delete each of them:
+        // Iterate through all of the properties and delete each of them:
         for (auto &property : properties) {
             delete property.second;
-            property.second = nullptr;
         }
         properties.clear();
     }

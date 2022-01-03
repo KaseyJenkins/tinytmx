@@ -11,24 +11,15 @@ namespace tinytmx {
 
     WangSet::~WangSet() {
 
-        // Delete properties
-        if (properties != nullptr) {
-            delete properties;
-            properties = nullptr;
-        }
+        delete properties;
 
-        // Iterate through all of the wangtiles in the wangtiles vector and delete each of them.
-        for (auto wangtile : wangtiles) {
+        for (auto &wangtile : wangtiles) {
             delete wangtile;
-            wangtile = nullptr;
         }
 
-        // Iterate through all of the colors in the wangcolors vector and delete each of them.
-        for (auto wangcolor : wangcolors) {
+        for (auto &wangcolor : wangcolors) {
             delete wangcolor;
-            wangcolor = nullptr;
         }
-
     }
 
     void WangSet::Parse(tinyxml2::XMLNode const *wangsetNode) {

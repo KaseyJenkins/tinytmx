@@ -21,9 +21,9 @@ namespace tinytmx {
 
 
         /// Constructor for Chunk
-        DataChunkTile(uint32_t _width, uint32_t _height, int _x, int _y);
+        DataChunkTile(uint32_t widthv, uint32_t _heightv, int x, int y);
         /// Constructor for TileLayer Data
-        explicit DataChunkTile(uint32_t _width, uint32_t _height);
+        explicit DataChunkTile(uint32_t widthv, uint32_t heightv);
 
         ~DataChunkTile();
 
