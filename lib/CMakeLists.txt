@@ -90,17 +90,19 @@ elseif (NOT TINYTMX_EMBED_TINYXML2)
 endif ()
 
 
-target_include_directories(tinytmx PRIVATE
-        externals/zstd/lib
-        )
+# target_include_directories(tinytmx PRIVATE
+#         externals/zstd/lib
+#         )
 
 target_include_directories(tinytmx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
 
+find_package(zstd REQUIRED)
+
 target_link_libraries(tinytmx PRIVATE
         project_options
-        libzstd_static
+        zstd::libzstd_shared
         #        project_warnings
         )
 
@@ -123,7 +125,7 @@ configure_package_config_file(cmake/tinytmxConfig.cmake.in
 
 install(TARGETS tinytmx
         project_options
-        libzstd_static
+        # libzstd_static
 
         EXPORT tinytmxTargets
 

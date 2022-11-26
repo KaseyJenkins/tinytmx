@@ -42,6 +42,10 @@ jobs:
 
       - name: Install gmock manually
         run: sudo apt-get install libgmock-dev && cd /usr/src/googletest/googlemock/ && sudo mkdir build && cd build && sudo cmake .. && sudo cmake --build . && sudo cmake --install .
+      
+      - name: Install zstd
+        run: sudo apt-get install libzstd-dev
+
       - uses: actions/checkout@v2
 
       - name: Configure CMake

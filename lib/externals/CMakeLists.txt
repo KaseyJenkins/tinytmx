@@ -6,4 +6,4 @@ if (NOT TINYTMX_USE_MINIZ)
     # add_subdirectory(zlib)
 endif ()
 
-add_subdirectory(zstd/build/cmake)
+# add_subdirectory(zstd/build/cmake)
