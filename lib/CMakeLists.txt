@@ -63,12 +63,16 @@ if (TINYTMX_USE_MINIZ)
     target_compile_definitions(tinytmx
             PRIVATE -DUSE_MINIZ)
 elseif (NOT TINYTMX_USE_MINIZ)
-    target_include_directories(tinytmx PRIVATE
-            externals/zlib
-            ${CMAKE_CURRENT_BINARY_DIR}/externals/zlib
-            )
+#     target_include_directories(tinytmx PRIVATE
+#             externals/zlib
+#             ${CMAKE_CURRENT_BINARY_DIR}/externals/zlib
+#             )
+#     target_link_libraries(tinytmx PRIVATE
+#             zlibstatic
+#             )
+    find_package(ZLIB 1.2.11 REQUIRED)
     target_link_libraries(tinytmx PRIVATE
-            zlibstatic
+             ZLIB::ZLIB
             )
 endif ()
 
@@ -128,15 +132,15 @@ install(TARGETS tinytmx
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-if (NOT TINYTMX_USE_MINIZ)
-    install(TARGETS zlibstatic
-            EXPORT tinytmxTargets
+# if (NOT TINYTMX_USE_MINIZ)
+#     install(TARGETS zlibstatic
+#             EXPORT tinytmxTargets
 
-            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-endif ()
+#             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+#             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+#             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# endif ()
 
 install(DIRECTORY include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
