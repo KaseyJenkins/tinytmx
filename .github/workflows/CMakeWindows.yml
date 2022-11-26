@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - dev
+      - modern_project_structure
   pull_request:
     branches:
       - master
