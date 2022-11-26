@@ -27,8 +27,8 @@ The library requires C++17 to build, including compiler and standard library sup
 | Library      | Version |
 | ----------- | ----------- |
 | [TinyXML2](https://github.com/leethomason/tinyxml2)   | `9.0.0`        |
-| [zlib](https://github.com/madler/zlib)                |  `1.2.11`      |
-| [zstd](https://github.com/facebook/zstd)              | `1.5.0`        |
+| [zlib](https://github.com/madler/zlib)                |  `1.2.13`      |
+| [zstd](https://github.com/facebook/zstd)              | `1.5.2`        |
 
 ## Installation
 

@@ -12,6 +12,7 @@ add_executable(tinytmxlibtest
 
 target_link_libraries(tinytmxlibtest
               PRIVATE
+                project_options
                 tinytmx::tinytmx
                 GTest::gtest 
                 GTest::gtest_main
