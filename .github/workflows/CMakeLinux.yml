@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - dev
+      - modern_project_structure
   pull_request:
     branches:
       - master
@@ -36,6 +37,11 @@ jobs:
           - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
 
     steps:
+      - name: Install gtest manually
+        run: sudo apt-get install libgtest-dev && cd /usr/src/gtest && sudo mkdir build && cd build && sudo cmake .. && sudo cmake --build . && sudo cmake --install .
+
+      - name: Install gmock manually
+        run: sudo apt-get install libgmock-dev && cd /usr/src/googletest/googlemock/ && sudo mkdir build && cd build && sudo cmake .. && sudo cmake --build . && sudo cmake --install .
       - uses: actions/checkout@v2
 
       - name: Configure CMake
@@ -45,3 +51,6 @@ jobs:
         working-directory: ./build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: sudo cmake --build . --config $BUILD_TYPE --target install
+
+      - name: Run Test
+        run: /home/runner/work/tinytmx/tinytmx/build/tests/tinytmxlibtest

@@ -14,5 +14,10 @@ set_project_warnings(project_warnings)
 
 # Build the targets
 add_subdirectory(lib)
+# Tests
+if(UNIX AND NOT APPLE)
+  add_subdirectory(tests)
+endif()
+
 
 
