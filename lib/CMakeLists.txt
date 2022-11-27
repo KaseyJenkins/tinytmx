@@ -15,7 +15,7 @@ add_subdirectory(externals)
 
 add_library(tinytmx "")
 add_library(tinytmx::tinytmx ALIAS tinytmx)
-#set_target_properties(tinytmx PROPERTIES CXX_STANDARD 17)
+# set_target_properties(tinytmx PROPERTIES CXX_STANDARD 17)
 
 if (BUILD_SHARED_LIBS)
     set_target_properties(tinytmx PROPERTIES
@@ -63,6 +63,7 @@ if (TINYTMX_USE_MINIZ)
     target_compile_definitions(tinytmx
             PRIVATE -DUSE_MINIZ)
 elseif (NOT TINYTMX_USE_MINIZ)
+
 #     target_include_directories(tinytmx PRIVATE
 #             externals/zlib
 #             ${CMAKE_CURRENT_BINARY_DIR}/externals/zlib
@@ -70,38 +71,45 @@ elseif (NOT TINYTMX_USE_MINIZ)
 #     target_link_libraries(tinytmx PRIVATE
 #             zlibstatic
 #             )
-    find_package(ZLIB 1.2.11 REQUIRED)
+    find_package(ZLIB 1.2.13 REQUIRED)
     target_link_libraries(tinytmx PRIVATE
              ZLIB::ZLIB
             )
+
 endif ()
 
 if (TINYTMX_EMBED_TINYXML2)
-    target_sources(tinytmx
-            PRIVATE externals/tinyxml2/tinyxml2.cpp
-            )
-    target_include_directories(tinytmx PRIVATE
-            externals/tinyxml2
-            )
+#     target_sources(tinytmx
+#             PRIVATE externals/tinyxml2/tinyxml2.cpp
+#             )
+#     target_include_directories(tinytmx PRIVATE
+#             externals/tinyxml2
+#             )
+
 elseif (NOT TINYTMX_EMBED_TINYXML2)
+
+    find_package(tinyxml2 9.0.0 REQUIRED)
     target_link_libraries(tinytmx PRIVATE
-            tinyxml2
+        tinyxml2::tinyxml2
             )
+
 endif ()
 
 
-target_include_directories(tinytmx PRIVATE
-        externals/zstd/lib
-        )
+# target_include_directories(tinytmx PRIVATE
+#         externals/zstd/lib
+#         )
 
 target_include_directories(tinytmx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
 
+find_package(zstd 1.5.2 REQUIRED)
+
 target_link_libraries(tinytmx PRIVATE
+        zstd::libzstd_static
         project_options
-        libzstd_static
-        #        project_warnings
+        # project_warnings
         )
 
 include(CMakePackageConfigHelpers)
@@ -123,7 +131,8 @@ configure_package_config_file(cmake/tinytmxConfig.cmake.in
 
 install(TARGETS tinytmx
         project_options
-        libzstd_static
+        # project_warnings
+        # libzstd_static
 
         EXPORT tinytmxTargets
 

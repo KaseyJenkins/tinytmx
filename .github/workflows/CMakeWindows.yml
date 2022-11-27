@@ -16,9 +16,9 @@ env:
 
   # Use a bash shell so we can use the same syntax for environment variable
   # access regardless of the host operating system
-defaults:
-  run:
-    shell: bash
+# defaults:
+#   run:
+#     shell: bash
 
 jobs:
   build:
@@ -33,14 +33,28 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-        - { name: Windows VS2019, os: windows-latest }
+        - { name: Windows VS2022, os: windows-latest }
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure CMake
-        run: cmake -S . -B ./build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+      - name: Get Conan
+        uses: turtlebrowser/get-conan@v1.0
 
+      - name: Create default profile
+        run: conan profile new default --detect
+
+      - name: Update profile
+        run: conan profile update settings.compiler.version=16 default
+
+      - name: Install dependencies
+        run: conan install . -s build_type=${{env.BUILD_TYPE}} --install-folder=${{github.workspace}}\build
+
+      - name: Configure CMake # TODO -DCMAKE_MODULE_PATH
+        run: cmake -B ${{github.workspace}}\build -DCMAKE_MODULE_PATH="D:/a/tinytmx/tinytmx/build" -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
 
       - name: Build Windows
-        working-directory: ./build
-        run: cmake --build . --config $BUILD_TYPE --target install
+        working-directory: ${{github.workspace}}\build
+        run: cmake --build . --config ${{env.BUILD_TYPE}} --target install
+
+      - name: Run Test
+        run: ${{github.workspace}}\build\tests\${{env.BUILD_TYPE}}\tinytmxlibtest.exe
