@@ -5,15 +5,13 @@ include(GNUInstallDirs)
 
 set(TINYTMX_VERSION_MAJOR 1)
 set(TINYTMX_VERSION_MINOR 1)
-set(TINYTMX_VERSION_PATCH 4)
+set(TINYTMX_VERSION_PATCH 5)
 set(TINYTMX_VERSION "${TINYTMX_VERSION_MAJOR}.${TINYTMX_VERSION_MINOR}.${TINYTMX_VERSION_PATCH}")
 message(STATUS "TINYTMX VERSION ${TINYTMX_VERSION}")
 
 include(cmake/tinytmxProjectSettings.cmake)
 
-add_subdirectory(externals)
-
-add_library(tinytmx "")
+add_library(tinytmx)
 add_library(tinytmx::tinytmx ALIAS tinytmx)
 # set_target_properties(tinytmx PROPERTIES CXX_STANDARD 17)
 
@@ -64,53 +62,27 @@ if (TINYTMX_USE_MINIZ)
             PRIVATE -DUSE_MINIZ)
 elseif (NOT TINYTMX_USE_MINIZ)
 
-#     target_include_directories(tinytmx PRIVATE
-#             externals/zlib
-#             ${CMAKE_CURRENT_BINARY_DIR}/externals/zlib
-#             )
-#     target_link_libraries(tinytmx PRIVATE
-#             zlibstatic
-#             )
     find_package(ZLIB 1.2.13 REQUIRED)
     target_link_libraries(tinytmx PRIVATE
-             ZLIB::ZLIB
-            )
+                          ZLIB::ZLIB
+                         )
 
 endif ()
 
-if (TINYTMX_EMBED_TINYXML2)
-#     target_sources(tinytmx
-#             PRIVATE externals/tinyxml2/tinyxml2.cpp
-#             )
-#     target_include_directories(tinytmx PRIVATE
-#             externals/tinyxml2
-#             )
 
-elseif (NOT TINYTMX_EMBED_TINYXML2)
-
-    find_package(tinyxml2 9.0.0 REQUIRED)
-    target_link_libraries(tinytmx PRIVATE
+find_package(tinyxml2 9.0.0 REQUIRED)
+find_package(zstd 1.5.2 REQUIRED)
+target_link_libraries(tinytmx PRIVATE
         tinyxml2::tinyxml2
-            )
-
-endif ()
-
-
-# target_include_directories(tinytmx PRIVATE
-#         externals/zstd/lib
-#         )
+        zstd::libzstd_static # TODO
+        project_options
+        # project_warnings
+        )
 
 target_include_directories(tinytmx PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         )
 
-find_package(zstd 1.5.2 REQUIRED)
-
-target_link_libraries(tinytmx PRIVATE
-        zstd::libzstd_static
-        project_options
-        # project_warnings
-        )
 
 include(CMakePackageConfigHelpers)
 
@@ -140,16 +112,6 @@ install(TARGETS tinytmx
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-# if (NOT TINYTMX_USE_MINIZ)
-#     install(TARGETS zlibstatic
-#             EXPORT tinytmxTargets
-
-#             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#             INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-# endif ()
 
 install(DIRECTORY include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
