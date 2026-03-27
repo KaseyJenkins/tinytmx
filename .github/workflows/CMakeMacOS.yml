@@ -47,7 +47,7 @@ jobs:
         run: conan install . -s build_type=${{env.BUILD_TYPE}} --output-folder=${{github.workspace}}/build --build=missing
 
       - name: Configure CMake
-        run: cmake -S . -B ./build -DCMAKE_MODULE_PATH=${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -S . -B ./build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build macOS
         working-directory: ${{github.workspace}}/build

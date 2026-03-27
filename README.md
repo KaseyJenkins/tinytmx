@@ -67,8 +67,8 @@ run:
 
 ```bash
 docker compose run --rm tinytmx bash -lc "
-/opt/venv/bin/conan install . -if build -s build_type=Release -s compiler.libcxx=libstdc++11 -s compiler.cppstd=17 --build=missing &&
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/workspace/build -DCMAKE_MODULE_PATH=/workspace/build -DCMAKE_INSTALL_PREFIX=/workspace/dist &&
+/opt/venv/bin/conan install . --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11 -s compiler.cppstd=17 --build=missing &&
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/workspace/build/conan_toolchain.cmake -DCMAKE_INSTALL_PREFIX=/workspace/dist &&
 cmake --build build &&
 cmake --install build
 "

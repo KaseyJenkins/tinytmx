@@ -46,8 +46,8 @@ jobs:
       - name: Install dependencies
         run: conan install . -s build_type=${{env.BUILD_TYPE}} --output-folder=${{github.workspace}}\build --build=missing
 
-      - name: Configure CMake # TODO -DCMAKE_MODULE_PATH
-        run: cmake -B ${{github.workspace}}\build -DCMAKE_MODULE_PATH="D:/a/tinytmx/tinytmx/build" -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
+      - name: Configure CMake
+        run: cmake -S . -B ${{github.workspace}}\build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}\build\conan_toolchain.cmake -DCMAKE_BUILD_TYPE="${{env.BUILD_TYPE}}"
 
       - name: Build Windows
         working-directory: ${{github.workspace}}\build
