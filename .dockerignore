@@ -1,0 +1,7 @@
+build/
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -30,6 +30,58 @@ The library requires C++17 to build, including compiler and standard library sup
 | [zlib](https://github.com/madler/zlib)                |  `1.2.13`      |
 | [zstd](https://github.com/facebook/zstd)              | `1.5.2`        |
 
+## Build with Docker (recommended for isolated builds)
+
+If you prefer not to install Conan and build dependencies on your host machine,
+use the provided `Dockerfile` and `docker-compose.yml`.
+
+Prerequisites:
+
+* Docker
+* Docker Compose plugin (`docker compose`)
+
+From the repository root:
+
+```bash
+# Build the image, install dependencies in-container, configure, build, and run tests.
+docker compose up --build
+```
+
+What this does:
+
+* Builds inside a Debian-based container.
+* Resolves C++ dependencies with Conan inside the container.
+* Writes project build artifacts to the host `build/` directory through the bind mount.
+* Runs tests with CTest.
+
+Expected success output includes:
+
+* `Built target tinytmx`
+* `Built target tinytmxlibtest`
+* `100% tests passed`
+
+### Install and artifact location with Docker
+
+If you also want an installed layout (headers, library, CMake package files),
+run:
+
+```bash
+docker compose run --rm tinytmx bash -lc "
+/opt/venv/bin/conan install . -if build -s build_type=Release -s compiler.libcxx=libstdc++11 -s compiler.cppstd=17 --build=missing &&
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/workspace/build -DCMAKE_MODULE_PATH=/workspace/build -DCMAKE_INSTALL_PREFIX=/workspace/dist &&
+cmake --build build &&
+cmake --install build
+"
+```
+
+Because the repository is bind-mounted as `/workspace` in the container,
+the install output appears on the host at `./dist`.
+
+Notes:
+
+* Project build artifacts are in `./build`.
+* Conan dependency packages are in the container Conan cache (for example `/root/.conan`) unless a dedicated Conan cache volume is mounted.
+
 ## Installation
 
 This describes the installation process using cmake. As pre-requisites, you'll need git and cmake installed.

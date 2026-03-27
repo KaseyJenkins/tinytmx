@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(tinytmxGit)
 
+enable_testing()
+
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
