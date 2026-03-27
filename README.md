@@ -67,7 +67,8 @@ run:
 
 ```bash
 docker compose run --rm tinytmx bash -lc "
-/opt/venv/bin/conan install . --output-folder=build -s build_type=Release -s compiler.libcxx=libstdc++11 -s compiler.cppstd=17 --build=missing &&
+/opt/venv/bin/conan profile detect --force &&
+/opt/venv/bin/conan install . --output-folder=build -pr:h=default -pr:b=default -s build_type=Release -s compiler.libcxx=libstdc++11 -s compiler.cppstd=17 --build=missing &&
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/workspace/build/conan_toolchain.cmake -DCMAKE_INSTALL_PREFIX=/workspace/dist &&
 cmake --build build &&
 cmake --install build
@@ -80,7 +81,7 @@ the install output appears on the host at `./dist`.
 Notes:
 
 * Project build artifacts are in `./build`.
-* Conan dependency packages are in the container Conan cache (for example `/root/.conan`) unless a dedicated Conan cache volume is mounted.
+* Conan dependency packages are in the container Conan cache (for example `/root/.conan2`) unless a dedicated Conan cache volume is mounted.
 
 ## Installation
 
