@@ -41,10 +41,10 @@ jobs:
         uses: turtlebrowser/get-conan@v1.0
 
       - name: Create default profile
-        run: conan profile new default --detect
+        run: conan profile detect --force
 
       - name: Install dependencies
-        run: conan install . -s build_type=${{env.BUILD_TYPE}} --install-folder=${{github.workspace}}/build
+        run: conan install . -s build_type=${{env.BUILD_TYPE}} --output-folder=${{github.workspace}}/build --build=missing
 
       - name: Configure CMake
         run: cmake -S . -B ./build -DCMAKE_MODULE_PATH=${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
