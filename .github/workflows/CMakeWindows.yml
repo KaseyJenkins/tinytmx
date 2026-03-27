@@ -4,15 +4,15 @@ on:
   push:
     branches:
       - master
-      - dev
-      - modern_project_structure
   pull_request:
     branches:
       - master
+  workflow_dispatch:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
   # Use a bash shell so we can use the same syntax for environment variable
   # access regardless of the host operating system
@@ -35,10 +35,10 @@ jobs:
         platform:
         - { name: Windows VS2022, os: windows-latest }
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
