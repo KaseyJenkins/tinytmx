@@ -10,12 +10,14 @@ namespace tinytmx {
     ObjectGroup::ObjectGroup(tinytmx::Map const *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
               draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
-              color("#a0a0a4") {}
+              color("#a0a0a4"),
+              parallax(1.0f, 1.0f) {}
 
     ObjectGroup::ObjectGroup(tinytmx::Tile const *_tile, tinytmx::Map const *_map)
             : Layer(_tile, _map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_OBJECTGROUP),
               draw_order(tinytmx::DrawOrder::TMX_DRAWORDER_TOPDOWN),
-              color("#a0a0a4") {}
+              color("#a0a0a4"),
+              parallax(1.0f, 1.0f) {}
 
     ObjectGroup::~ObjectGroup() {
         for (auto obj: objects) {
@@ -48,6 +50,9 @@ namespace tinytmx {
         if (objectGroupElem->Attribute("tintcolor")) {
             tint_color = tinytmx::Color(objectGroupElem->Attribute("tintcolor"));
         }
+
+        objectGroupElem->QueryFloatAttribute("parallaxx", &parallax.x);
+        objectGroupElem->QueryFloatAttribute("parallaxy", &parallax.y);
 
         if (objectGroupElem->Attribute("draworder")) {
             std::string_view draworderAsCString = objectGroupElem->Attribute("draworder");

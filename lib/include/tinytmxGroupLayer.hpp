@@ -36,7 +36,14 @@ namespace tinytmx
         /// Get the number of Child Layers.
         [[nodiscard]] auto GetNumChildren() const noexcept;
 
+        /// Get the horizontal parallax factor for this group layer.
+        [[nodiscard]] float GetParallaxX() const { return parallax.x; }
+
+        /// Get the vertical parallax factor for this group layer.
+        [[nodiscard]] float GetParallaxY() const { return parallax.y; }
+
     private:
+        tinytmx::Vector2f parallax;
         std::vector<tinytmx::Layer*> children;
     };
 }

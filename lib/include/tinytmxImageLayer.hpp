@@ -27,7 +27,14 @@ namespace tinytmx
         /// about the image of the ImageLayer.
         [[nodiscard]] tinytmx::Image const *GetImage() const { return image; }
 
+        /// Get the horizontal parallax factor for this image layer.
+        [[nodiscard]] float GetParallaxX() const { return parallax.x; }
+
+        /// Get the vertical parallax factor for this image layer.
+        [[nodiscard]] float GetParallaxY() const { return parallax.y; }
+
     private:
+        tinytmx::Vector2f parallax;
         tinytmx::Image* image;
     };
 }

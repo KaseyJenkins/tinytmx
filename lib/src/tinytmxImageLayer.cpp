@@ -9,6 +9,7 @@
 namespace tinytmx {
     ImageLayer::ImageLayer(tinytmx::Map const *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_IMAGE_LAYER),
+              parallax(1.0f, 1.0f),
               image(nullptr) {
     }
 
@@ -36,6 +37,9 @@ namespace tinytmx {
         if (imageLayerElem->Attribute("tintcolor")) {
             tint_color = tinytmx::Color(imageLayerElem->Attribute("tintcolor"));
         }
+
+        imageLayerElem->QueryFloatAttribute("parallaxx", &parallax.x);
+        imageLayerElem->QueryFloatAttribute("parallaxy", &parallax.y);
 
         // Parse the image if there is one.
         tinyxml2::XMLNode const *imageNode = imageLayerElem->FirstChildElement("image");
