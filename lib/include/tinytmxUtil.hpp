@@ -1,6 +1,7 @@
 #ifndef TINYTMX_TINYTMXUTIL_HPP
 #define TINYTMX_TINYTMXUTIL_HPP
 
+#include <cstdint>
 #include <string>
 
 namespace tinytmx::Util
