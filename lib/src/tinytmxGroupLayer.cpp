@@ -12,7 +12,8 @@
 namespace tinytmx {
 
     GroupLayer::GroupLayer(tinytmx::Map const *_map)
-            : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_GROUP_LAYER) {
+        : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_GROUP_LAYER),
+          parallax(1.0f, 1.0f) {
     }
 
     GroupLayer::~GroupLayer() {
@@ -41,6 +42,9 @@ namespace tinytmx {
         if (groupLayerElem->Attribute("tintcolor")) {
             tint_color = tinytmx::Color(groupLayerElem->Attribute("tintcolor"));
         }
+
+        groupLayerElem->QueryFloatAttribute("parallaxx", &parallax.x);
+        groupLayerElem->QueryFloatAttribute("parallaxy", &parallax.y);
 
         // Parse the group.
         tinyxml2::XMLNode const *child = groupLayerElem->FirstChild();

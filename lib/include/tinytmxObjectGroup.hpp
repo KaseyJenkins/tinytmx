@@ -52,9 +52,16 @@ namespace tinytmx {
         /// Get the draworder.
         [[nodiscard]] tinytmx::DrawOrder GetDrawOrder() const { return draw_order; }
 
+        /// Get the horizontal parallax factor for this object layer.
+        [[nodiscard]] float GetParallaxX() const { return parallax.x; }
+
+        /// Get the vertical parallax factor for this object layer.
+        [[nodiscard]] float GetParallaxY() const { return parallax.y; }
+
     private:
         DrawOrder draw_order;
         tinytmx::Color color; // defaults to gray (“#a0a0a4”)
+        tinytmx::Vector2f parallax;
         std::vector<tinytmx::Object *> objects;
     };
 }
