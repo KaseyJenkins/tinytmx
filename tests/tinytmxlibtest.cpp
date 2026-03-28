@@ -41,6 +41,42 @@ TEST(TileLayerParse, Base64FiniteLayerUsesCorrectRowMajorIndexing) {
     EXPECT_EQ(data->GetTileGid(2, 1), 6u);
 }
 
+TEST(TileLayerParse, CsvFiniteLayerHandlesWhitespaceAndNewlines) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="3" height="2" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="test" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="L0" width="3" height="2">
+    <data encoding="csv">
+      1, 2 ,3,
+      4,  5,	6
+    </data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+    tinytmx::TileLayer const *layer = map.GetTileLayer(0);
+    ASSERT_NE(layer, nullptr);
+
+    tinytmx::DataChunkTile const *data = layer->GetDataTileFiniteMap();
+    ASSERT_NE(data, nullptr);
+    EXPECT_EQ(data->GetWidth(), 3u);
+    EXPECT_EQ(data->GetHeight(), 2u);
+
+    EXPECT_EQ(data->GetTileGid(0, 0), 1u);
+    EXPECT_EQ(data->GetTileGid(1, 0), 2u);
+    EXPECT_EQ(data->GetTileGid(2, 0), 3u);
+    EXPECT_EQ(data->GetTileGid(0, 1), 4u);
+    EXPECT_EQ(data->GetTileGid(1, 1), 5u);
+    EXPECT_EQ(data->GetTileGid(2, 1), 6u);
+}
+
 TEST(LayerParse, ParallaxIsParsedForObjectImageAndGroupLayers) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">

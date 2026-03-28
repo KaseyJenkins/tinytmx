@@ -11,9 +11,12 @@
 
 #include <zstd.h>
 
+#include <charconv>
+#include <cctype>
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <limits>
 
 #include "tinytmxLayer.hpp"
 #include "tinytmxTileLayer.hpp"
@@ -248,19 +251,42 @@ namespace tinytmx {
     }
 
     void TileLayer::ParseCSV(std::string const &innerText, tinytmx::MapTile *m_tile_map) {
-        // Duplicate the string for use with C stdio.
-        char *csv = strdup(innerText.c_str());
-
-        // Iterate through every token of ';' in the CSV string.
-        char *pch = std::strtok(csv, ",");
+        char const *it = innerText.data();
+        char const *end = it + innerText.size();
         int tileCount = 0;
 
-        while (pch) {
-            unsigned gid;
+        while (it < end) {
+            while (it < end && *it == ',') {
+                ++it;
+            }
 
-            // Convert to an unsigned.
-            //sscanf(pch, "%u", &gid);
-            gid = std::strtoul(pch, nullptr, 10);
+            if (it >= end) {
+                break;
+            }
+
+            char const *tokenBegin = it;
+            while (it < end && *it != ',') {
+                ++it;
+            }
+            char const *tokenEnd = it;
+
+            while (tokenBegin < tokenEnd && std::isspace(static_cast<unsigned char>(*tokenBegin))) {
+                ++tokenBegin;
+            }
+            while (tokenEnd > tokenBegin && std::isspace(static_cast<unsigned char>(*(tokenEnd - 1)))) {
+                --tokenEnd;
+            }
+
+            unsigned gid = 0;
+            if (tokenBegin < tokenEnd) {
+                unsigned parsedGid = 0;
+                auto result = std::from_chars(tokenBegin, tokenEnd, parsedGid);
+                if (result.ec == std::errc::result_out_of_range) {
+                    gid = std::numeric_limits<unsigned>::max();
+                } else if (result.ptr != tokenBegin) {
+                    gid = parsedGid;
+                }
+            }
 
             // Find the tileset index.
             int const tilesetIndex = map->FindTilesetIndex(gid);
@@ -273,11 +299,12 @@ namespace tinytmx {
                 m_tile_map[tileCount] = MapTile(gid, 0, -1);
             }
 
-            pch = std::strtok(nullptr, ",");
             tileCount++;
-        }
 
-        free(csv);
+            if (it < end && *it == ',') {
+                ++it;
+            }
+        }
     }
 
 
