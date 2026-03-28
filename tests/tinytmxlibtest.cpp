@@ -83,4 +83,53 @@ TEST(LayerParse, ParallaxIsParsedForObjectImageAndGroupLayers) {
     EXPECT_FLOAT_EQ(groupLayer->GetParallaxY(), 4.5f);
 }
 
+TEST(MapLookup, TilesetLookupBoundariesAndFlipFlagsRemainStable) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="ts0" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles0.png" width="16" height="16"/>
+  </tileset>
+  <tileset firstgid="100" name="ts1" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles1.png" width="16" height="16"/>
+  </tileset>
+  <tileset firstgid="1000" name="ts2" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles2.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="tile" width="1" height="1">
+    <data encoding="csv">0</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTilesets(), 3u);
+
+    EXPECT_EQ(map.FindTilesetIndex(0u), -1);
+    EXPECT_EQ(map.FindTilesetIndex(1u), 0);
+    EXPECT_EQ(map.FindTilesetIndex(99u), 0);
+    EXPECT_EQ(map.FindTilesetIndex(100u), 1);
+    EXPECT_EQ(map.FindTilesetIndex(999u), 1);
+    EXPECT_EQ(map.FindTilesetIndex(1000u), 2);
+
+    // Lookup must ignore flip flags when resolving a tileset index.
+    unsigned const flippedGid = 100u | tinytmx::FLIPPED_HORIZONTALLY_FLAG | tinytmx::FLIPPED_DIAGONALLY_FLAG;
+    EXPECT_EQ(map.FindTilesetIndex(flippedGid), 1);
+
+    auto const *tileset0 = map.FindTileset(1u);
+    auto const *tileset1 = map.FindTileset(150u);
+    auto const *tileset2 = map.FindTileset(1100u);
+    auto const *noTileset = map.FindTileset(0u);
+
+    ASSERT_NE(tileset0, nullptr);
+    ASSERT_NE(tileset1, nullptr);
+    ASSERT_NE(tileset2, nullptr);
+    ASSERT_EQ(noTileset, nullptr);
+
+    EXPECT_EQ(tileset0->GetName(), "ts0");
+    EXPECT_EQ(tileset1->GetName(), "ts1");
+    EXPECT_EQ(tileset2->GetName(), "ts2");
+}
+
 } // namespace
