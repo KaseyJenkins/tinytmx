@@ -1,5 +1,7 @@
 #include "tinyxml2.h"
 
+#include <algorithm>
+
 #include "tinytmxMap.hpp"
 #include "tinytmxTileset.hpp"
 #include "tinytmxLayer.hpp"
@@ -119,23 +121,37 @@ namespace tinytmx {
     int Map::FindTilesetIndex(unsigned gid) const {
         gid &= ~(FLIPPED_HORIZONTALLY_FLAG | FLIPPED_VERTICALLY_FLAG | FLIPPED_DIAGONALLY_FLAG);
 
-        for (int i = tilesets.size() - 1; i > -1; --i) {
-            // If the gid is beyond the tileset gid return its index.
-            if (gid >= tilesets[i]->GetFirstGid()) {
-                return i;
-            }
+        auto const it = std::upper_bound(
+                tilesets.begin(),
+                tilesets.end(),
+                gid,
+                [](unsigned value, tinytmx::Tileset const *tileset) {
+                    return value < static_cast<unsigned>(tileset->GetFirstGid());
+                }
+        );
+
+        if (it == tilesets.begin()) {
+            return -1;
         }
-        return -1;
+
+        return static_cast<int>(std::distance(tilesets.begin(), it - 1));
     }
 
     Tileset const *Map::FindTileset(unsigned gid) const {
-        for (int i = tilesets.size() - 1; i > -1; --i) {
-            // If the gid is beyond the tileset gid return the tileset.
-            if (gid >= tilesets[i]->GetFirstGid()) {
-                return tilesets[i];
-            }
+        auto const it = std::upper_bound(
+                tilesets.begin(),
+                tilesets.end(),
+                gid,
+                [](unsigned value, tinytmx::Tileset const *tileset) {
+                    return value < static_cast<unsigned>(tileset->GetFirstGid());
+                }
+        );
+
+        if (it == tilesets.begin()) {
+            return nullptr;
         }
-        return nullptr;
+
+        return *(it - 1);
     }
 
     void Map::Parse(tinyxml2::XMLNode const *mapNode) {
