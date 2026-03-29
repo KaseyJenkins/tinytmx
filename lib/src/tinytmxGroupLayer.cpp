@@ -1,5 +1,4 @@
 #include "tinyxml2.h"
-#include <cassert> //RJCB
 #include <cstring>
 #include <string>
 
@@ -48,7 +47,6 @@ namespace tinytmx {
 
         // Parse the group.
         tinyxml2::XMLNode const *child = groupLayerElem->FirstChild();
-        assert(child); //RJCB
 
         while (child != nullptr) {
             if (std::strcmp(child->Value(), "group") == 0) {
@@ -90,7 +88,7 @@ namespace tinytmx {
         return children;
     }
 
-    auto GroupLayer::GetNumChildren() const noexcept {
+    std::size_t GroupLayer::GetNumChildren() const noexcept {
         return children.size();
     }
 
