@@ -77,6 +77,64 @@ TEST(TileLayerParse, CsvFiniteLayerHandlesWhitespaceAndNewlines) {
     EXPECT_EQ(data->GetTileGid(2, 1), 6u);
 }
 
+TEST(TileLayerParse, CsvFiniteLayerMixedEmptyAndNonEmptyTilesRemainStable) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="4" height="2" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="ts0" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+    <image source="tiles0.png" width="32" height="32"/>
+  </tileset>
+  <tileset firstgid="100" name="ts1" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+    <image source="tiles1.png" width="32" height="32"/>
+  </tileset>
+  <layer id="1" name="L0" width="4" height="2">
+    <data encoding="csv">0,1,100,0,99,0,1000,0</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+    tinytmx::TileLayer const *layer = map.GetTileLayer(0);
+    ASSERT_NE(layer, nullptr);
+
+    tinytmx::DataChunkTile const *data = layer->GetDataTileFiniteMap();
+    ASSERT_NE(data, nullptr);
+    EXPECT_EQ(data->GetWidth(), 4u);
+    EXPECT_EQ(data->GetHeight(), 2u);
+
+    // Empty tiles stay empty and unresolved.
+    EXPECT_EQ(data->GetTileGid(0, 0), 0u);
+    EXPECT_EQ(data->GetTileTilesetIndex(0, 0), -1);
+    EXPECT_FALSE(data->IsTileFlippedHorizontally(0, 0));
+    EXPECT_FALSE(data->IsTileFlippedVertically(0, 0));
+    EXPECT_FALSE(data->IsTileFlippedDiagonally(0, 0));
+
+    EXPECT_EQ(data->GetTileGid(3, 0), 0u);
+    EXPECT_EQ(data->GetTileTilesetIndex(3, 0), -1);
+
+    EXPECT_EQ(data->GetTileGid(1, 1), 0u);
+    EXPECT_EQ(data->GetTileTilesetIndex(1, 1), -1);
+
+    EXPECT_EQ(data->GetTileGid(3, 1), 0u);
+    EXPECT_EQ(data->GetTileTilesetIndex(3, 1), -1);
+
+    // Non-empty tiles still resolve the same tilesets and gids.
+    EXPECT_EQ(data->GetTileGid(1, 0), 1u);
+    EXPECT_EQ(data->GetTileTilesetIndex(1, 0), 0);
+
+    EXPECT_EQ(data->GetTileGid(2, 0), 100u);
+    EXPECT_EQ(data->GetTileTilesetIndex(2, 0), 1);
+
+    EXPECT_EQ(data->GetTileGid(0, 1), 99u);
+    EXPECT_EQ(data->GetTileTilesetIndex(0, 1), 0);
+
+    EXPECT_EQ(data->GetTileGid(2, 1), 1000u);
+    EXPECT_EQ(data->GetTileTilesetIndex(2, 1), 1);
+}
+
 TEST(LayerParse, ParallaxIsParsedForObjectImageAndGroupLayers) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
