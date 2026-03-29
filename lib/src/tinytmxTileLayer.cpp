@@ -180,6 +180,13 @@ namespace tinytmx {
             //sscanf(gidText, "%u", &gid);
             gid = std::strtoul(gidText, nullptr, 10);
 
+            if (gid == 0) {
+                m_tile_map[tileCount] = MapTile(gid, 0, -1);
+                tileNode = tileNode->NextSiblingElement(firstChildElement.c_str());
+                tileCount++;
+                continue;
+            }
+
             // Find the tileset index.
             int const tilesetIndex = map->FindTilesetIndex(gid);
             if (tilesetIndex != -1) {
@@ -232,6 +239,11 @@ namespace tinytmx {
         for (int x = 0; x < m_height; x++) {
             for (int y = 0; y < m_width; y++) {
                 unsigned gid = out[x * m_width + y];
+
+                if (gid == 0) {
+                    m_tile_map[x * m_width + y] = MapTile(gid, 0, -1);
+                    continue;
+                }
 
                 // Find the tileset index.
                 int const tilesetIndex = map->FindTilesetIndex(gid);
@@ -286,6 +298,17 @@ namespace tinytmx {
                 } else if (result.ptr != tokenBegin) {
                     gid = parsedGid;
                 }
+            }
+
+            if (gid == 0) {
+                m_tile_map[tileCount] = MapTile(gid, 0, -1);
+                tileCount++;
+
+                if (it < end && *it == ',') {
+                    ++it;
+                }
+
+                continue;
             }
 
             // Find the tileset index.
