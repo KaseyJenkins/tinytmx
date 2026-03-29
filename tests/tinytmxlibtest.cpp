@@ -119,6 +119,26 @@ TEST(LayerParse, ParallaxIsParsedForObjectImageAndGroupLayers) {
     EXPECT_FLOAT_EQ(groupLayer->GetParallaxY(), 4.5f);
 }
 
+TEST(GroupLayerParse, EmptyGroupLayerIsAllowed) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="test" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <group id="1" name="empty"/>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumGroupLayers(), 1u);
+
+    auto const *groupLayer = map.GetGroupLayer(0);
+    ASSERT_NE(groupLayer, nullptr);
+    EXPECT_EQ(groupLayer->GetNumChildren(), 0u);
+}
+
 TEST(MapLookup, TilesetLookupBoundariesAndFlipFlagsRemainStable) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
