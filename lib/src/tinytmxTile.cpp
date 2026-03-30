@@ -1,9 +1,41 @@
 #include "tinyxml2.h"
 
+#include <charconv>
+#include <string_view>
+
 #include "tinytmxTile.hpp"
 #include "tinytmxObject.hpp"
 
 namespace tinytmx {
+    namespace {
+        void ParseCommaSeparatedInts(std::string_view text, std::vector<int> &out) {
+            while (!text.empty()) {
+                auto const commaPos = text.find(',');
+                std::string_view token = (commaPos == std::string_view::npos) ? text : text.substr(0, commaPos);
+
+                // Trim leading/trailing spaces.
+                while (!token.empty() && token.front() == ' ') {
+                    token.remove_prefix(1);
+                }
+                while (!token.empty() && token.back() == ' ') {
+                    token.remove_suffix(1);
+                }
+
+                if (!token.empty()) {
+                    int value = 0;
+                    auto const result = std::from_chars(token.data(), token.data() + token.size(), value);
+                    if (result.ec == std::errc{}) {
+                        out.emplace_back(value);
+                    }
+                }
+
+                if (commaPos == std::string_view::npos) {
+                    break;
+                }
+                text.remove_prefix(commaPos + 1);
+            }
+        }
+    }
     Tile::Tile() :
             isAnimated(false),
             hasObjects(false),
@@ -49,13 +81,7 @@ namespace tinytmx {
 
         // Parse the terrain attribute.
         if (tileElem->Attribute("terrain")) {
-            char *terrainString = strdup(tileElem->Attribute("terrain"));
-            char *token = strtok(terrainString, ",");
-            while (token) {
-                terrain.emplace_back(strtol(token, nullptr, 10));
-                token = strtok(nullptr, ",");
-            }
-            free(terrainString);
+            ParseCommaSeparatedInts(tileElem->Attribute("terrain"), terrain);
         }
 
         // Parse the probability value.

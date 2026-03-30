@@ -197,6 +197,52 @@ TEST(GroupLayerParse, EmptyGroupLayerIsAllowed) {
     EXPECT_EQ(groupLayer->GetNumChildren(), 0u);
 }
 
+TEST(WangSetParse, WangIdParsesCommaSeparatedValues) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="test" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+    <wangsets>
+      <wangset name="ws" tile="0">
+        <wangcolor name="c1" color="#ff0000" tile="0" probability="1"/>
+        <wangtile tileid="0" wangid="1, 2,3,4, 5,6,7,8"/>
+      </wangset>
+    </wangsets>
+  </tileset>
+  <layer id="1" name="tile" width="1" height="1">
+    <data encoding="csv">0</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTilesets(), 1u);
+
+    auto const *tileset = map.GetTileset(0);
+    ASSERT_NE(tileset, nullptr);
+    ASSERT_EQ(tileset->GetWangSets().size(), 1u);
+
+    auto const *wangset = tileset->GetWangSet(0);
+    ASSERT_NE(wangset, nullptr);
+    ASSERT_EQ(wangset->GetWangTiles().size(), 1u);
+
+    auto const *wangtile = wangset->GetWangTiles().at(0);
+    ASSERT_NE(wangtile, nullptr);
+
+    std::vector<uint32_t> const &wangid = wangtile->GetWangID();
+    ASSERT_EQ(wangid.size(), 8u);
+    EXPECT_EQ(wangid[0], 1u);
+    EXPECT_EQ(wangid[1], 2u);
+    EXPECT_EQ(wangid[2], 3u);
+    EXPECT_EQ(wangid[3], 4u);
+    EXPECT_EQ(wangid[4], 5u);
+    EXPECT_EQ(wangid[5], 6u);
+    EXPECT_EQ(wangid[6], 7u);
+    EXPECT_EQ(wangid[7], 8u);
+}
+
 TEST(MapLookup, TilesetLookupBoundariesAndFlipFlagsRemainStable) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
