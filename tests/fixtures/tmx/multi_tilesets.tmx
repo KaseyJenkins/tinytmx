@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="ts0" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles0.png" width="16" height="16"/>
+  </tileset>
+  <tileset firstgid="100" name="ts1" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles1.png" width="16" height="16"/>
+  </tileset>
+  <tileset firstgid="1000" name="ts2" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles2.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="ground" width="1" height="1">
+    <data encoding="csv">0</data>
+  </layer>
+</map>

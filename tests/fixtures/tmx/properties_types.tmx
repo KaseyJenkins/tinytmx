@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <properties>
+    <property name="title" type="string" value="hello"/>
+    <property name="lives" type="int" value="3"/>
+    <property name="speed" type="float" value="2.5"/>
+    <property name="enabled" type="bool" value="true"/>
+    <property name="tint" type="color" value="#112233"/>
+    <property name="asset" type="file" value="assets/hero.png"/>
+    <property name="target" type="object" value="7"/>
+  </properties>
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="ground" width="1" height="1">
+    <data encoding="csv">0</data>
+  </layer>
+  <objectgroup id="2" name="objects">
+    <object id="7" name="target" x="0" y="0" width="1" height="1"/>
+  </objectgroup>
+</map>

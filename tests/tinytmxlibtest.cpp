@@ -1,10 +1,16 @@
 #include "gtest/gtest.h"
 
+#include <filesystem>
 #include <string>
+#include <string_view>
 
 #include "tinytmx.hpp"
 
 namespace {
+
+std::string FixturePath(std::string_view name) {
+  return (std::filesystem::path(__FILE__).parent_path() / "fixtures" / "tmx" / name).string();
+}
 
 TEST(TileLayerParse, Base64FiniteLayerUsesCorrectRowMajorIndexing) {
     // 6 little-endian uint32 gids: 1,2,3,4,5,6
@@ -290,6 +296,135 @@ TEST(MapLookup, TilesetLookupBoundariesAndFlipFlagsRemainStable) {
     EXPECT_EQ(tileset0->GetName(), "ts0");
     EXPECT_EQ(tileset1->GetName(), "ts1");
     EXPECT_EQ(tileset2->GetName(), "ts2");
+}
+
+TEST(FixtureParse, BasicFiniteCsvFromFile) {
+  tinytmx::Map map;
+  map.ParseFile(FixturePath("basic_finite_csv.tmx"));
+
+  ASSERT_FALSE(map.HasError());
+  ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+  auto const *layer = map.GetTileLayer(0);
+  ASSERT_NE(layer, nullptr);
+
+  auto const *data = layer->GetDataTileFiniteMap();
+  ASSERT_NE(data, nullptr);
+  EXPECT_EQ(data->GetWidth(), 3u);
+  EXPECT_EQ(data->GetHeight(), 2u);
+  EXPECT_EQ(data->GetTileGid(2, 1), 6u);
+}
+
+TEST(FixtureParse, BasicFiniteBase64FromFile) {
+  tinytmx::Map map;
+  map.ParseFile(FixturePath("basic_finite_base64.tmx"));
+
+  ASSERT_FALSE(map.HasError());
+  ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+  auto const *layer = map.GetTileLayer(0);
+  ASSERT_NE(layer, nullptr);
+
+  auto const *data = layer->GetDataTileFiniteMap();
+  ASSERT_NE(data, nullptr);
+  EXPECT_EQ(data->GetWidth(), 3u);
+  EXPECT_EQ(data->GetHeight(), 2u);
+  EXPECT_EQ(data->GetTileGid(2, 1), 6u);
+}
+
+TEST(FixtureParse, AllLayerTypesFromFile) {
+  tinytmx::Map map;
+  map.ParseFile(FixturePath("all_layer_types.tmx"));
+
+  ASSERT_FALSE(map.HasError());
+  EXPECT_EQ(map.GetNumTileLayers(), 1u);
+  EXPECT_EQ(map.GetNumObjectGroups(), 1u);
+  EXPECT_EQ(map.GetNumImageLayers(), 1u);
+  EXPECT_EQ(map.GetNumGroupLayers(), 1u);
+
+  auto const *groupLayer = map.GetGroupLayer(0);
+  ASSERT_NE(groupLayer, nullptr);
+  EXPECT_EQ(groupLayer->GetNumChildren(), 1u);
+
+  auto const *imageLayer = map.GetImageLayer(0);
+  ASSERT_NE(imageLayer, nullptr);
+  auto const *image = imageLayer->GetImage();
+  ASSERT_NE(image, nullptr);
+  EXPECT_EQ(image->GetSource(), "bg.png");
+}
+
+TEST(FixtureParse, ObjectShapesFromFile) {
+  tinytmx::Map map;
+  map.ParseFile(FixturePath("objects_shapes.tmx"));
+
+  ASSERT_FALSE(map.HasError());
+  ASSERT_EQ(map.GetNumObjectGroups(), 1u);
+
+  auto const *group = map.GetObjectGroup(0);
+  ASSERT_NE(group, nullptr);
+  ASSERT_EQ(group->GetNumObjects(), 6u);
+
+  auto const *ellipse = group->GetObject(0);
+  ASSERT_NE(ellipse, nullptr);
+  EXPECT_EQ(ellipse->GetObjectType(), tinytmx::ObjectType::TMX_OT_ELLIPSE);
+  EXPECT_NE(ellipse->GetEllipse(), nullptr);
+
+  auto const *point = group->GetObject(1);
+  ASSERT_NE(point, nullptr);
+  EXPECT_EQ(point->GetObjectType(), tinytmx::ObjectType::TMX_OT_POINT);
+  EXPECT_NE(point->GetPoint(), nullptr);
+
+  auto const *polygon = group->GetObject(2);
+  ASSERT_NE(polygon, nullptr);
+  EXPECT_EQ(polygon->GetObjectType(), tinytmx::ObjectType::TMX_OT_POLYGON);
+  ASSERT_NE(polygon->GetPolygon(), nullptr);
+  EXPECT_EQ(polygon->GetPolygon()->GetNumPoints(), 3u);
+
+  auto const *polyline = group->GetObject(3);
+  ASSERT_NE(polyline, nullptr);
+  EXPECT_EQ(polyline->GetObjectType(), tinytmx::ObjectType::TMX_OT_POLYLINE);
+  ASSERT_NE(polyline->GetPolyline(), nullptr);
+  EXPECT_EQ(polyline->GetPolyline()->GetNumPoints(), 3u);
+
+  auto const *text = group->GetObject(4);
+  ASSERT_NE(text, nullptr);
+  EXPECT_EQ(text->GetObjectType(), tinytmx::ObjectType::TMX_OT_TEXT);
+  ASSERT_NE(text->GetText(), nullptr);
+  EXPECT_EQ(text->GetText()->GetContents(), "hello");
+
+  auto const *rectangle = group->GetObject(5);
+  ASSERT_NE(rectangle, nullptr);
+  EXPECT_EQ(rectangle->GetObjectType(), tinytmx::ObjectType::TMX_OT_RECTANGLE);
+}
+
+TEST(FixtureParse, MapPropertiesFromFile) {
+  tinytmx::Map map;
+  map.ParseFile(FixturePath("properties_types.tmx"));
+
+  ASSERT_FALSE(map.HasError());
+  auto const *properties = map.GetProperties();
+  ASSERT_NE(properties, nullptr);
+
+  EXPECT_EQ(properties->GetStringProperty("title"), "hello");
+  EXPECT_EQ(properties->GetIntProperty("lives"), 3);
+  EXPECT_FLOAT_EQ(properties->GetFloatProperty("speed"), 2.5f);
+  EXPECT_TRUE(properties->GetBoolProperty("enabled"));
+  EXPECT_EQ(properties->GetColorProperty("tint"), tinytmx::Color("#112233"));
+  EXPECT_EQ(properties->GetFileProperty("asset"), "assets/hero.png");
+  EXPECT_EQ(properties->GetObjectProperty("target"), 7);
+}
+
+TEST(FixtureParse, MultipleTilesetsFromFile) {
+  tinytmx::Map map;
+  map.ParseFile(FixturePath("multi_tilesets.tmx"));
+
+  ASSERT_FALSE(map.HasError());
+  ASSERT_EQ(map.GetNumTilesets(), 3u);
+
+  EXPECT_EQ(map.FindTilesetIndex(0u), -1);
+  EXPECT_EQ(map.FindTilesetIndex(1u), 0);
+  EXPECT_EQ(map.FindTilesetIndex(100u), 1);
+  EXPECT_EQ(map.FindTilesetIndex(1000u), 2);
 }
 
 } // namespace
