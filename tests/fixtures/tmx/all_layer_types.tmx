@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="2" height="2" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="tile" width="2" height="2">
+    <data encoding="csv">0,0,0,0</data>
+  </layer>
+  <objectgroup id="2" name="objects">
+    <object id="1" name="spawn" x="4" y="8" width="1" height="1"/>
+  </objectgroup>
+  <imagelayer id="3" name="background">
+    <image source="bg.png" width="32" height="32"/>
+  </imagelayer>
+  <group id="4" name="group">
+    <layer id="5" name="nested" width="2" height="2">
+      <data encoding="csv">0,0,0,0</data>
+    </layer>
+  </group>
+</map>
