@@ -427,4 +427,212 @@ TEST(FixtureParse, MultipleTilesetsFromFile) {
   EXPECT_EQ(map.FindTilesetIndex(1000u), 2);
 }
 
+TEST(FixtureParse, InfiniteChunksCsvFromFile) {
+    tinytmx::Map map;
+    map.ParseFile(FixturePath("infinite_chunks_csv.tmx"));
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_TRUE(map.IsInfinite());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+    auto const *layer = map.GetTileLayer(0);
+    ASSERT_NE(layer, nullptr);
+    ASSERT_EQ(layer->GetChunks().size(), 1u);
+
+    auto const *chunk = layer->GetChunk(0);
+    ASSERT_NE(chunk, nullptr);
+    EXPECT_EQ(chunk->GetX(), -2);
+    EXPECT_EQ(chunk->GetY(), 3);
+    EXPECT_EQ(chunk->GetWidth(), 2u);
+    EXPECT_EQ(chunk->GetHeight(), 2u);
+    EXPECT_EQ(chunk->GetTileGid(0, 0), 1u);
+    EXPECT_EQ(chunk->GetTileGid(1, 0), 2u);
+    EXPECT_EQ(chunk->GetTileGid(0, 1), 3u);
+    EXPECT_EQ(chunk->GetTileGid(1, 1), 4u);
+}
+
+TEST(FixtureParse, InfiniteChunksBase64FromFile) {
+    tinytmx::Map map;
+    map.ParseFile(FixturePath("infinite_chunks_base64.tmx"));
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_TRUE(map.IsInfinite());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+    auto const *layer = map.GetTileLayer(0);
+    ASSERT_NE(layer, nullptr);
+    ASSERT_EQ(layer->GetChunks().size(), 1u);
+
+    auto const *chunk = layer->GetChunk(0);
+    ASSERT_NE(chunk, nullptr);
+    EXPECT_EQ(chunk->GetX(), 10);
+    EXPECT_EQ(chunk->GetY(), -4);
+    EXPECT_EQ(chunk->GetWidth(), 2u);
+    EXPECT_EQ(chunk->GetHeight(), 2u);
+    EXPECT_EQ(chunk->GetTileGid(0, 0), 1u);
+    EXPECT_EQ(chunk->GetTileGid(1, 0), 2u);
+    EXPECT_EQ(chunk->GetTileGid(0, 1), 3u);
+    EXPECT_EQ(chunk->GetTileGid(1, 1), 4u);
+}
+
+TEST(FixtureParse, TilesetExtrasFromFile) {
+    tinytmx::Map map;
+    map.ParseFile(FixturePath("tileset_extras.tmx"));
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTilesets(), 1u);
+
+    auto const *tileset = map.GetTileset(0);
+    ASSERT_NE(tileset, nullptr);
+
+    auto const *tileOffset = tileset->GetTileOffset();
+    ASSERT_NE(tileOffset, nullptr);
+    EXPECT_EQ(tileOffset->GetX(), 3);
+    EXPECT_EQ(tileOffset->GetY(), -2);
+
+    auto const *grid = tileset->GetGrid();
+    ASSERT_NE(grid, nullptr);
+    EXPECT_EQ(grid->GetOrientation(), tinytmx::GridOrientation::TMX_GO_ISOMETRIC);
+    EXPECT_EQ(grid->GetWidth(), 32u);
+    EXPECT_EQ(grid->GetHeight(), 24u);
+
+    auto const *transformations = tileset->GetTransformations();
+    ASSERT_NE(transformations, nullptr);
+    EXPECT_TRUE(transformations->GetHflip());
+    EXPECT_FALSE(transformations->GetVflip());
+    EXPECT_TRUE(transformations->GetRotate());
+    EXPECT_TRUE(transformations->GetPreferUntransformed());
+
+    ASSERT_EQ(tileset->GetWangSets().size(), 1u);
+    auto const *wangset = tileset->GetWangSet(0);
+    ASSERT_NE(wangset, nullptr);
+    ASSERT_EQ(wangset->GetWangTiles().size(), 1u);
+
+    auto const *wangtile = wangset->GetWangTiles().at(0);
+    ASSERT_NE(wangtile, nullptr);
+    EXPECT_EQ(wangtile->GetTileId(), 0u);
+    ASSERT_EQ(wangtile->GetWangID().size(), 8u);
+    EXPECT_EQ(wangtile->GetWangID()[0], 1u);
+    EXPECT_EQ(wangtile->GetWangID()[1], 0u);
+}
+
+TEST(FixtureParse, ExternalTsxTilesetFromFile) {
+    tinytmx::Map map;
+    map.ParseFile(FixturePath("external_tileset_map.tmx"));
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTilesets(), 1u);
+
+    auto const *tileset = map.GetTileset(0);
+    ASSERT_NE(tileset, nullptr);
+    EXPECT_EQ(tileset->GetName(), "external");
+
+    auto const *image = tileset->GetImage();
+    ASSERT_NE(image, nullptr);
+    EXPECT_EQ(image->GetSource(), "external_tiles.png");
+}
+
+TEST(MapParse, MissingOptionalAttributesUseDefaults) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1">
+    <data encoding="csv">0</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    EXPECT_EQ(map.GetRenderOrder(), tinytmx::MapRenderOrder::TMX_RIGHT_DOWN);
+    EXPECT_FALSE(map.IsInfinite());
+    EXPECT_EQ(map.GetCompressionLevel(), -1);
+    EXPECT_EQ(map.GetNextLayerID(), 0);
+    EXPECT_EQ(map.GetNextObjectID(), 0);
+}
+
+TEST(PropertyParse, MultilinePropertyValueInElementText) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <properties>
+    <property name="note" type="string">line1
+line2</property>
+  </properties>
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    auto const *properties = map.GetProperties();
+    ASSERT_NE(properties, nullptr);
+    EXPECT_EQ(properties->GetStringProperty("note"), "line1\nline2");
+}
+
+TEST(MapParse, AttributeOrderingVarianceAccepted) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map tileheight="16" width="1" orientation="orthogonal" version="1.5" tilewidth="16" height="1" renderorder="left-up">
+  <tileset columns="1" tilecount="1" tileheight="16" name="basic" firstgid="1" tilewidth="16">
+    <image height="16" width="16" source="tiles.png"/>
+  </tileset>
+  <layer height="1" id="1" width="1" name="L0">
+    <data encoding="csv">0</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    EXPECT_EQ(map.GetRenderOrder(), tinytmx::MapRenderOrder::TMX_LEFT_UP);
+    ASSERT_EQ(map.GetNumTilesets(), 1u);
+    EXPECT_EQ(map.GetTileset(0)->GetName(), "basic");
+}
+
+TEST(MapParse, EmptyPropertiesElementParsesAsEmptySet) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <properties/>
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    auto const *properties = map.GetProperties();
+    ASSERT_NE(properties, nullptr);
+    EXPECT_TRUE(properties->Empty());
+}
+
+TEST(MapParse, UnknownElementsAndAttributesAreIgnored) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16" unknownattr="ignored">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1" weird="x">
+    <image source="tiles.png" width="16" height="16" custom="y"/>
+  </tileset>
+  <unknownnode foo="bar"><nested/></unknownnode>
+  <layer id="1" name="L0" width="1" height="1" odd="z">
+    <data encoding="csv">0</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+    EXPECT_EQ(map.GetTileLayer(0)->GetName(), "L0");
+}
+
 } // namespace
