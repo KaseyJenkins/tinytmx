@@ -54,7 +54,11 @@ namespace tinytmx {
 
         // Read the attributes.
         ID = tileLayerElem->UnsignedAttribute("id");
-        name = tileLayerElem->Attribute("name");
+        if (char const *nameAttr = tileLayerElem->Attribute("name")) {
+            name = nameAttr;
+        } else {
+            name.clear();
+        }
 
         tileLayerElem->QueryIntAttribute("x", &x);
         tileLayerElem->QueryIntAttribute("y", &y);

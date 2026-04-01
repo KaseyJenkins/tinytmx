@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="0" height="0" tilewidth="16" tileheight="16" infinite="1">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+    <image source="tiles.png" width="32" height="32"/>
+  </tileset>
+  <layer id="1" name="chunks" width="0" height="0">
+    <data encoding="csv">
+      <chunk x="-2" y="3" width="2" height="2">1,2,3,4</chunk>
+    </data>
+  </layer>
+</map>
