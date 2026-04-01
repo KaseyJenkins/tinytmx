@@ -76,7 +76,7 @@ namespace tinytmx {
     void Map::ParseFile(std::string const &fileName) {
         file_name = fileName;
 
-        auto const lastSlash = fileName.find_last_of('/');
+        auto const lastSlash = fileName.find_last_of("/\\");
 
         // Get the directory of the file using substring.
         if (lastSlash != std::string::npos) {
