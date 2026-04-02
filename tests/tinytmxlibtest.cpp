@@ -635,4 +635,44 @@ TEST(MapParse, UnknownElementsAndAttributesAreIgnored) {
     EXPECT_EQ(map.GetTileLayer(0)->GetName(), "L0");
 }
 
+  TEST(FixtureParse, LargeMapCsvFromFile) {
+    tinytmx::Map map;
+    map.ParseFile(FixturePath("large_map_csv.tmx"));
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+    auto const *layer = map.GetTileLayer(0);
+    ASSERT_NE(layer, nullptr);
+    auto const *data = layer->GetDataTileFiniteMap();
+    ASSERT_NE(data, nullptr);
+
+    EXPECT_EQ(data->GetWidth(), 64u);
+    EXPECT_EQ(data->GetHeight(), 64u);
+    EXPECT_EQ(data->GetTileGid(0, 0), 1u);
+    EXPECT_EQ(data->GetTileGid(63, 0), 1u);
+    EXPECT_EQ(data->GetTileGid(0, 63), 1u);
+    EXPECT_EQ(data->GetTileGid(63, 63), 1u);
+  }
+
+  TEST(FixtureParse, LargeMapBase64FromFile) {
+    tinytmx::Map map;
+    map.ParseFile(FixturePath("large_map_base64.tmx"));
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+
+    auto const *layer = map.GetTileLayer(0);
+    ASSERT_NE(layer, nullptr);
+    auto const *data = layer->GetDataTileFiniteMap();
+    ASSERT_NE(data, nullptr);
+
+    EXPECT_EQ(data->GetWidth(), 64u);
+    EXPECT_EQ(data->GetHeight(), 64u);
+    EXPECT_EQ(data->GetTileGid(0, 0), 0u);
+    EXPECT_EQ(data->GetTileGid(63, 0), 0u);
+    EXPECT_EQ(data->GetTileGid(0, 63), 0u);
+    EXPECT_EQ(data->GetTileGid(63, 63), 0u);
+  }
+
 } // namespace
