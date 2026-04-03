@@ -54,7 +54,7 @@ jobs:
         run: conan install . -s build_type=${{env.BUILD_TYPE}} -s compiler.cppstd=17 -s compiler.libcxx=libstdc++11 --output-folder=${{github.workspace}}/build --build=missing
 
       - name: Configure CMake
-        run: cmake -S . -B ${{github.workspace}}/build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        run: cmake -S . -B ${{github.workspace}}/build -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/build/conan_toolchain.cmake -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTING=ON
 
       - name: Build Linux
         working-directory: ${{github.workspace}}/build
