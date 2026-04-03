@@ -55,7 +55,7 @@ namespace tinytmx {
 
     std::string Color::ToString() const {
         char strRep[10];
-        std::sprintf(strRep, "#%.8x", color);
+        std::snprintf(strRep, sizeof(strRep), "#%.8x", static_cast<unsigned int>(color));
         return strRep;
     }
 }
