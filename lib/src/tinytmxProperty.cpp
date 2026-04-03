@@ -1,6 +1,7 @@
 #include <string_view>
 #include "tinyxml2.h"
 #include "tinytmxProperty.hpp"
+#include "tinytmxPropertySet.hpp"
 
 namespace tinytmx {
     Property::Property(tinyxml2::XMLElement const *propertyElem)
@@ -27,7 +28,17 @@ namespace tinytmx {
                 type = tinytmx::PropertyType::TMX_PROPERTY_FILE;
             } else if (typeAsCString == "object") {
                 type = tinytmx::PropertyType::TMX_PROPERTY_OBJECT;
+            } else if (typeAsCString == "class") {
+                type = tinytmx::PropertyType::TMX_PROPERTY_CLASS;
             }
+        }
+
+        if (tinyxml2::XMLAttribute const *propertyTypeAttribute = propertyElem->FindAttribute("propertytype")) {
+            class_name = propertyTypeAttribute->Value();
+        }
+
+        if (tinyxml2::XMLElement const *nestedPropertiesElem = propertyElem->FirstChildElement("properties")) {
+            class_properties = std::make_unique<tinytmx::PropertySet>(nestedPropertiesElem);
         }
 
         char const *valueAsCString = propertyElem->Attribute("value");

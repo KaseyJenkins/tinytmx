@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <memory>
 #include "tinytmxColor.hpp"
 
 namespace tinyxml2 {
@@ -10,6 +11,8 @@ namespace tinyxml2 {
 }
 
 namespace tinytmx {
+    class PropertySet;
+
     //-------------------------------------------------------------------------
     /// The type of a property.
     //-------------------------------------------------------------------------
@@ -33,7 +36,10 @@ namespace tinytmx {
         TMX_PROPERTY_FILE,
 
         /// An object Property.
-        TMX_PROPERTY_OBJECT
+        TMX_PROPERTY_OBJECT,
+
+        /// A class Property with optional nested member properties.
+        TMX_PROPERTY_CLASS
     };
 
     //-------------------------------------------------------------------------
@@ -76,9 +82,17 @@ namespace tinytmx {
         /// Get the value to a file and return it (or the default if not a file).
         [[nodiscard]] std::string const &GetFileValue() const { return value; }
 
+        /// Get the class name (from propertytype) for class properties.
+        [[nodiscard]] std::string const &GetClassName() const { return class_name; }
+
+        /// Get nested member properties for class properties.
+        [[nodiscard]] tinytmx::PropertySet const *GetClassProperties() const { return class_properties.get(); }
+
     private:
         PropertyType type;
         std::string value;
+        std::string class_name;
+        std::unique_ptr<tinytmx::PropertySet> class_properties;
 
         void Parse(tinyxml2::XMLElement const *propertyElem);
     };

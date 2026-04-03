@@ -53,6 +53,15 @@ namespace tinytmx {
         /// Get a File Property by its name.
         std::string const &GetFileProperty(std::string const &name, std::string const &defaultValue = "") const;
 
+        /// Check whether a property exists and is a class property.
+        bool IsClassProperty(std::string const &name) const;
+
+        /// Get the class name (propertytype) of a class property.
+        std::string const &GetClassName(std::string const &name, std::string const &defaultValue = "") const;
+
+        /// Get nested member properties of a class property.
+        tinytmx::PropertySet const *GetClassProperties(std::string const &name) const;
+
         /// Returns the number of properties.
         auto GetSize() const { return properties.size(); }
 

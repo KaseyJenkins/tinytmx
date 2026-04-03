@@ -576,6 +576,67 @@ line2</property>
     EXPECT_EQ(properties->GetStringProperty("note"), "line1\nline2");
 }
 
+TEST(PropertyParse, ClassPropertyParsesClassNameAndNestedMembers) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <properties>
+    <property name="enemy" type="class" propertytype="EnemyStats">
+      <properties>
+        <property name="hp" type="int" value="42"/>
+        <property name="aggressive" type="bool" value="true"/>
+      </properties>
+    </property>
+    <property name="label" type="string" value="grunt"/>
+  </properties>
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    auto const *properties = map.GetProperties();
+    ASSERT_NE(properties, nullptr);
+
+    EXPECT_TRUE(properties->IsClassProperty("enemy"));
+    EXPECT_EQ(properties->GetClassName("enemy"), "EnemyStats");
+
+    auto const *enemyClass = properties->GetClassProperties("enemy");
+    ASSERT_NE(enemyClass, nullptr);
+    EXPECT_EQ(enemyClass->GetIntProperty("hp"), 42);
+    EXPECT_TRUE(enemyClass->GetBoolProperty("aggressive"));
+
+    EXPECT_FALSE(properties->IsClassProperty("label"));
+    EXPECT_EQ(properties->GetClassProperties("label"), nullptr);
+}
+
+TEST(PropertyParse, ClassPropertyWithoutNestedMembersIsSupported) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <properties>
+    <property name="enemy" type="class" propertytype="EnemyStats"/>
+  </properties>
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    auto const *properties = map.GetProperties();
+    ASSERT_NE(properties, nullptr);
+
+    EXPECT_TRUE(properties->IsClassProperty("enemy"));
+    EXPECT_EQ(properties->GetClassName("enemy"), "EnemyStats");
+    EXPECT_EQ(properties->GetClassProperties("enemy"), nullptr);
+}
+
 TEST(MapParse, AttributeOrderingVarianceAccepted) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map tileheight="16" width="1" orientation="orthogonal" version="1.5" tilewidth="16" height="1" renderorder="left-up">

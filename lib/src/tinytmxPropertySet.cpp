@@ -27,8 +27,7 @@ namespace tinytmx {
             }
 
             // Read the attributes of the property and add it to the map.
-            Property property(propertyElem);
-            properties.insert({nameAttrib->Value(), property});
+            properties.emplace(nameAttrib->Value(), Property(propertyElem));
             propertyNode = propertyNode->NextSiblingElement("property");
         }
     }
@@ -88,6 +87,26 @@ namespace tinytmx {
         if (iter == properties.end()) { return defaultValue; }
 
         return iter->second.GetFileValue();
+    }
+
+    bool PropertySet::IsClassProperty(std::string const &name) const {
+        auto iter = properties.find(name);
+        if (iter == properties.end()) { return false; }
+        return iter->second.IsOfType(tinytmx::PropertyType::TMX_PROPERTY_CLASS);
+    }
+
+    std::string const &PropertySet::GetClassName(std::string const &name, std::string const &defaultValue) const {
+        auto iter = properties.find(name);
+        if (iter == properties.end()) { return defaultValue; }
+        if (!iter->second.IsOfType(tinytmx::PropertyType::TMX_PROPERTY_CLASS)) { return defaultValue; }
+        return iter->second.GetClassName();
+    }
+
+    tinytmx::PropertySet const *PropertySet::GetClassProperties(std::string const &name) const {
+        auto iter = properties.find(name);
+        if (iter == properties.end()) { return nullptr; }
+        if (!iter->second.IsOfType(tinytmx::PropertyType::TMX_PROPERTY_CLASS)) { return nullptr; }
+        return iter->second.GetClassProperties();
     }
 
     bool PropertySet::HasProperty(std::string const &name) const {
