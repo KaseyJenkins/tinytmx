@@ -126,6 +126,9 @@ namespace tinytmx {
         /// Get the Tiled version used to save the file.
         [[nodiscard]] std::string const &GetTiledVersion() const { return tiled_version; }
 
+        /// Get the map class.
+        [[nodiscard]] std::string const &GetClass() const { return class_; }
+
         /// Get the map orientation.
         [[nodiscard]] tinytmx::MapOrientation GetOrientation() const { return orientation; }
 
@@ -138,6 +141,12 @@ namespace tinytmx {
 
         /// Is the map infinite? - returns 'true' if it is.
         [[nodiscard]] bool IsInfinite() const { return is_infinite; }
+
+        /// Get the map parallax origin x coordinate in pixels.
+        [[nodiscard]] float GetParallaxOriginX() const { return parallax_origin_x; }
+
+        /// Get the map parallax origin y coordinate in pixels.
+        [[nodiscard]] float GetParallaxOriginY() const { return parallax_origin_y; }
 
         /// Get the stagger axis of the map.
         [[nodiscard]] tinytmx::MapStaggerAxis GetStaggerAxis() const { return stagger_axis; }
@@ -272,9 +281,13 @@ namespace tinytmx {
         std::vector<tinytmx::Tileset *> tilesets;
 
         std::string error_text;
+        std::string class_;
         std::string tiled_version;
         std::string file_name;
         std::string file_path;
+
+        float parallax_origin_x;
+        float parallax_origin_y;
 
         // Parse a 'map' node.
         void Parse(tinyxml2::XMLNode const *mapNode);

@@ -552,6 +552,27 @@ TEST(MapParse, MissingOptionalAttributesUseDefaults) {
     EXPECT_EQ(map.GetCompressionLevel(), -1);
     EXPECT_EQ(map.GetNextLayerID(), 0);
     EXPECT_EQ(map.GetNextObjectID(), 0);
+    EXPECT_EQ(map.GetClass(), "");
+    EXPECT_FLOAT_EQ(map.GetParallaxOriginX(), 0.0f);
+    EXPECT_FLOAT_EQ(map.GetParallaxOriginY(), 0.0f);
+}
+
+TEST(MapParse, ClassAndParallaxOriginAreParsed) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" class="WorldMap" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16" parallaxoriginx="12.5" parallaxoriginy="-3.25">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    EXPECT_EQ(map.GetClass(), "WorldMap");
+    EXPECT_FLOAT_EQ(map.GetParallaxOriginX(), 12.5f);
+    EXPECT_FLOAT_EQ(map.GetParallaxOriginY(), -3.25f);
 }
 
 TEST(PropertyParse, MultilinePropertyValueInElementText) {

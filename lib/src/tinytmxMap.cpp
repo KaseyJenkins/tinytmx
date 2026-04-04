@@ -30,6 +30,9 @@ namespace tinytmx {
               next_object_id(0),
               hexside_length(0),
               compression_level(-1),
+              class_(),
+              parallax_origin_x(0.0f),
+              parallax_origin_y(0.0f),
               properties(nullptr) {}
 
     Map::~Map() {
@@ -162,6 +165,11 @@ namespace tinytmx {
         if (mapElem->Attribute("tiledversion")) {
             tiled_version = mapElem->Attribute("tiledversion");
         }
+        if (mapElem->Attribute("class")) {
+            class_ = mapElem->Attribute("class");
+        } else {
+            class_.clear();
+        }
         width = mapElem->UnsignedAttribute("width");
         height = mapElem->UnsignedAttribute("height");
         tile_width = mapElem->UnsignedAttribute("tilewidth");
@@ -171,6 +179,8 @@ namespace tinytmx {
         is_infinite = mapElem->BoolAttribute("infinite");
 
         mapElem->QueryIntAttribute("compressionlevel", &compression_level);
+        mapElem->QueryFloatAttribute("parallaxoriginx", &parallax_origin_x);
+        mapElem->QueryFloatAttribute("parallaxoriginy", &parallax_origin_y);
 
 
         if (mapElem->Attribute("backgroundcolor")) {
