@@ -575,6 +575,45 @@ TEST(MapParse, ClassAndParallaxOriginAreParsed) {
     EXPECT_FLOAT_EQ(map.GetParallaxOriginY(), -3.25f);
 }
 
+TEST(ImageLayerParse, RepeatFlagsDefaultToFalseAndCanBeParsed) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <imagelayer id="1" name="bg-default">
+    <image source="bg-default.png" width="16" height="16"/>
+  </imagelayer>
+  <imagelayer id="2" name="bg-repeat" repeatx="1" repeaty="0">
+    <image source="bg-repeat.png" width="16" height="16"/>
+  </imagelayer>
+  <imagelayer id="3" name="bg-repeat-y" repeatx="0" repeaty="1">
+    <image source="bg-repeat-y.png" width="16" height="16"/>
+  </imagelayer>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumImageLayers(), 3u);
+
+    auto const *defaultLayer = map.GetImageLayer(0);
+    auto const *repeatLayer = map.GetImageLayer(1);
+    auto const *repeatYLayer = map.GetImageLayer(2);
+    ASSERT_NE(defaultLayer, nullptr);
+    ASSERT_NE(repeatLayer, nullptr);
+    ASSERT_NE(repeatYLayer, nullptr);
+
+    EXPECT_FALSE(defaultLayer->GetRepeatX());
+    EXPECT_FALSE(defaultLayer->GetRepeatY());
+    EXPECT_TRUE(repeatLayer->GetRepeatX());
+    EXPECT_FALSE(repeatLayer->GetRepeatY());
+    EXPECT_FALSE(repeatYLayer->GetRepeatX());
+    EXPECT_TRUE(repeatYLayer->GetRepeatY());
+}
+
 TEST(PropertyParse, MultilinePropertyValueInElementText) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">

@@ -10,6 +10,8 @@ namespace tinytmx {
     ImageLayer::ImageLayer(tinytmx::Map const *_map)
             : Layer(_map, std::string(), 0, 0, 0, 0, 1.0f, true, LayerType::TMX_LAYERTYPE_IMAGE_LAYER),
               parallax(1.0f, 1.0f),
+              repeatX(false),
+              repeatY(false),
               image(nullptr) {
     }
 
@@ -40,6 +42,8 @@ namespace tinytmx {
 
         imageLayerElem->QueryFloatAttribute("parallaxx", &parallax.x);
         imageLayerElem->QueryFloatAttribute("parallaxy", &parallax.y);
+        imageLayerElem->QueryBoolAttribute("repeatx", &repeatX);
+        imageLayerElem->QueryBoolAttribute("repeaty", &repeatY);
 
         // Parse the image if there is one.
         tinyxml2::XMLNode const *imageNode = imageLayerElem->FirstChildElement("image");

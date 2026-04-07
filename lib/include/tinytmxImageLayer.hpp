@@ -33,8 +33,16 @@ namespace tinytmx
         /// Get the vertical parallax factor for this image layer.
         [[nodiscard]] float GetParallaxY() const { return parallax.y; }
 
+        /// Whether the image should repeat on the X axis.
+        [[nodiscard]] bool GetRepeatX() const { return repeatX; }
+
+        /// Whether the image should repeat on the Y axis.
+        [[nodiscard]] bool GetRepeatY() const { return repeatY; }
+
     private:
         tinytmx::Vector2f parallax;
+        bool repeatX;
+        bool repeatY;
         tinytmx::Image* image;
     };
 }
