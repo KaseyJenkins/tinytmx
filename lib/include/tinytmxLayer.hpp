@@ -61,6 +61,9 @@ namespace tinytmx {
         /// Get the name of the layer.
         [[nodiscard]] std::string const &GetName() const { return name; }
 
+        /// Get the class of the layer.
+        [[nodiscard]] std::string const &GetClass() const { return class_; }
+
         /// Get the ID.
         [[nodiscard]] uint32_t GetID() const { return ID; }
 
@@ -140,6 +143,7 @@ namespace tinytmx {
         tinytmx::PropertySet* properties;
 
         std::string name;
+        std::string class_;
 
         /// @endcond
     };

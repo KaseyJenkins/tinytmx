@@ -614,6 +614,36 @@ TEST(ImageLayerParse, RepeatFlagsDefaultToFalseAndCanBeParsed) {
     EXPECT_TRUE(repeatYLayer->GetRepeatY());
 }
 
+TEST(ImageLayerParse, ClassAttributeDefaultsEmptyAndParsesWhenPresent) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <imagelayer id="1" name="bg-default">
+    <image source="bg-default.png" width="16" height="16"/>
+  </imagelayer>
+  <imagelayer id="2" name="bg-class" class="BackdropLayer">
+    <image source="bg-class.png" width="16" height="16"/>
+  </imagelayer>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumImageLayers(), 2u);
+
+    auto const *defaultLayer = map.GetImageLayer(0);
+    auto const *classLayer = map.GetImageLayer(1);
+    ASSERT_NE(defaultLayer, nullptr);
+    ASSERT_NE(classLayer, nullptr);
+
+    EXPECT_EQ(defaultLayer->GetClass(), "");
+    EXPECT_EQ(classLayer->GetClass(), "BackdropLayer");
+}
+
 TEST(PropertyParse, MultilinePropertyValueInElementText) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">

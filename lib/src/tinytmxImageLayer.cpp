@@ -26,6 +26,11 @@ namespace tinytmx {
         // Read all the attributes into local variables.
         ID = imageLayerElem->UnsignedAttribute("id");
         name = imageLayerElem->Attribute("name");
+        if (char const *classAttr = imageLayerElem->Attribute("class")) {
+            class_ = classAttr;
+        } else {
+            class_.clear();
+        }
 
         imageLayerElem->QueryFloatAttribute("offsetx", &offsetX);
         imageLayerElem->QueryFloatAttribute("offsety", &offsetY);

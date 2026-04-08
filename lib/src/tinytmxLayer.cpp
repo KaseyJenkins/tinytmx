@@ -40,7 +40,8 @@ namespace tinytmx {
               map(_map),
               tile(nullptr),
               properties(nullptr),
-              name(_name) {
+              name(_name),
+              class_() {
         ++nextParseOrder;
     }
 
@@ -64,7 +65,8 @@ namespace tinytmx {
               map(_map),
               tile(_tile),
               properties(nullptr),
-              name(_name) {
+              name(_name),
+              class_() {
         ++nextParseOrder;
     }
 
