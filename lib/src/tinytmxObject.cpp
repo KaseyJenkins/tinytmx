@@ -156,10 +156,6 @@ namespace tinytmx {
             type = objectElem->Attribute("type");
         }
 
-        if (objectElem->Attribute("class")) {
-            class_ = objectElem->Attribute("class");
-        }
-
         objectElem->QueryIntAttribute("id", &id);
         objectElem->QueryFloatAttribute("x", &x);
         objectElem->QueryFloatAttribute("y", &y);

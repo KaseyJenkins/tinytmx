@@ -644,6 +644,112 @@ TEST(ImageLayerParse, ClassAttributeDefaultsEmptyAndParsesWhenPresent) {
     EXPECT_EQ(classLayer->GetClass(), "BackdropLayer");
 }
 
+TEST(LayerParse, ClassAttributeDefaultsEmptyAndParsesAcrossLayerKinds) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="tile-default" width="1" height="1"><data encoding="csv">0</data></layer>
+  <layer id="2" name="tile-class" class="GameplayTiles" width="1" height="1"><data encoding="csv">0</data></layer>
+  <objectgroup id="3" name="objects-default"/>
+  <objectgroup id="4" name="objects-class" class="Spawns"/>
+  <group id="5" name="group-default"/>
+  <group id="6" name="group-class" class="CompositeLayer"/>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+
+    ASSERT_EQ(map.GetNumTileLayers(), 2u);
+    ASSERT_EQ(map.GetNumObjectGroups(), 2u);
+    ASSERT_EQ(map.GetNumGroupLayers(), 2u);
+
+    EXPECT_EQ(map.GetTileLayer(0)->GetClass(), "");
+    EXPECT_EQ(map.GetTileLayer(1)->GetClass(), "GameplayTiles");
+
+    EXPECT_EQ(map.GetObjectGroup(0)->GetClass(), "");
+    EXPECT_EQ(map.GetObjectGroup(1)->GetClass(), "Spawns");
+
+    EXPECT_EQ(map.GetGroupLayer(0)->GetClass(), "");
+    EXPECT_EQ(map.GetGroupLayer(1)->GetClass(), "CompositeLayer");
+}
+
+TEST(TilesetParse, ClassAttributesParseForTilesetWangSetAndWangColor) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <tileset firstgid="1" name="basic" class="TerrainSet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+    <wangsets>
+      <wangset name="Biome" class="BiomeSet" tile="0">
+        <wangcolor name="Grass" class="BiomeColor" color="#00aa00" tile="0" probability="1"/>
+      </wangset>
+      <wangset name="NoClassSet" tile="0">
+        <wangcolor name="NoClassColor" color="#ffffff" tile="0" probability="1"/>
+      </wangset>
+    </wangsets>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTilesets(), 1u);
+
+    auto const *tileset = map.GetTileset(0);
+    ASSERT_NE(tileset, nullptr);
+    EXPECT_EQ(tileset->GetClass(), "TerrainSet");
+
+    auto const &wangSets = tileset->GetWangSets();
+    ASSERT_EQ(wangSets.size(), 2u);
+    EXPECT_EQ(wangSets[0]->GetClass(), "BiomeSet");
+    EXPECT_EQ(wangSets[1]->GetClass(), "");
+
+    auto const &wangColors0 = wangSets[0]->GetWangColor();
+    ASSERT_EQ(wangColors0.size(), 1u);
+    EXPECT_EQ(wangColors0[0]->GetClass(), "BiomeColor");
+
+    auto const &wangColors1 = wangSets[1]->GetWangColor();
+    ASSERT_EQ(wangColors1.size(), 1u);
+    EXPECT_EQ(wangColors1[0]->GetClass(), "");
+}
+
+TEST(ObjectParse, TypeAttributeIsUsedAndClassAttributeIsIgnored) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <objectgroup id="1" name="objects">
+    <object id="1" name="typed" x="0" y="0" type="Enemy" class="IgnoredClass"/>
+    <object id="2" name="class-only" x="0" y="0" class="OnlyClass"/>
+  </objectgroup>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumObjectGroups(), 1u);
+
+    auto const *group = map.GetObjectGroup(0);
+    ASSERT_NE(group, nullptr);
+    ASSERT_EQ(group->GetNumObjects(), 2u);
+
+    auto const *typedObject = group->GetObject(0);
+    auto const *classOnlyObject = group->GetObject(1);
+    ASSERT_NE(typedObject, nullptr);
+    ASSERT_NE(classOnlyObject, nullptr);
+
+    EXPECT_EQ(typedObject->GetType(), "Enemy");
+    EXPECT_EQ(classOnlyObject->GetType(), "");
+}
+
 TEST(PropertyParse, MultilinePropertyValueInElementText) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" orientation="orthogonal" width="1" height="1" tilewidth="16" tileheight="16">

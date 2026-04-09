@@ -60,9 +60,6 @@ namespace tinytmx
         /// Get the type of the object. An arbitrary string. (defaults to "")
         [[nodiscard]] std::string const &GetType() const { return type; }
 
-        /// Get the class of the object. Introduced in Tiled 1.9 and meant to supersede type
-        [[nodiscard]] std::string const &GetClass() const { return class_; }
-
         /// Get the left side of the object, in pixels.
         [[nodiscard]] float GetX() const { return x; }
 
@@ -155,7 +152,6 @@ namespace tinytmx
 
         std::string name;
         std::string type;
-        std::string class_;
         std::string t_template;
 
         /// @cond INTERNAL

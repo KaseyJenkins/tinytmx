@@ -36,6 +36,11 @@ namespace tinytmx {
         if (objectGroupElem->Attribute("name")) {
             name = objectGroupElem->Attribute("name");
         }
+        if (char const *classAttr = objectGroupElem->Attribute("class")) {
+            class_ = classAttr;
+        } else {
+            class_.clear();
+        }
 
         objectGroupElem->QueryFloatAttribute("offsetx", &offsetX);
         objectGroupElem->QueryFloatAttribute("offsety", &offsetY);

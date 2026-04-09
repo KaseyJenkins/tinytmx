@@ -44,6 +44,9 @@ namespace tinytmx {
         /// Get the name of the wangset.
         [[nodiscard]] std::string const &GetName() const { return name; }
 
+        /// Get the class of the wangset.
+        [[nodiscard]] std::string const &GetClass() const { return class_; }
+
         /// Get the tile ID of the tile representing this wangset.
         [[nodiscard]] int GetTileId() const { return tileID; }
 
@@ -65,6 +68,7 @@ namespace tinytmx {
         std::vector<tinytmx::WangColor *> wangcolors;
 
         std::string name;
+        std::string class_;
     };
 }
 

@@ -36,6 +36,9 @@ namespace tinytmx {
         /// Get the name of this color.
         [[nodiscard]] std::string const &GetName() const { return name; }
 
+        /// Get the class of this color.
+        [[nodiscard]] std::string const &GetClass() const { return class_; }
+
         /// Get the color.
         [[nodiscard]] Color const &GetColor() const noexcept { return color; } // FIXME check all noexcept functions
 
@@ -55,6 +58,7 @@ namespace tinytmx {
         tinytmx::Color color;
         tinytmx::PropertySet* properties;
         std::string name;
+        std::string class_;
     };
 
 }

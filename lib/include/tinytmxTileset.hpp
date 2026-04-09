@@ -67,6 +67,9 @@ namespace tinytmx
         /// Returns the name of the tileset.
         [[nodiscard]] std::string const &GetName() const { return name; }
 
+        /// Returns the class of the tileset.
+        [[nodiscard]] std::string const &GetClass() const { return class_; }
+
         /// Get the width of a single tile.
         [[nodiscard]] uint32_t GetTileWidth() const { return tile_width; }
 
@@ -140,6 +143,7 @@ namespace tinytmx
         std::vector<tinytmx::WangSet*> wangsets;
 
         std::string name;
+        std::string class_;
 
     };
 }

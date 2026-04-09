@@ -5,7 +5,7 @@
 
 namespace tinytmx {
 
-    WangSet::WangSet(): tileID(0), properties(nullptr) {}
+    WangSet::WangSet(): tileID(0), properties(nullptr), class_() {}
 
     WangSet::~WangSet() {
 
@@ -34,6 +34,11 @@ namespace tinytmx {
 
         // Parse the attributes.
         name = wangsetElem->Attribute("name");
+        if (char const *classAttr = wangsetElem->Attribute("class")) {
+            class_ = classAttr;
+        } else {
+            class_.clear();
+        }
         tileID = wangsetElem->IntAttribute("tile");
 
         // Iterate through all of the wangcolor elements and parse them.

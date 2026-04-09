@@ -19,7 +19,7 @@ namespace tinytmx {
     Tileset::Tileset()
             : first_gid(0), tile_width(0), tile_height(0), spacing(0), margin(0), tile_count(0), columns(0),
               object_alignment(tinytmx::ObjectAlignment::TMX_OA_UNSPECIFIED), grid(nullptr), tileOffset(nullptr), image(nullptr),
-              transformations(nullptr), properties(nullptr) {
+              transformations(nullptr), properties(nullptr), class_() {
     }
 
     Tileset::~Tileset() {
@@ -106,6 +106,11 @@ namespace tinytmx {
         }
 
         name = tilesetElem->Attribute("name");
+        if (char const *classAttr = tilesetElem->Attribute("class")) {
+            class_ = classAttr;
+        } else {
+            class_.clear();
+        }
         tile_width = tilesetElem->UnsignedAttribute("tilewidth");
         tile_height = tilesetElem->UnsignedAttribute("tileheight");
         spacing = tilesetElem->UnsignedAttribute("spacing");

@@ -59,6 +59,11 @@ namespace tinytmx {
         } else {
             name.clear();
         }
+        if (char const *classAttr = tileLayerElem->Attribute("class")) {
+            class_ = classAttr;
+        } else {
+            class_.clear();
+        }
 
         tileLayerElem->QueryIntAttribute("x", &x);
         tileLayerElem->QueryIntAttribute("y", &y);

@@ -28,6 +28,11 @@ namespace tinytmx {
         // Read all the attributes into local variables.
         ID = groupLayerElem->UnsignedAttribute("id");
         name = groupLayerElem->Attribute("name");
+        if (char const *classAttr = groupLayerElem->Attribute("class")) {
+            class_ = classAttr;
+        } else {
+            class_.clear();
+        }
 
         groupLayerElem->QueryIntAttribute("x", &x);
         groupLayerElem->QueryIntAttribute("y", &y);
