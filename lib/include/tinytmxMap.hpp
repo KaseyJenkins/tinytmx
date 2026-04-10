@@ -48,11 +48,14 @@ namespace tinytmx {
         /// This map is an isometric map.
         TMX_MO_ISOMETRIC = 0x02,
 
+        /// This map uses an oblique grid.
+        TMX_MO_OBLIQUE = 0x03,
+
         /// This map is an isometric staggered map.
-        TMX_MO_STAGGERED = 0x03,
+        TMX_MO_STAGGERED = 0x04,
 
         /// This map is a hexagonal staggered map.
-        TMX_MO_HEXAGONAL = 0x04
+        TMX_MO_HEXAGONAL = 0x05
     };
 
     //-------------------------------------------------------------------------
@@ -147,6 +150,12 @@ namespace tinytmx {
 
         /// Get the map parallax origin y coordinate in pixels.
         [[nodiscard]] float GetParallaxOriginY() const { return parallax_origin_y; }
+
+        /// For oblique maps, get the pixel offset per tile row.
+        [[nodiscard]] float GetSkewX() const { return skew_x; }
+
+        /// For oblique maps, get the pixel offset per tile column.
+        [[nodiscard]] float GetSkewY() const { return skew_y; }
 
         /// Get the stagger axis of the map.
         [[nodiscard]] tinytmx::MapStaggerAxis GetStaggerAxis() const { return stagger_axis; }
@@ -288,6 +297,8 @@ namespace tinytmx {
 
         float parallax_origin_x;
         float parallax_origin_y;
+        float skew_x;
+        float skew_y;
 
         // Parse a 'map' node.
         void Parse(tinyxml2::XMLNode const *mapNode);

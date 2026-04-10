@@ -555,6 +555,26 @@ TEST(MapParse, MissingOptionalAttributesUseDefaults) {
     EXPECT_EQ(map.GetClass(), "");
     EXPECT_FLOAT_EQ(map.GetParallaxOriginX(), 0.0f);
     EXPECT_FLOAT_EQ(map.GetParallaxOriginY(), 0.0f);
+    EXPECT_FLOAT_EQ(map.GetSkewX(), 0.0f);
+    EXPECT_FLOAT_EQ(map.GetSkewY(), 0.0f);
+}
+
+TEST(MapParse, ObliqueOrientationAndSkewAreParsed) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="oblique" width="1" height="1" tilewidth="16" tileheight="16" skewx="7.5" skewy="-2.25">
+  <tileset firstgid="1" name="basic" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer width="1" height="1"><data encoding="csv">0</data></layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    EXPECT_EQ(map.GetOrientation(), tinytmx::MapOrientation::TMX_MO_OBLIQUE);
+    EXPECT_FLOAT_EQ(map.GetSkewX(), 7.5f);
+    EXPECT_FLOAT_EQ(map.GetSkewY(), -2.25f);
 }
 
 TEST(MapParse, ClassAndParallaxOriginAreParsed) {

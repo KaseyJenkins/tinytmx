@@ -33,6 +33,8 @@ namespace tinytmx {
               class_(),
               parallax_origin_x(0.0f),
               parallax_origin_y(0.0f),
+              skew_x(0.0f),
+              skew_y(0.0f),
               properties(nullptr) {}
 
     Map::~Map() {
@@ -181,6 +183,8 @@ namespace tinytmx {
         mapElem->QueryIntAttribute("compressionlevel", &compression_level);
         mapElem->QueryFloatAttribute("parallaxoriginx", &parallax_origin_x);
         mapElem->QueryFloatAttribute("parallaxoriginy", &parallax_origin_y);
+        mapElem->QueryFloatAttribute("skewx", &skew_x);
+        mapElem->QueryFloatAttribute("skewy", &skew_y);
 
 
         if (mapElem->Attribute("backgroundcolor")) {
@@ -194,6 +198,8 @@ namespace tinytmx {
             orientation = MapOrientation::TMX_MO_ORTHOGONAL;
         } else if (orientationCString == "isometric") {
             orientation = MapOrientation::TMX_MO_ISOMETRIC;
+        } else if (orientationCString == "oblique") {
+            orientation = MapOrientation::TMX_MO_OBLIQUE;
         } else if (orientationCString == "staggered") {
             orientation = MapOrientation::TMX_MO_STAGGERED;
         } else if (orientationCString == "hexagonal") {
