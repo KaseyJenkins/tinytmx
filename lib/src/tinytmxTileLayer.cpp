@@ -31,7 +31,8 @@ namespace tinytmx {
             : Layer(_map, std::string(), 0, 0, _map->GetWidth(), _map->GetHeight(), 1.0f, true,
                     LayerType::TMX_LAYERTYPE_TILE)
             //, tile_map(nullptr)  // Set the map to null to specify that it is not yet allocated.
-            , parallax(1.0f, 1.0f), encoding(TileLayerEncodingType::TMX_ENCODING_XML),
+            , parallax(1.0f, 1.0f), blend_mode(BlendMode::TMX_BM_NORMAL),
+              encoding(TileLayerEncodingType::TMX_ENCODING_XML),
               compression(TileLayerCompressionType::TMX_COMPRESSION_NONE),
               data_tile_finite_map(nullptr) {
     }
@@ -80,6 +81,36 @@ namespace tinytmx {
 
         tileLayerElem->QueryFloatAttribute("parallaxx", &parallax.x);
         tileLayerElem->QueryFloatAttribute("parallaxy", &parallax.y);
+
+        if (char const *modeAttr = tileLayerElem->Attribute("mode")) {
+            if (!strcmp(modeAttr, "add")) {
+                blend_mode = BlendMode::TMX_BM_ADD;
+            } else if (!strcmp(modeAttr, "multiply")) {
+                blend_mode = BlendMode::TMX_BM_MULTIPLY;
+            } else if (!strcmp(modeAttr, "screen")) {
+                blend_mode = BlendMode::TMX_BM_SCREEN;
+            } else if (!strcmp(modeAttr, "overlay")) {
+                blend_mode = BlendMode::TMX_BM_OVERLAY;
+            } else if (!strcmp(modeAttr, "darken")) {
+                blend_mode = BlendMode::TMX_BM_DARKEN;
+            } else if (!strcmp(modeAttr, "lighten")) {
+                blend_mode = BlendMode::TMX_BM_LIGHTEN;
+            } else if (!strcmp(modeAttr, "color-dodge")) {
+                blend_mode = BlendMode::TMX_BM_COLOR_DODGE;
+            } else if (!strcmp(modeAttr, "color-burn")) {
+                blend_mode = BlendMode::TMX_BM_COLOR_BURN;
+            } else if (!strcmp(modeAttr, "hard-light")) {
+                blend_mode = BlendMode::TMX_BM_HARD_LIGHT;
+            } else if (!strcmp(modeAttr, "soft-light")) {
+                blend_mode = BlendMode::TMX_BM_SOFT_LIGHT;
+            } else if (!strcmp(modeAttr, "difference")) {
+                blend_mode = BlendMode::TMX_BM_DIFFERENCE;
+            } else if (!strcmp(modeAttr, "exclusion")) {
+                blend_mode = BlendMode::TMX_BM_EXCLUSION;
+            } else {
+                blend_mode = BlendMode::TMX_BM_NORMAL;
+            }
+        }
 
         // Read the properties.
         tinyxml2::XMLNode const *propertiesNode = tileLayerNode->FirstChildElement("properties");

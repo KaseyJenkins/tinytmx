@@ -21,6 +21,25 @@ namespace tinytmx
     class DataChunkTile;
 
     //-------------------------------------------------------------------------
+    /// The blend mode used when rendering a tile layer.
+    //-------------------------------------------------------------------------
+    enum class BlendMode : uint8_t {
+        TMX_BM_NORMAL = 0x00,
+        TMX_BM_ADD,
+        TMX_BM_MULTIPLY,
+        TMX_BM_SCREEN,
+        TMX_BM_OVERLAY,
+        TMX_BM_DARKEN,
+        TMX_BM_LIGHTEN,
+        TMX_BM_COLOR_DODGE,
+        TMX_BM_COLOR_BURN,
+        TMX_BM_HARD_LIGHT,
+        TMX_BM_SOFT_LIGHT,
+        TMX_BM_DIFFERENCE,
+        TMX_BM_EXCLUSION
+    };
+
+    //-------------------------------------------------------------------------
     /// Type used for the encoding of the tile layer data.
     //-------------------------------------------------------------------------
     enum class TileLayerEncodingType
@@ -69,6 +88,9 @@ namespace tinytmx
         /// Get the vertical parallax factor for this layer.
         [[nodiscard]] float GetParallaxY() const { return parallax.y; }
 
+        /// Get the blend mode for this layer.
+        [[nodiscard]] tinytmx::BlendMode GetBlendMode() const { return blend_mode; }
+
         /// Get the type of encoding that was used for parsing the tile layer data.
         /// See: TileLayerEncodingType
         [[nodiscard]] tinytmx::TileLayerEncodingType GetEncoding() const { return encoding; }
@@ -98,6 +120,7 @@ namespace tinytmx
 
         tinytmx::Vector2f parallax;
 
+        tinytmx::BlendMode blend_mode;
         tinytmx::TileLayerEncodingType encoding;
         tinytmx::TileLayerCompressionType compression;
 

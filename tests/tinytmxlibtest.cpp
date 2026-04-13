@@ -141,6 +141,93 @@ TEST(TileLayerParse, CsvFiniteLayerMixedEmptyAndNonEmptyTilesRemainStable) {
     EXPECT_EQ(data->GetTileTilesetIndex(2, 1), 1);
 }
 
+TEST(TileLayerParse, BlendModeDefaultsToNormalWhenAbsent) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="test" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="L0" width="1" height="1">
+    <data encoding="csv">1</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+    EXPECT_EQ(map.GetTileLayer(0)->GetBlendMode(), tinytmx::BlendMode::TMX_BM_NORMAL);
+}
+
+TEST(TileLayerParse, BlendModeIsParsedForAllValidValues) {
+    auto makeLayer = [](const char *mode) -> std::string {
+        std::string s;
+        s += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        s += "<map version=\"1.8\" tiledversion=\"1.12.0\" orientation=\"orthogonal\" "
+             "renderorder=\"right-down\" width=\"1\" height=\"1\" tilewidth=\"16\" "
+             "tileheight=\"16\" infinite=\"0\">\n";
+        s += "  <tileset firstgid=\"1\" name=\"t\" tilewidth=\"16\" tileheight=\"16\" "
+             "tilecount=\"1\" columns=\"1\">\n";
+        s += "    <image source=\"tiles.png\" width=\"16\" height=\"16\"/>\n";
+        s += "  </tileset>\n";
+        s += "  <layer id=\"1\" name=\"L0\" width=\"1\" height=\"1\" mode=\"";
+        s += mode;
+        s += "\">\n";
+        s += "    <data encoding=\"csv\">1</data>\n";
+        s += "  </layer>\n";
+        s += "</map>";
+        return s;
+    };
+
+    struct Case { const char *str; tinytmx::BlendMode expected; };
+    Case cases[] = {
+        {"normal",      tinytmx::BlendMode::TMX_BM_NORMAL},
+        {"add",         tinytmx::BlendMode::TMX_BM_ADD},
+        {"multiply",    tinytmx::BlendMode::TMX_BM_MULTIPLY},
+        {"screen",      tinytmx::BlendMode::TMX_BM_SCREEN},
+        {"overlay",     tinytmx::BlendMode::TMX_BM_OVERLAY},
+        {"darken",      tinytmx::BlendMode::TMX_BM_DARKEN},
+        {"lighten",     tinytmx::BlendMode::TMX_BM_LIGHTEN},
+        {"color-dodge", tinytmx::BlendMode::TMX_BM_COLOR_DODGE},
+        {"color-burn",  tinytmx::BlendMode::TMX_BM_COLOR_BURN},
+        {"hard-light",  tinytmx::BlendMode::TMX_BM_HARD_LIGHT},
+        {"soft-light",  tinytmx::BlendMode::TMX_BM_SOFT_LIGHT},
+        {"difference",  tinytmx::BlendMode::TMX_BM_DIFFERENCE},
+        {"exclusion",   tinytmx::BlendMode::TMX_BM_EXCLUSION},
+    };
+
+    for (auto const &c : cases) {
+        std::string tmx = makeLayer(c.str);
+        tinytmx::Map map;
+        map.ParseText(tmx);
+
+        ASSERT_FALSE(map.HasError()) << "mode=" << c.str;
+        ASSERT_EQ(map.GetNumTileLayers(), 1u) << "mode=" << c.str;
+        EXPECT_EQ(map.GetTileLayer(0)->GetBlendMode(), c.expected)
+            << "mode=" << c.str;
+    }
+}
+
+TEST(TileLayerParse, UnknownBlendModeFallsBackToNormal) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="test" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="L0" width="1" height="1" mode="unknown-future-mode">
+    <data encoding="csv">1</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+
+    ASSERT_FALSE(map.HasError());
+    ASSERT_EQ(map.GetNumTileLayers(), 1u);
+    EXPECT_EQ(map.GetTileLayer(0)->GetBlendMode(), tinytmx::BlendMode::TMX_BM_NORMAL);
+}
+
 TEST(LayerParse, ParallaxIsParsedForObjectImageAndGroupLayers) {
     const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="16" tileheight="16" infinite="0">
