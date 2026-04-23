@@ -1039,4 +1039,239 @@ TEST(MapParse, UnknownElementsAndAttributesAreIgnored) {
     EXPECT_EQ(data->GetTileGid(63, 63), 0u);
   }
 
+  // --- Embedded image data tests ---
+
+  TEST(ImageParse, EmbeddedBase64ImageDataIsParsed) {
+    // Minimal 1x1 red PNG (69 bytes), base64-encoded inside <data>.
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal"
+     renderorder="right-down" width="1" height="1"
+     tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="embedded" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image format="png" width="1" height="1">
+      <data encoding="base64">iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC</data>
+    </image>
+  </tileset>
+  <layer id="1" name="L0" width="1" height="1">
+    <data encoding="csv">1</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+    ASSERT_FALSE(map.HasError());
+
+    ASSERT_EQ(map.GetNumTilesets(), 1u);
+    auto const *tileset = map.GetTileset(0);
+    ASSERT_NE(tileset, nullptr);
+    auto const *image = tileset->GetImage();
+    ASSERT_NE(image, nullptr);
+
+    // Source should be empty for embedded images.
+    EXPECT_TRUE(image->GetSource().empty());
+    EXPECT_EQ(image->GetFormat(), "png");
+    EXPECT_EQ(image->GetEncoding(), "base64");
+    EXPECT_TRUE(image->GetCompression().empty());
+    EXPECT_EQ(image->GetWidth(), 1u);
+    EXPECT_EQ(image->GetHeight(), 1u);
+
+    // The raw data should be the decoded PNG bytes.
+    EXPECT_TRUE(image->HasEmbeddedData());
+    auto const &raw = image->GetRawData();
+    EXPECT_EQ(raw.size(), 69u);
+    // PNG signature: 0x89 'P' 'N' 'G'
+    EXPECT_EQ(raw[0], 0x89u);
+    EXPECT_EQ(raw[1], 'P');
+    EXPECT_EQ(raw[2], 'N');
+    EXPECT_EQ(raw[3], 'G');
+  }
+
+  TEST(ImageParse, ExternalImageHasNoEmbeddedData) {
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal"
+     renderorder="right-down" width="1" height="1"
+     tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="external" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image source="tiles.png" width="16" height="16"/>
+  </tileset>
+  <layer id="1" name="L0" width="1" height="1">
+    <data encoding="csv">1</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+    ASSERT_FALSE(map.HasError());
+
+    auto const *tileset = map.GetTileset(0);
+    ASSERT_NE(tileset, nullptr);
+    auto const *image = tileset->GetImage();
+    ASSERT_NE(image, nullptr);
+
+    EXPECT_EQ(image->GetSource(), "tiles.png");
+    EXPECT_TRUE(image->GetFormat().empty());
+    EXPECT_TRUE(image->GetEncoding().empty());
+    EXPECT_TRUE(image->GetCompression().empty());
+    EXPECT_FALSE(image->HasEmbeddedData());
+    EXPECT_TRUE(image->GetRawData().empty());
+  }
+
+  TEST(ImageParse, EmbeddedUncompressedUnencodedDataIsParsed) {
+    // Plain text content in <data> with no encoding or compression.
+    // This represents raw bytes (unrealistic for actual image data, but
+    // validates the unencoded path).
+    const char *tmx = R"tmx(<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.10.2" orientation="orthogonal"
+     renderorder="right-down" width="1" height="1"
+     tilewidth="16" tileheight="16" infinite="0">
+  <tileset firstgid="1" name="raw" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+    <image format="bmp" width="1" height="1">
+      <data>ABCDEF</data>
+    </image>
+  </tileset>
+  <layer id="1" name="L0" width="1" height="1">
+    <data encoding="csv">1</data>
+  </layer>
+</map>)tmx";
+
+    tinytmx::Map map;
+    map.ParseText(tmx);
+    ASSERT_FALSE(map.HasError());
+
+    auto const *image = map.GetTileset(0)->GetImage();
+    ASSERT_NE(image, nullptr);
+
+    EXPECT_EQ(image->GetFormat(), "bmp");
+    EXPECT_TRUE(image->GetEncoding().empty());
+    EXPECT_TRUE(image->GetCompression().empty());
+    EXPECT_TRUE(image->HasEmbeddedData());
+    auto const &raw = image->GetRawData();
+    EXPECT_EQ(raw.size(), 6u);
+    EXPECT_EQ(raw[0], 'A');
+    EXPECT_EQ(raw[5], 'F');
+  }
+
+  // Helper: build a TMX string with an embedded image using the given compression.
+  // The base64 payload should be base64(compress(png_bytes)).
+  std::string EmbeddedCompressedTmx(const char *comp, const char *b64payload) {
+    std::string s;
+    s += R"(<?xml version="1.0" encoding="UTF-8"?>)";
+    s += "\n<map version=\"1.8\" tiledversion=\"1.10.2\" orientation=\"orthogonal\"";
+    s += " renderorder=\"right-down\" width=\"1\" height=\"1\"";
+    s += " tilewidth=\"16\" tileheight=\"16\" infinite=\"0\">\n";
+    s += "  <tileset firstgid=\"1\" name=\"t\" tilewidth=\"16\" tileheight=\"16\" tilecount=\"1\" columns=\"1\">\n";
+    s += "    <image format=\"png\" width=\"1\" height=\"1\">\n";
+    s += "      <data encoding=\"base64\" compression=\"";
+    s += comp;
+    s += "\">";
+    s += b64payload;
+    s += "</data>\n";
+    s += "    </image>\n";
+    s += "  </tileset>\n";
+    s += "  <layer id=\"1\" name=\"L0\" width=\"1\" height=\"1\">\n";
+    s += "    <data encoding=\"csv\">1</data>\n";
+    s += "  </layer>\n";
+    s += "</map>";
+    return s;
+  }
+
+  // Verify an embedded image decompressed to the expected 69-byte PNG.
+  void ExpectDecompressedPng(tinytmx::Image const *image, const char *comp) {
+    ASSERT_NE(image, nullptr);
+    EXPECT_FALSE(image->HasParseError()) << image->GetParseError();
+    EXPECT_EQ(image->GetFormat(), "png");
+    EXPECT_EQ(image->GetEncoding(), "base64");
+    EXPECT_EQ(image->GetCompression(), comp);
+    EXPECT_TRUE(image->HasEmbeddedData());
+    auto const &raw = image->GetRawData();
+    EXPECT_EQ(raw.size(), 69u);
+    // PNG signature
+    EXPECT_EQ(raw[0], 0x89u);
+    EXPECT_EQ(raw[1], 'P');
+    EXPECT_EQ(raw[2], 'N');
+    EXPECT_EQ(raw[3], 'G');
+  }
+
+  TEST(ImageParse, EmbeddedZlibCompressedImageDataIsParsed) {
+    auto tmx = EmbeddedCompressedTmx("zlib",
+        "eJzrDPBz5+WS4mJgYOD19HAJAtKMIMzBBCQnlAffA1I8ni6OIRVzkn+cP8DAwMzIyHDy36T3QHEGT1c/l3VOCU0Azm0QjQ==");
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    ExpectDecompressedPng(map.GetTileset(0)->GetImage(), "zlib");
+  }
+
+  TEST(ImageParse, EmbeddedGzipCompressedImageDataIsParsed) {
+    auto tmx = EmbeddedCompressedTmx("gzip",
+        "H4sIAHer6WkC/+sM8HPn5ZLiYmBg4PX0cAkC0owgzMEEJCeUB98DUjyeLo4hFXOSf5w/wMDAzMjIcPLfpPdAcQZPVz+XdU4JTQBRD9oCRQAAAA==");
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    ExpectDecompressedPng(map.GetTileset(0)->GetImage(), "gzip");
+  }
+
+  TEST(ImageParse, EmbeddedZstdCompressedImageDataIsParsed) {
+    auto tmx = EmbeddedCompressedTmx("zstd",
+        "KLUv/SRFKQIAiVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCCI5t2LQ==");
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    ExpectDecompressedPng(map.GetTileset(0)->GetImage(), "zstd");
+  }
+
+  TEST(ImageParse, ZlibDecompressionErrorSetsParseError) {
+    auto tmx = EmbeddedCompressedTmx("zlib", "dGhpcyBpcyBub3QgemxpYg=="); // "this is not zlib"
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    auto const *image = map.GetTileset(0)->GetImage();
+    ASSERT_NE(image, nullptr);
+    EXPECT_TRUE(image->HasParseError());
+    EXPECT_FALSE(image->HasEmbeddedData());
+  }
+
+  TEST(ImageParse, GzipDecompressionErrorSetsParseError) {
+    auto tmx = EmbeddedCompressedTmx("gzip", "dGhpcyBpcyBub3QgZ3ppcA=="); // "this is not gzip"
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    auto const *image = map.GetTileset(0)->GetImage();
+    ASSERT_NE(image, nullptr);
+    EXPECT_TRUE(image->HasParseError());
+    EXPECT_FALSE(image->HasEmbeddedData());
+  }
+
+  TEST(ImageParse, ZstdDecompressionErrorSetsParseError) {
+    auto tmx = EmbeddedCompressedTmx("zstd", "dGhpcyBpcyBub3QgenN0ZA=="); // "this is not zstd"
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    auto const *image = map.GetTileset(0)->GetImage();
+    ASSERT_NE(image, nullptr);
+    EXPECT_TRUE(image->HasParseError());
+    EXPECT_FALSE(image->HasEmbeddedData());
+  }
+
+  TEST(ImageParse, UnsupportedEncodingSetsParseError) {
+    // "csv" is only valid for tile layer data, not image data.
+    std::string tmx = R"(
+      <?xml version="1.0" encoding="UTF-8"?>
+      <map version="1.8" tiledversion="1.8.0" orientation="orthogonal"
+           renderorder="right-down" width="1" height="1" tilewidth="32" tileheight="32" infinite="0">
+        <tileset firstgid="1" name="test" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+          <image format="png" width="1" height="1">
+            <data encoding="csv">abc</data>
+          </image>
+        </tileset>
+      </map>)";
+    tinytmx::Map map;
+    map.ParseText(tmx.c_str());
+    ASSERT_FALSE(map.HasError());
+    auto const *image = map.GetTileset(0)->GetImage();
+    ASSERT_NE(image, nullptr);
+    EXPECT_TRUE(image->HasParseError());
+    EXPECT_FALSE(image->HasEmbeddedData());
+    EXPECT_NE(image->GetParseError().find("unsupported encoding"), std::string::npos);
+  }
+
 } // namespace
